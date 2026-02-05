@@ -277,7 +277,11 @@
             margin: 6px 0;
             transition: 0.4s;
         }
-
+.logo-disclaimer {
+    color: #ffffff;
+    margin-left: 8px;
+    opacity: 0.1;
+}
         /* Mobile Menu State */
         nav.active ul {
             display: flex;
@@ -326,7 +330,7 @@
         /* Hero Main Visual - Rotating Ornament */
         .hero-visual-bg {
             position: absolute;
-            top: 50%;
+            top: calc(50% + 50px); /* Moved down 50px for Desktop */
             left: 50%;
             transform: translate(-50%, -50%);
             width: 600px;
@@ -809,7 +813,6 @@
             font-size: 1.5rem;
             color: var(--color-gold-bright);
         }
-
         /* --- Responsive --- */
         @media (max-width: 1024px) {
             h1.main-title {
@@ -826,18 +829,34 @@
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1036px) {
+            .logo-disclaimer {
+                display: none;
+            }
+            /* Hide the Nav container by default on mobile so it doesn't take space */
+            nav {
+                display: none;
+            }
+
+            /* But show it when active (menu opened) */
+            nav.active {
+                display: block;
+            }
             header {
                 padding: 0 1.5rem;
                 height: 70px;
             }
 
+            /* The box for the links */
             nav ul {
-                display: none;
-                /* Hide default nav */
-                transform: translateX(100%);
-                /* Prepare for slide in */
-                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                display: none; /* Hidden by default */
+            }
+
+            /* When nav is active, we show the UL as the fullscreen menu */
+            nav.active ul {
+                display: flex;
+                /* The rest of the styling is already in the global scope for nav.active ul, 
+                   but we need to ensure it overrides the display:none here */
             }
 
             .mobile-menu-btn {
@@ -854,6 +873,7 @@
                 width: 320px;
                 height: 320px;
                 opacity: 0.6;
+                top: 50%; /* Reset to center on Mobile */
             }
 
             /* Scale down */
