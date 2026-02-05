@@ -229,7 +229,14 @@
             display: flex;
             list-style: none;
             gap: 2.5rem;
+            gap: 2.5rem;
             transition: all 0.3s ease;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+        }
+
+        nav ul li {
+            flex-shrink: 0; /* Never shrink the list items */
         }
 
         nav ul li a {
@@ -239,6 +246,7 @@
             position: relative;
             padding: 10px 0;
             font-weight: 500;
+            white-space: nowrap; /* Prevent text from wrapping */
         }
 
         nav ul li a::after {
@@ -814,6 +822,28 @@
             color: var(--color-gold-bright);
         }
         /* --- Responsive --- */
+        /* Intermediate Desktop Adjustment */
+        @media (max-width: 1400px) {
+            .logo-disclaimer {
+                display: none; /* Hide non-essential text early to save space */
+            }
+        }
+
+        /* Intermediate Desktop Adjustment */
+        @media (max-width: 1366px) {
+            header {
+                padding: 0 2rem; /* Reduce padding to give more space to nav */
+            }
+
+            nav ul {
+                gap: 1.2rem; /* Reduce gap to fit all items */
+            }
+            
+            h1.main-title {
+                font-size: 5rem;
+            }
+        }
+
         @media (max-width: 1024px) {
             h1.main-title {
                 font-size: 5rem;
