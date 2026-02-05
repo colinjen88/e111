@@ -12,10 +12,11 @@
         rel="stylesheet">
     <style>
         :root {
-            /* Palette: Deep Royal Red & Imperial Gold */
-            --color-red-deep: #4a0404;
-            --color-red-main: #660000;
-            --color-red-bright: #8a1a1a;
+            /* Palette: Corporate Royal Red (Restored) & Imperial Gold */
+            --color-red-base: #5c0000;
+            /* Richer red base */
+            --color-red-deep: #2a0000;
+            /* Darker edge */
             --color-gold-main: #cfa972;
             --color-gold-bright: #f0d5a3;
             --color-gold-dark: #8a6e40;
@@ -23,7 +24,6 @@
             --color-text-gold: #e6c58e;
 
             --font-family-serif: 'Noto Serif TC', serif;
-            --font-family-title: 'Noto Serif TC', serif;
         }
 
         * {
@@ -34,7 +34,7 @@
 
         body {
             font-family: var(--font-family-serif);
-            background-color: var(--color-red-deep);
+            background-color: var(--color-red-base);
             color: var(--color-text-white);
             overflow-x: hidden;
             font-weight: 300;
@@ -55,10 +55,11 @@
             height: 100vh;
             z-index: -2;
             background-image: url('assets/bg-royal-pattern.png');
-            /* The generated royal pattern */
             background-repeat: repeat;
-            background-size: 400px;
-            opacity: 1;
+            background-size: 500px;
+            opacity: 0.25;
+            /* Visible pattern */
+            mix-blend-mode: overlay;
         }
 
         .bg-overlay-gradient {
@@ -67,10 +68,91 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            /* Gradient to darken edges and make content pop */
-            background: radial-gradient(circle at center, rgba(102, 0, 0, 0.3) 0%, rgba(40, 0, 0, 0.95) 100%);
+            /* Balanced Gradient: Red Center -> Dark Edges (Atmosphere without losing color) */
+            background: radial-gradient(circle at center, rgba(140, 0, 0, 0.4) 0%, rgba(20, 0, 0, 0.9) 100%);
             z-index: -1;
             pointer-events: none;
+        }
+
+        /* --- Atmospheric Effects (Grand Mist) --- */
+        .mist-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+            mix-blend-mode: screen;
+        }
+
+        .mist-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background-image: url('assets/decoration-cloud.png');
+            background-size: cover;
+            background-position: center;
+            will-change: transform, opacity;
+        }
+
+        .mist-layer.one {
+            opacity: 0.3;
+            background-size: 110%;
+            animation: mistBreathe 15s ease-in-out infinite alternate;
+        }
+
+        .mist-layer.two {
+            width: 140%;
+            left: -20%;
+            top: -10%;
+            opacity: 0.2;
+            animation: mistFlow 30s ease-in-out infinite alternate;
+        }
+
+        .mist-layer.three {
+            width: 120%;
+            left: -10%;
+            top: 10%;
+            opacity: 0.15;
+            background-size: 130%;
+            animation: mistFloat 25s linear infinite alternate-reverse;
+            filter: blur(8px);
+        }
+
+        @keyframes mistBreathe {
+            0% {
+                transform: scale(1);
+                opacity: 0.25;
+            }
+
+            100% {
+                transform: scale(1.05);
+                opacity: 0.4;
+            }
+        }
+
+        @keyframes mistFlow {
+            0% {
+                transform: translateX(-5%) rotate(0deg);
+            }
+
+            100% {
+                transform: translateX(5%) rotate(1deg);
+            }
+        }
+
+        @keyframes mistFloat {
+            0% {
+                transform: translateY(0) scale(1.1);
+            }
+
+            100% {
+                transform: translateY(-5%) scale(1.2);
+            }
         }
 
         /* --- Header / Nav --- */
@@ -85,42 +167,33 @@
             align-items: center;
             z-index: 100;
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
-            border-bottom: 1px solid rgba(207, 169, 114, 0.3);
-            backdrop-filter: blur(2px);
+            border-bottom: 1px solid rgba(207, 169, 114, 0.2);
+            backdrop-filter: blur(8px);
             transition: all 0.4s ease;
         }
 
         header.scrolled {
-            background: rgba(74, 4, 4, 0.95);
+            background: rgba(92, 0, 0, 0.95);
+            /* Matches corporate red */
             height: 70px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            border-bottom: 1px solid var(--color-gold-dark);
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: 900;
-            letter-spacing: 0.1em;
-            color: var(--color-gold-bright);
             display: flex;
             align-items: center;
-            gap: 10px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* Gold Seal Logo Icon CSS */
-        .logo-icon {
-            width: 40px;
+        .logo img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled .logo img {
             height: 40px;
-            background: radial-gradient(circle at 30% 30%, var(--color-gold-bright), var(--color-gold-dark));
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--color-red-deep);
-            font-size: 1.2rem;
-            font-weight: bold;
-            box-shadow: 0 0 10px rgba(207, 169, 114, 0.6);
-            border: 2px solid var(--color-gold-bright);
         }
 
         nav ul {
@@ -138,7 +211,7 @@
             font-weight: 500;
         }
 
-        /* Nav hover underline effect */
+        /* Micro-interaction: Nav Line Expansion */
         nav ul li a::after {
             content: '';
             position: absolute;
@@ -147,13 +220,13 @@
             transform: translateX(-50%);
             width: 0%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--color-gold-bright), transparent);
-            transition: width 0.3s ease;
+            background: var(--color-gold-bright);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         nav ul li a:hover {
             color: var(--color-text-white);
-            text-shadow: 0 0 8px var(--color-gold-main);
+            text-shadow: 0 0 10px var(--color-gold-main);
         }
 
         nav ul li a:hover::after {
@@ -172,17 +245,29 @@
             padding-top: 100px;
         }
 
+        /* Micro-animation: Fade Up Entrance */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         h1.main-title {
             font-size: 5rem;
             font-weight: 700;
-            /* Gold Gradient Text */
             background: linear-gradient(to bottom, var(--color-gold-bright), var(--color-gold-main), var(--color-gold-dark));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 2rem;
             letter-spacing: 0.2em;
-            font-family: var(--font-family-title);
             filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+            animation: fadeUp 1.2s ease-out forwards;
         }
 
         .hero-divider {
@@ -191,6 +276,8 @@
             background: linear-gradient(90deg, transparent, var(--color-gold-bright), transparent);
             margin: 0 auto 2rem;
             position: relative;
+            animation: fadeUp 1.2s ease-out 0.2s forwards;
+            opacity: 0;
         }
 
         .hero-divider::before {
@@ -207,13 +294,14 @@
             font-size: 1.4rem;
             letter-spacing: 0.5em;
             color: var(--color-text-white);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
             text-transform: uppercase;
             font-weight: 300;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             padding: 1rem 3rem;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.2);
+            animation: fadeUp 1.2s ease-out 0.4s forwards;
+            opacity: 0;
         }
 
         /* --- Content Area --- */
@@ -237,7 +325,6 @@
             color: var(--color-gold-bright);
             letter-spacing: 0.2em;
             margin-bottom: 1.5rem;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
         }
 
         .section-header p {
@@ -254,52 +341,86 @@
             gap: 3rem;
         }
 
+        /* Scroll Reveal Effect Class */
+        .reveal-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .reveal-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .article-card {
-            background: linear-gradient(135deg, rgba(60, 0, 0, 0.85), rgba(30, 0, 0, 0.95));
+            background: linear-gradient(135deg, rgba(80, 0, 0, 0.6), rgba(40, 0, 0, 0.8));
+            /* Lighter, redder card bg */
             border: 1px solid var(--color-gold-dark);
             padding: 0;
-            transition: all 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+            /* For shine effect */
         }
 
-        /* Gold corner accents - via CSS gradients */
-        .article-card::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            width: 30px;
-            height: 30px;
-            border-top: 2px solid var(--color-gold-bright);
-            border-left: 2px solid var(--color-gold-bright);
-            transition: all 0.4s ease;
-        }
-
+        /* Micro-interaction: Shine Sweep */
         .article-card::after {
             content: '';
             position: absolute;
-            bottom: -2px;
-            right: -2px;
-            width: 30px;
-            height: 30px;
-            border-bottom: 2px solid var(--color-gold-bright);
-            border-right: 2px solid var(--color-gold-bright);
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: skewX(-25deg);
+            transition: 0.5s;
+            pointer-events: none;
+        }
+
+        .article-card:hover::after {
+            left: 150%;
+            transition: 0.7s ease-in-out;
+        }
+
+        /* Gold corners */
+        .corner-accent {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: var(--color-gold-bright);
             transition: all 0.4s ease;
         }
 
-        .article-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
-            border-color: var(--color-gold-bright);
+        .c-tl {
+            top: -1px;
+            left: -1px;
+            border-top: 2px solid;
+            border-left: 2px solid;
         }
 
-        .article-card:hover::before,
-        .article-card:hover::after {
+        .c-br {
+            bottom: -1px;
+            right: -1px;
+            border-bottom: 2px solid;
+            border-right: 2px solid;
+        }
+
+        .article-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+            border-color: var(--color-gold-bright);
+            background: linear-gradient(135deg, rgba(100, 0, 0, 0.7), rgba(50, 0, 0, 0.9));
+        }
+
+        .article-card:hover .c-tl,
+        .article-card:hover .c-br {
             width: 100%;
             height: 100%;
+            opacity: 0.5;
         }
 
         .card-image-wrapper {
@@ -347,6 +468,11 @@
             margin-bottom: 1.2rem;
             color: var(--color-text-white);
             text-shadow: 0 2px 2px rgba(0, 0, 0, 0.8);
+            transition: color 0.3s;
+        }
+
+        .article-card:hover h3 {
+            color: var(--color-gold-bright);
         }
 
         .article-card p {
@@ -365,7 +491,7 @@
             align-self: flex-start;
             font-size: 0.95rem;
             color: var(--color-text-white);
-            background: var(--color-red-bright);
+            background: rgba(138, 26, 26, 0.8);
             border: 1px solid var(--color-red-bright);
             padding: 0.6rem 2rem;
             letter-spacing: 0.1em;
@@ -390,6 +516,7 @@
         .read-more:hover {
             color: var(--color-red-deep);
             border-color: var(--color-gold-main);
+            font-weight: bold;
         }
 
         .read-more:hover::before {
@@ -400,7 +527,7 @@
         footer {
             text-align: center;
             padding: 5rem 2rem;
-            background: #1a0101;
+            background: #2b0000;
             border-top: 3px solid var(--color-gold-dark);
             color: var(--color-gold-main);
             position: relative;
@@ -412,13 +539,12 @@
             top: -16px;
             left: 50%;
             transform: translateX(-50%);
-            background: #1a0101;
+            background: #2b0000;
             padding: 0 15px;
             font-size: 1.5rem;
             color: var(--color-gold-bright);
         }
 
-        /* --- Responsive --- */
         @media (max-width: 768px) {
             h1.main-title {
                 font-size: 3rem;
@@ -445,11 +571,17 @@
     <div class="bg-pattern"></div>
     <div class="bg-overlay-gradient"></div>
 
+    <!-- Atmospheric Mist with Depth -->
+    <div class="mist-container">
+        <div class="mist-layer one"></div>
+        <div class="mist-layer two"></div>
+        <div class="mist-layer three"></div>
+    </div>
+
     <!-- Header -->
     <header id="main-header">
         <a href="#" class="logo">
-            <span class="logo-icon">御</span>
-            御手國醫
+            <img src="https://www.e111.com.tw/images/logo.png" alt="御手國醫養生會館">
         </a>
         <nav>
             <ul>
@@ -474,7 +606,7 @@
     <!-- Main Content -->
     <div class="content-container">
 
-        <div class="section-header">
+        <div class="section-header reveal-item">
             <h2>養生知識</h2>
             <p>Traditional Chinese Medicine Wisdom</p>
         </div>
@@ -482,7 +614,9 @@
         <div class="article-grid">
 
             <!-- Article 1 -->
-            <article class="article-card">
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
                 <div class="card-image-wrapper">
                     <img src="https://www.e111.com.tw/article/image/pics/muscle-scraping-therapy.jpg" alt="撥筋">
                 </div>
@@ -498,7 +632,9 @@
             </article>
 
             <!-- Article 2 -->
-            <article class="article-card">
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
                 <div class="card-image-wrapper">
                     <img src="https://www.e111.com.tw/article/image/pics/body-brushing.jpg" alt="體刷">
                 </div>
@@ -514,7 +650,9 @@
             </article>
 
             <!-- Article 3 -->
-            <article class="article-card">
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
                 <div class="card-image-wrapper">
                     <img src="https://www.e111.com.tw/article/image/pics/muscle-soreness.jpg" alt="肌肉痠痛">
                 </div>
@@ -530,7 +668,9 @@
             </article>
 
             <!-- Article 4 -->
-            <article class="article-card">
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
                 <div class="card-image-wrapper">
                     <img src="https://www.e111.com.tw/article/image/pics/lower-back-massage.jpg" alt="腰部按摩">
                 </div>
@@ -546,7 +686,9 @@
             </article>
 
             <!-- Article 5 -->
-            <article class="article-card">
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
                 <div class="card-image-wrapper">
                     <img src="https://www.e111.com.tw/article/image/pics/scalp-massage.jpg" alt="頭皮按摩">
                 </div>
@@ -562,7 +704,9 @@
             </article>
 
             <!-- Article 6: Ear Candling -->
-            <article class="article-card">
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
                 <div class="card-image-wrapper">
                     <img src="https://www.e111.com.tw/article/image/pics/ear-candling.jpg" alt="耳燭">
                 </div>
@@ -593,7 +737,22 @@
             } else {
                 header.classList.remove('scrolled');
             }
+
+            // Scroll Reveal Logic
+            const reveals = document.querySelectorAll('.reveal-item');
+            const windowHeight = window.innerHeight;
+            const elementVisible = 150;
+
+            reveals.forEach(reveal => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
         });
+
+        // Trigger reveal on load
+        window.dispatchEvent(new Event('scroll'));
     </script>
 </body>
 
