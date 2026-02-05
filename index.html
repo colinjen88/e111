@@ -74,6 +74,18 @@
             pointer-events: none;
         }
 
+        /* --- Golden Particles (Qi) --- */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 15;
+            /* Floating above mist, creating depth */
+            pointer-events: none;
+        }
+
         /* --- Atmospheric Effects (Grand Mist) --- */
         .mist-container {
             position: fixed;
@@ -301,6 +313,7 @@
         }
 
         /* Hero Main Visual - Rotating Ornament */
+        /* Hero Main Visual - Rotating Ornament */
         .hero-visual-bg {
             position: absolute;
             top: 50%;
@@ -318,25 +331,39 @@
         .hero-visual-bg::before {
             content: '';
             position: absolute;
-            top: 10%;
-            left: 10%;
-            right: 10%;
-            bottom: 10%;
+            top: 12%;
+            left: 12%;
+            right: 12%;
+            bottom: 12%;
             border: 1px solid rgba(207, 169, 114, 0.2);
             border-radius: 50%;
         }
 
-        .hero-visual-bg::after {
-            content: '';
+        /* Orbiting Pearls */
+        .orb {
             position: absolute;
-            top: -20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 10px;
-            height: 10px;
-            background: var(--color-gold-dark);
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            box-shadow: 0 620px 0 var(--color-gold-dark);
+            z-index: 2;
+            box-shadow: 0 0 20px rgba(207, 169, 114, 0.8);
+            /* Glow */
+        }
+
+        /* Sun Pearl (Top) */
+        .orb.top {
+            top: -12px;
+            background: radial-gradient(circle at 30% 30%, #fff, var(--color-gold-main));
+            border: 2px solid rgba(255, 255, 255, 0.9);
+        }
+
+        /* Moon Pearl (Bottom) */
+        .orb.bottom {
+            bottom: -12px;
+            background: radial-gradient(circle at 30% 30%, var(--color-red-bright), #2a0000);
+            border: 2px solid var(--color-gold-bright);
         }
 
         @keyframes rotateVisual {
@@ -886,6 +913,7 @@
     <!-- Backgrounds -->
     <div class="bg-pattern"></div>
     <div class="bg-overlay-gradient"></div>
+    <canvas id="particle-canvas"></canvas>
 
     <!-- Atmospheric Mist with Depth -->
     <div class="mist-container">
@@ -918,7 +946,10 @@
     <!-- Hero -->
     <section class="hero">
         <!-- Visual Elements -->
-        <div class="hero-visual-bg"></div>
+        <div class="hero-visual-bg">
+            <div class="orb top"></div>
+            <div class="orb bottom"></div>
+        </div>
         <div class="couplet left">經絡運行 氣血暢通</div>
         <div class="couplet right">古法傳承 養生首選</div>
 
@@ -1108,6 +1139,77 @@
 
         // Trigger reveal on load
         window.dispatchEvent(new Event('scroll'));
+
+        /* --- Golden Particles Script --- */
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                // Random size: bigger range for depth
+                this.size = Math.random() * 3 + 1;
+                // Enhanced Flow: faster upward, more sway
+                this.speedX = Math.random() * 1.5 - 0.75;
+                this.speedY = Math.random() * -2 - 0.5; // Much faster rising
+                // Brighter Gold & Higher Opacity
+                this.color = 'rgba(255, 223, 128, ' + (Math.random() * 0.5 + 0.3) + ')';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                // Reset if off screen
+                if (this.y < -10 || this.x > canvas.width + 10 || this.x < -10) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + 20;
+                    this.speedY = Math.random() * -2 - 0.5;
+                    this.speedX = Math.random() * 1.5 - 0.75;
+                }
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.shadowBlur = 10; /* Glow effect */
+                ctx.shadowColor = 'rgba(255, 223, 128, 0.8)';
+                ctx.fill();
+                ctx.shadowBlur = 0; /* Reset for better performance */
+                ctx.shadowColor = 'rgba(0, 0, 0, 0)'; // Also reset shadowColor to avoid affecting other draws
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            // Reduced density significantly (Half of previous)
+            const numberOfParticles = (canvas.width * canvas.height) / 36000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
     </script>
 </body>
 
