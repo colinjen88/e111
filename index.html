@@ -235,14 +235,92 @@
 
         /* --- Hero Section --- */
         .hero {
-            min-height: 80vh;
+            min-height: 90vh;
+            /* Taller hero */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             position: relative;
-            padding-top: 100px;
+            padding-top: 60px;
+            overflow: hidden;
+        }
+
+        /* Hero Main Visual - Rotating Ornament */
+        .hero-visual-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            border: 2px dashed rgba(207, 169, 114, 0.3);
+            border-radius: 50%;
+            z-index: -1;
+            animation: rotateVisual 60s linear infinite;
+            pointer-events: none;
+        }
+
+        .hero-visual-bg::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            right: 10%;
+            bottom: 10%;
+            border: 1px solid rgba(207, 169, 114, 0.2);
+            border-radius: 50%;
+        }
+
+        .hero-visual-bg::after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background: var(--color-gold-dark);
+            border-radius: 50%;
+            box-shadow: 0 620px 0 var(--color-gold-dark);
+        }
+
+        @keyframes rotateVisual {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* Traditional Couplets (Vertical Text) */
+        .couplet {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            font-size: 1.5rem;
+            letter-spacing: 0.8em;
+            color: rgba(255, 255, 255, 0.4);
+            /* Subtle text */
+            font-weight: 300;
+            user-select: none;
+        }
+
+        .couplet.left {
+            left: 15%;
+            border-left: 1px solid rgba(207, 169, 114, 0.2);
+            padding-left: 15px;
+        }
+
+        .couplet.right {
+            right: 15%;
+            border-right: 1px solid rgba(207, 169, 114, 0.2);
+            padding-right: 15px;
         }
 
         /* Micro-animation: Fade Up Entrance */
@@ -259,49 +337,138 @@
         }
 
         h1.main-title {
-            font-size: 5rem;
-            font-weight: 700;
+            font-size: 6rem;
+            /* Larger Title */
+            font-weight: 900;
             background: linear-gradient(to bottom, var(--color-gold-bright), var(--color-gold-main), var(--color-gold-dark));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 2rem;
-            letter-spacing: 0.2em;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.3em;
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.8));
+            /* Stronger shadow */
             animation: fadeUp 1.2s ease-out forwards;
+            position: relative;
+        }
+
+        /* Title Stamp Decor */
+        h1.main-title::after {
+            content: '精華';
+            position: absolute;
+            top: -20px;
+            right: -40px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #8a1a1a;
+            padding: 5px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--color-gold-main);
+            letter-spacing: 0.1em;
+            transform: rotate(15deg);
+            -webkit-text-fill-color: #fff;
+            /* Reset fill for stamp */
         }
 
         .hero-divider {
-            width: 100px;
-            height: 4px;
+            width: 140px;
+            height: 3px;
             background: linear-gradient(90deg, transparent, var(--color-gold-bright), transparent);
-            margin: 0 auto 2rem;
+            margin: 0 auto 2.5rem;
             position: relative;
             animation: fadeUp 1.2s ease-out 0.2s forwards;
             opacity: 0;
         }
 
         .hero-divider::before {
-            content: '◆';
+            content: '❖';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             color: var(--color-gold-bright);
-            font-size: 1.2rem;
+            font-size: 1.5rem;
+            background: var(--color-red-base);
+            padding: 0 10px;
         }
 
         .sub-title {
-            font-size: 1.4rem;
-            letter-spacing: 0.5em;
+            font-size: 1.6rem;
+            letter-spacing: 0.8em;
             color: var(--color-text-white);
             text-transform: uppercase;
             font-weight: 300;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 1rem 3rem;
-            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid rgba(207, 169, 114, 0.4);
+            border-bottom: 1px solid rgba(207, 169, 114, 0.4);
+            padding: 1.2rem 4rem;
+            background: rgba(0, 0, 0, 0.3);
             animation: fadeUp 1.2s ease-out 0.4s forwards;
             opacity: 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.6;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            color: var(--color-gold-main);
+        }
+
+        .scroll-mouse {
+            width: 24px;
+            height: 36px;
+            border: 1px solid var(--color-gold-main);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .scroll-mouse::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 6px;
+            background: var(--color-gold-bright);
+            border-radius: 2px;
+            animation: scrollWheel 1.5s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translate(-50%, 0);
+            }
+
+            50% {
+                transform: translate(-50%, 10px);
+            }
+        }
+
+        @keyframes scrollWheel {
+            0% {
+                top: 6px;
+                opacity: 1;
+            }
+
+            100% {
+                top: 18px;
+                opacity: 0;
+            }
         }
 
         /* --- Content Area --- */
@@ -596,11 +763,21 @@
 
     <!-- Hero -->
     <section class="hero">
+        <!-- Visual Elements -->
+        <div class="hero-visual-bg"></div>
+        <div class="couplet left">經絡運行 氣血暢通</div>
+        <div class="couplet right">古法傳承 養生首選</div>
+
         <div class="hero-title-group">
             <h1 class="main-title">御手寶典</h1>
         </div>
         <div class="hero-divider"></div>
         <p class="sub-title">養生文化 ‧ 國醫智慧</p>
+
+        <div class="scroll-indicator">
+            <div class="scroll-mouse"></div>
+            <span>SCROLL</span>
+        </div>
     </section>
 
     <!-- Main Content -->
