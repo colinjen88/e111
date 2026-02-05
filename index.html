@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>御手國醫養生會館｜御手寶典</title>
+    <!-- Google Fonts: Noto Serif TC for traditional feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;400;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Palette: Deep Royal Red & Imperial Gold */
+            --color-red-deep: #4a0404;
+            --color-red-main: #660000;
+            --color-red-bright: #8a1a1a;
+            --color-gold-main: #cfa972;
+            --color-gold-bright: #f0d5a3;
+            --color-gold-dark: #8a6e40;
+            --color-text-white: #fdfdfd;
+            --color-text-gold: #e6c58e;
+
+            --font-family-serif: 'Noto Serif TC', serif;
+            --font-family-title: 'Noto Serif TC', serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family-serif);
+            background-color: var(--color-red-deep);
+            color: var(--color-text-white);
+            overflow-x: hidden;
+            font-weight: 300;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        /* --- Royal Background --- */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -2;
+            background-image: url('assets/bg-royal-pattern.png');
+            /* The generated royal pattern */
+            background-repeat: repeat;
+            background-size: 400px;
+            opacity: 1;
+        }
+
+        .bg-overlay-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            /* Gradient to darken edges and make content pop */
+            background: radial-gradient(circle at center, rgba(102, 0, 0, 0.3) 0%, rgba(40, 0, 0, 0.95) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- Header / Nav --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 90px;
+            padding: 0 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+            border-bottom: 1px solid rgba(207, 169, 114, 0.3);
+            backdrop-filter: blur(2px);
+            transition: all 0.4s ease;
+        }
+
+        header.scrolled {
+            background: rgba(74, 4, 4, 0.95);
+            height: 70px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            color: var(--color-gold-bright);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Gold Seal Logo Icon CSS */
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle at 30% 30%, var(--color-gold-bright), var(--color-gold-dark));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--color-red-deep);
+            font-size: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(207, 169, 114, 0.6);
+            border: 2px solid var(--color-gold-bright);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav ul li a {
+            font-size: 1.05rem;
+            letter-spacing: 0.15em;
+            color: var(--color-text-gold);
+            position: relative;
+            padding: 10px 0;
+            font-weight: 500;
+        }
+
+        /* Nav hover underline effect */
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-gold-bright), transparent);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--color-text-white);
+            text-shadow: 0 0 8px var(--color-gold-main);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding-top: 100px;
+        }
+
+        h1.main-title {
+            font-size: 5rem;
+            font-weight: 700;
+            /* Gold Gradient Text */
+            background: linear-gradient(to bottom, var(--color-gold-bright), var(--color-gold-main), var(--color-gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+            letter-spacing: 0.2em;
+            font-family: var(--font-family-title);
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+        }
+
+        .hero-divider {
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--color-gold-bright), transparent);
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .hero-divider::before {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--color-gold-bright);
+            font-size: 1.2rem;
+        }
+
+        .sub-title {
+            font-size: 1.4rem;
+            letter-spacing: 0.5em;
+            color: var(--color-text-white);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+            font-weight: 300;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 3rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- Content Area --- */
+        .content-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 4rem 2rem 8rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            position: relative;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 400;
+            color: var(--color-gold-bright);
+            letter-spacing: 0.2em;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-header p {
+            color: var(--color-text-gold);
+            letter-spacing: 0.1em;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        /* --- Article Layout --- */
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 3rem;
+        }
+
+        .article-card {
+            background: linear-gradient(135deg, rgba(60, 0, 0, 0.85), rgba(30, 0, 0, 0.95));
+            border: 1px solid var(--color-gold-dark);
+            padding: 0;
+            transition: all 0.4s ease;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Gold corner accents - via CSS gradients */
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 30px;
+            height: 30px;
+            border-top: 2px solid var(--color-gold-bright);
+            border-left: 2px solid var(--color-gold-bright);
+            transition: all 0.4s ease;
+        }
+
+        .article-card::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 30px;
+            height: 30px;
+            border-bottom: 2px solid var(--color-gold-bright);
+            border-right: 2px solid var(--color-gold-bright);
+            transition: all 0.4s ease;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+            border-color: var(--color-gold-bright);
+        }
+
+        .article-card:hover::before,
+        .article-card:hover::after {
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-image-wrapper {
+            width: 100%;
+            height: 240px;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 2px solid var(--color-gold-dark);
+        }
+
+        .card-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s ease;
+        }
+
+        .article-card:hover .card-image-wrapper img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 2.5rem 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-info {
+            font-size: 0.85rem;
+            color: var(--color-gold-main);
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.1em;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px dashed rgba(207, 169, 114, 0.3);
+            padding-bottom: 0.8rem;
+        }
+
+        .article-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 1.2rem;
+            color: var(--color-text-white);
+            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .article-card p {
+            font-size: 1rem;
+            color: #ddd;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        .read-more {
+            align-self: flex-start;
+            font-size: 0.95rem;
+            color: var(--color-text-white);
+            background: var(--color-red-bright);
+            border: 1px solid var(--color-red-bright);
+            padding: 0.6rem 2rem;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .read-more::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: var(--color-gold-main);
+            z-index: -1;
+            transition: width 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: var(--color-red-deep);
+            border-color: var(--color-gold-main);
+        }
+
+        .read-more:hover::before {
+            width: 100%;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: #1a0101;
+            border-top: 3px solid var(--color-gold-dark);
+            color: var(--color-gold-main);
+            position: relative;
+        }
+
+        footer::before {
+            content: '❖';
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a0101;
+            padding: 0 15px;
+            font-size: 1.5rem;
+            color: var(--color-gold-bright);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            h1.main-title {
+                font-size: 3rem;
+            }
+
+            header {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+
+            .article-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Backgrounds -->
+    <div class="bg-pattern"></div>
+    <div class="bg-overlay-gradient"></div>
+
+    <!-- Header -->
+    <header id="main-header">
+        <a href="#" class="logo">
+            <span class="logo-icon">御</span>
+            御手國醫
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#">首頁</a></li>
+                <li><a href="#">關於御手</a></li>
+                <li><a href="#">服務項目</a></li>
+                <li><a href="#">御手寶典</a></li>
+                <li><a href="#">線上預約</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-title-group">
+            <h1 class="main-title">御手寶典</h1>
+        </div>
+        <div class="hero-divider"></div>
+        <p class="sub-title">養生文化 ‧ 國醫智慧</p>
+    </section>
+
+    <!-- Main Content -->
+    <div class="content-container">
+
+        <div class="section-header">
+            <h2>養生知識</h2>
+            <p>Traditional Chinese Medicine Wisdom</p>
+        </div>
+
+        <div class="article-grid">
+
+            <!-- Article 1 -->
+            <article class="article-card">
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/muscle-scraping-therapy.jpg" alt="撥筋">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.06.16</span>
+                        <span>按摩養身</span>
+                    </div>
+                    <h3>撥筋是什麼？7種好處讓你美容養顏又養生</h3>
+                    <p>撥筋這三個字你或許聽過，卻不一定真正了解它的奧妙。這並不是一般印象中的按摩，而是一種源自中醫理論，結合經絡與筋膜概念的深層保養方式。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=773" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+            <!-- Article 2 -->
+            <article class="article-card">
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/body-brushing.jpg" alt="體刷">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.05.14</span>
+                        <span>健康養身</span>
+                    </div>
+                    <h3>體刷功效有哪些？6個打造柔滑肌膚與增進身心健康好處</h3>
+                    <p>體刷這項看似簡單卻充滿魔力的護理方法，已經越來越受到關注。透過輕柔的刷拭動作，它不僅能促進血液循環，還能有效改善肌膚質地。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=772" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+            <!-- Article 3 -->
+            <article class="article-card">
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/muscle-soreness.jpg" alt="肌肉痠痛">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.05.05</span>
+                        <span>健康養身</span>
+                    </div>
+                    <h3>肌肉痠痛的原因有那些？帶你了解 8 個原因與舒緩改善方法</h3>
+                    <p>肌肉痠痛是許多人日常中常遇到的不適。無論是運動後、久坐、或是壓力過大，都可能讓身體發出警訊。了解真正的成因，才能找到最適合自己的舒緩與改善方法。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=771" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+            <!-- Article 4 -->
+            <article class="article-card">
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/lower-back-massage.jpg" alt="腰部按摩">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.04.25</span>
+                        <span>按摩養身</span>
+                    </div>
+                    <h3>腰部按摩怎麼做才有效？6 步驟有效舒緩痠痛與緩解壓力</h3>
+                    <p>腰部按摩不只是放鬆肌肉的一種方式，更是一種讓身體與心靈同時釋放壓力的溫柔呵護。現代人長時間久坐、低頭滑手機、工作壓力大。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=770" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+            <!-- Article 5 -->
+            <article class="article-card">
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/scalp-massage.jpg" alt="頭皮按摩">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.04.16</span>
+                        <span>按摩養身</span>
+                    </div>
+                    <h3>頭皮按摩好處有哪些？增進身心健康的 6 大驚人好處</h3>
+                    <p>頭皮按摩不只是放鬆身心的享受，更是日常保健不可忽視的一環。當我們在緊湊的生活中感到壓力沉重、思緒混亂，輕柔的頭皮按摩就像一場溫柔的療癒。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=769" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+            <!-- Article 6: Ear Candling -->
+            <article class="article-card">
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/ear-candling.jpg" alt="耳燭">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.04.16</span>
+                        <span>健康養身</span>
+                    </div>
+                    <h3>耳燭是什麼？真的能清除耳垢嗎？真實功效為你解答</h3>
+                    <p>耳燭這個聽起來有點神秘、甚至讓人好奇的名詞，近年來在網路上悄悄竄紅，不少人將它視為放鬆紓壓、甚至「清除耳垢」的神器。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=768" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 御手國醫養生會館. 養生之道，始於足下。</p>
+    </footer>
+
+    <script>
+        // Simple script to handle header transparency on scroll
+        window.addEventListener('scroll', function () {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>
