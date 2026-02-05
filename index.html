@@ -54,7 +54,7 @@
             width: 100%;
             height: 100vh;
             z-index: -2;
-            background-image: url('assets/bg-royal-pattern.png');
+            background-image: url('assets/bg-royal-pattern.jpg');
             background-repeat: repeat;
             background-size: 500px;
             opacity: 0.25;
@@ -93,7 +93,7 @@
             left: 0;
             width: 100%;
             height: 120%;
-            background-image: url('assets/decoration-cloud.png');
+            background-image: url('assets/decoration-cloud.jpg');
             background-size: cover;
             background-position: center;
             will-change: transform, opacity;
@@ -165,8 +165,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+            z-index: 1000;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
             border-bottom: 1px solid rgba(207, 169, 114, 0.2);
             backdrop-filter: blur(8px);
             transition: all 0.4s ease;
@@ -174,7 +174,6 @@
 
         header.scrolled {
             background: rgba(92, 0, 0, 0.95);
-            /* Matches corporate red */
             height: 70px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
             border-bottom: 1px solid var(--color-gold-dark);
@@ -183,6 +182,8 @@
         .logo {
             display: flex;
             align-items: center;
+            z-index: 1001;
+            position: relative;
         }
 
         .logo img {
@@ -196,10 +197,17 @@
             height: 40px;
         }
 
+        /* Desktop Nav */
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
         nav ul {
             display: flex;
             list-style: none;
             gap: 2.5rem;
+            transition: all 0.3s ease;
         }
 
         nav ul li a {
@@ -211,7 +219,6 @@
             font-weight: 500;
         }
 
-        /* Micro-interaction: Nav Line Expansion */
         nav ul li a::after {
             content: '';
             position: absolute;
@@ -231,6 +238,52 @@
 
         nav ul li a:hover::after {
             width: 100%;
+        }
+
+        /* Mobile Hamburger & Menu */
+        .mobile-menu-btn {
+            display: none;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 30px;
+            height: 2px;
+            background-color: var(--color-gold-bright);
+            margin: 6px 0;
+            transition: 0.4s;
+        }
+
+        /* Mobile Menu State */
+        nav.active ul {
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #2a0000, #5c0000);
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            transform: translateX(0%);
+            z-index: 1000;
+        }
+
+        /* Hamburger Animation */
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
         }
 
         /* --- Hero Section --- */
@@ -712,19 +765,115 @@
             color: var(--color-gold-bright);
         }
 
-        @media (max-width: 768px) {
+        /* --- Responsive --- */
+        @media (max-width: 1024px) {
             h1.main-title {
-                font-size: 3rem;
+                font-size: 5rem;
             }
 
+            .hero-visual-bg {
+                width: 500px;
+                height: 500px;
+            }
+
+            .content-container {
+                padding: 4rem 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
             header {
-                padding: 1rem;
+                padding: 0 1.5rem;
+                height: 70px;
             }
 
-            .logo {
-                font-size: 1.4rem;
+            nav ul {
+                display: none;
+                /* Hide default nav */
+                transform: translateX(100%);
+                /* Prepare for slide in */
+                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                padding-top: 80px;
+                min-height: 85vh;
+            }
+
+            /* Responsive Hero Visuals */
+            .hero-visual-bg {
+                width: 320px;
+                height: 320px;
+                opacity: 0.6;
+            }
+
+            /* Scale down */
+
+            /* Reposition Couplets for Mobile */
+            .couplet {
+                font-size: 1rem;
+                letter-spacing: 0.5em;
+                writing-mode: horizontal-tb;
+                text-orientation: mixed;
+                top: auto;
+                transform: none;
+                width: 100%;
+                text-align: center;
+                border: none;
+                padding: 0;
+                position: relative;
+                left: auto;
+                right: auto;
+                margin-bottom: 0.5rem;
+                display: block;
+                opacity: 0.8;
+            }
+
+            .couplet.left {
+                order: -1;
+                margin-bottom: 1rem;
+            }
+
+            /* Move above title */
+            .couplet.right {
+                margin-top: 1rem;
+            }
+
+            /* Move below title */
+            .hero-title-group {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            h1.main-title {
+                font-size: 3.5rem;
+                letter-spacing: 0.1em;
+                margin-bottom: 1.5rem;
+            }
+
+            h1.main-title::after {
+                top: -15px;
+                right: -20px;
+                transform: rotate(10deg) scale(0.8);
+            }
+
+            .sub-title {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+                width: 90%;
+                letter-spacing: 0.3em;
+            }
+
+            .content-container {
+                padding: 3rem 1rem 6rem;
+            }
+
+            /* Fix Grid for Mobile */
             .article-grid {
                 grid-template-columns: 1fr;
             }
@@ -759,6 +908,11 @@
                 <li><a href="#">線上預約</a></li>
             </ul>
         </nav>
+        <div class="mobile-menu-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
 
     <!-- Hero -->
@@ -906,6 +1060,30 @@
     </footer>
 
     <script>
+        // Toggle Mobile Menu
+        function toggleMenu() {
+            const nav = document.querySelector('nav');
+            const btn = document.querySelector('.mobile-menu-btn');
+            nav.classList.toggle('active');
+            btn.classList.toggle('active');
+
+            // Prevent scrolling when menu is open
+            if (nav.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close menu when clicking a link
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (document.querySelector('nav').classList.contains('active')) {
+                    toggleMenu();
+                }
+            });
+        });
+
         // Simple script to handle header transparency on scroll
         window.addEventListener('scroll', function () {
             const header = document.getElementById('main-header');
