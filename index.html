@@ -4,908 +4,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="御手國醫養生會館 - 結合中醫養生智慧與現代按摩技法，提供足底按摩、經絡推拿等專業服務。御手寶典分享健康養生知識，助您氣血暢通，身心舒暢。">
+    <meta name="keywords" content="養生會館, 按摩, 推拿, 足底按摩, 中醫養生, 經絡疏通, 御手國醫, 身體保健">
+    <meta name="author" content="御手國醫養生會館">
+    <meta name="robots" content="noindex, nofollow"> <!-- Demo Page: Prevent Indexing -->
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.e111.com.tw/">
+    <meta property="og:title" content="御手國醫養生會館｜御手寶典">
+    <meta property="og:description" content="結合中醫養生智慧與現代按摩技法，提供足底按摩、經絡推拿等專業服務。">
+    <meta property="og:image" content="https://www.e111.com.tw/images/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.e111.com.tw/">
+    <meta property="twitter:title" content="御手國醫養生會館｜御手寶典">
+    <meta property="twitter:description" content="結合中醫養生智慧與現代按摩技法，提供足底按摩、經絡推拿等專業服務。">
+    <meta property="twitter:image" content="https://www.e111.com.tw/images/logo.png">
+
     <title>御手國醫養生會館｜御手寶典</title>
-    <!-- Google Fonts: Noto Serif TC for traditional feel -->
+
+    <!-- Google Fonts: Noto Serif TC -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;400;700;900&display=swap"
         rel="stylesheet">
-    <style>
-        :root {
-            /* Palette: Corporate Royal Red (Restored) & Imperial Gold */
-            --color-red-base: #5c0000;
-            /* Richer red base */
-            --color-red-deep: #2a0000;
-            /* Darker edge */
-            --color-gold-main: #cfa972;
-            --color-gold-bright: #f0d5a3;
-            --color-gold-dark: #8a6e40;
-            --color-text-white: #fdfdfd;
-            --color-text-gold: #e6c58e;
 
-            --font-family-serif: 'Noto Serif TC', serif;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: var(--font-family-serif);
-            background-color: var(--color-red-base);
-            color: var(--color-text-white);
-            overflow-x: hidden;
-            font-weight: 300;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-        }
-
-        /* --- Royal Background --- */
-        .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: -2;
-            background-image: url('assets/bg-royal-pattern.jpg');
-            background-repeat: repeat;
-            background-size: 500px;
-            opacity: 0.25;
-            /* Visible pattern */
-            mix-blend-mode: overlay;
-        }
-
-        .bg-overlay-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            /* Balanced Gradient: Red Center -> Dark Edges (Atmosphere without losing color) */
-            background: radial-gradient(circle at center, rgba(140, 0, 0, 0.4) 0%, rgba(20, 0, 0, 0.9) 100%);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* --- Golden Particles (Qi) --- */
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 15;
-            /* Floating above mist, creating depth */
-            pointer-events: none;
-        }
-
-        /* --- Atmospheric Effects (Grand Mist) --- */
-        .mist-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-            overflow: hidden;
-            mix-blend-mode: screen;
-        }
-
-        .mist-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 120%;
-            background-image: url('assets/decoration-cloud.jpg');
-            background-size: cover;
-            background-position: center;
-            will-change: transform, opacity;
-        }
-
-        .mist-layer.one {
-            opacity: 0.3;
-            background-size: 110%;
-            animation: mistBreathe 15s ease-in-out infinite alternate;
-        }
-
-        .mist-layer.two {
-            width: 140%;
-            left: -20%;
-            top: -10%;
-            opacity: 0.2;
-            animation: mistFlow 30s ease-in-out infinite alternate;
-        }
-
-        .mist-layer.three {
-            width: 120%;
-            left: -10%;
-            top: 10%;
-            opacity: 0.15;
-            background-size: 130%;
-            animation: mistFloat 25s linear infinite alternate-reverse;
-            filter: blur(8px);
-        }
-
-        @keyframes mistBreathe {
-            0% {
-                transform: scale(1);
-                opacity: 0.25;
-            }
-
-            100% {
-                transform: scale(1.05);
-                opacity: 0.4;
-            }
-        }
-
-        @keyframes mistFlow {
-            0% {
-                transform: translateX(-5%) rotate(0deg);
-            }
-
-            100% {
-                transform: translateX(5%) rotate(1deg);
-            }
-        }
-
-        @keyframes mistFloat {
-            0% {
-                transform: translateY(0) scale(1.1);
-            }
-
-            100% {
-                transform: translateY(-5%) scale(1.2);
-            }
-        }
-
-        /* --- Header / Nav --- */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            height: 90px;
-            padding: 0 4rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), transparent);
-            border-bottom: 1px solid rgba(207, 169, 114, 0.2);
-            backdrop-filter: blur(8px);
-            transition: all 0.4s ease;
-        }
-
-        header.scrolled {
-            background: rgba(92, 0, 0, 0.95);
-            height: 70px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            border-bottom: 1px solid var(--color-gold-dark);
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            z-index: 1001;
-            position: relative;
-        }
-
-        .logo img {
-            height: 50px;
-            width: auto;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
-            transition: all 0.3s ease;
-        }
-
-        header.scrolled .logo img {
-            height: 40px;
-        }
-
-        /* Desktop Nav */
-        nav {
-            display: flex;
-            align-items: center;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-            transition: all 0.3s ease;
-        }
-
-        nav ul li a {
-            font-size: 1.05rem;
-            letter-spacing: 0.15em;
-            color: var(--color-text-gold);
-            position: relative;
-            padding: 10px 0;
-            font-weight: 500;
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0%;
-            height: 2px;
-            background: var(--color-gold-bright);
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        nav ul li a:hover {
-            color: var(--color-text-white);
-            text-shadow: 0 0 10px var(--color-gold-main);
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-
-        /* Mobile Hamburger & Menu */
-        .mobile-menu-btn {
-            display: none;
-            cursor: pointer;
-            z-index: 1002;
-        }
-
-        .mobile-menu-btn span {
-            display: block;
-            width: 30px;
-            height: 2px;
-            background-color: var(--color-gold-bright);
-            margin: 6px 0;
-            transition: 0.4s;
-        }
-
-        /* Mobile Menu State */
-        nav.active ul {
-            display: flex;
-            flex-direction: column;
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 100%;
-            height: 100vh;
-            background: linear-gradient(135deg, #2a0000, #5c0000);
-            justify-content: center;
-            align-items: center;
-            gap: 3rem;
-            transform: translateX(0%);
-            z-index: 1000;
-        }
-
-        /* Hamburger Animation */
-        .mobile-menu-btn.active span:nth-child(1) {
-            transform: rotate(-45deg) translate(-5px, 6px);
-        }
-
-        .mobile-menu-btn.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .mobile-menu-btn.active span:nth-child(3) {
-            transform: rotate(45deg) translate(-5px, -6px);
-        }
-
-        /* --- Hero Section --- */
-        .hero {
-            min-height: 90vh;
-            /* Taller hero */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            padding-top: 60px;
-            overflow: hidden;
-        }
-
-        /* Hero Main Visual - Rotating Ornament */
-        /* Hero Main Visual - Rotating Ornament */
-        .hero-visual-bg {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            border: 2px dashed rgba(207, 169, 114, 0.3);
-            border-radius: 50%;
-            z-index: -1;
-            animation: rotateVisual 60s linear infinite;
-            pointer-events: none;
-        }
-
-        .hero-visual-bg::before {
-            content: '';
-            position: absolute;
-            top: 12%;
-            left: 12%;
-            right: 12%;
-            bottom: 12%;
-            border: 1px solid rgba(207, 169, 114, 0.2);
-            border-radius: 50%;
-        }
-
-        /* Orbiting Pearls */
-        .orb {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            z-index: 2;
-            box-shadow: 0 0 20px rgba(207, 169, 114, 0.8);
-            /* Glow */
-        }
-
-        /* Sun Pearl (Top) */
-        .orb.top {
-            top: -12px;
-            background: radial-gradient(circle at 30% 30%, #fff, var(--color-gold-main));
-            border: 2px solid rgba(255, 255, 255, 0.9);
-        }
-
-        /* Moon Pearl (Bottom) */
-        .orb.bottom {
-            bottom: -12px;
-            background: radial-gradient(circle at 30% 30%, var(--color-red-bright), #2a0000);
-            border: 2px solid var(--color-gold-bright);
-        }
-
-        @keyframes rotateVisual {
-            from {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-
-            to {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
-        }
-
-        /* Traditional Couplets (Vertical Text) */
-        .couplet {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            writing-mode: vertical-rl;
-            text-orientation: upright;
-            font-size: 1.5rem;
-            letter-spacing: 0.8em;
-            color: rgba(255, 255, 255, 0.4);
-            /* Subtle text */
-            font-weight: 300;
-            user-select: none;
-        }
-
-        .couplet.left {
-            left: 15%;
-            border-left: 1px solid rgba(207, 169, 114, 0.2);
-            padding-left: 15px;
-        }
-
-        .couplet.right {
-            right: 15%;
-            border-right: 1px solid rgba(207, 169, 114, 0.2);
-            padding-right: 15px;
-        }
-
-        /* Micro-animation: Fade Up Entrance */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h1.main-title {
-            font-size: 6rem;
-            /* Larger Title */
-            font-weight: 900;
-            background: linear-gradient(to bottom, var(--color-gold-bright), var(--color-gold-main), var(--color-gold-dark));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 2.5rem;
-            letter-spacing: 0.3em;
-            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.8));
-            /* Stronger shadow */
-            animation: fadeUp 1.2s ease-out forwards;
-            position: relative;
-        }
-
-        /* Title Stamp Decor */
-        h1.main-title::after {
-            content: '精華';
-            position: absolute;
-            top: -20px;
-            right: -40px;
-            font-size: 1rem;
-            color: #fff;
-            background-color: #8a1a1a;
-            padding: 5px 8px;
-            border-radius: 4px;
-            border: 1px solid var(--color-gold-main);
-            letter-spacing: 0.1em;
-            transform: rotate(15deg);
-            -webkit-text-fill-color: #fff;
-            /* Reset fill for stamp */
-        }
-
-        .hero-divider {
-            width: 140px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--color-gold-bright), transparent);
-            margin: 0 auto 2.5rem;
-            position: relative;
-            animation: fadeUp 1.2s ease-out 0.2s forwards;
-            opacity: 0;
-        }
-
-        .hero-divider::before {
-            content: '❖';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: var(--color-gold-bright);
-            font-size: 1.5rem;
-            background: var(--color-red-base);
-            padding: 0 10px;
-        }
-
-        .sub-title {
-            font-size: 1.6rem;
-            letter-spacing: 0.8em;
-            color: var(--color-text-white);
-            text-transform: uppercase;
-            font-weight: 300;
-            border-top: 1px solid rgba(207, 169, 114, 0.4);
-            border-bottom: 1px solid rgba(207, 169, 114, 0.4);
-            padding: 1.2rem 4rem;
-            background: rgba(0, 0, 0, 0.3);
-            animation: fadeUp 1.2s ease-out 0.4s forwards;
-            opacity: 0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            opacity: 0.6;
-            animation: bounce 2s infinite;
-        }
-
-        .scroll-indicator span {
-            font-size: 0.8rem;
-            letter-spacing: 0.2em;
-            color: var(--color-gold-main);
-        }
-
-        .scroll-mouse {
-            width: 24px;
-            height: 36px;
-            border: 1px solid var(--color-gold-main);
-            border-radius: 12px;
-            position: relative;
-        }
-
-        .scroll-mouse::before {
-            content: '';
-            position: absolute;
-            top: 6px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 6px;
-            background: var(--color-gold-bright);
-            border-radius: 2px;
-            animation: scrollWheel 1.5s infinite;
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translate(-50%, 0);
-            }
-
-            50% {
-                transform: translate(-50%, 10px);
-            }
-        }
-
-        @keyframes scrollWheel {
-            0% {
-                top: 6px;
-                opacity: 1;
-            }
-
-            100% {
-                top: 18px;
-                opacity: 0;
-            }
-        }
-
-        /* --- Content Area --- */
-        .content-container {
-            max-width: 1300px;
-            margin: 0 auto;
-            padding: 4rem 2rem 8rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 5rem;
-            position: relative;
-        }
-
-        .section-header h2 {
-            font-size: 3rem;
-            font-weight: 400;
-            color: var(--color-gold-bright);
-            letter-spacing: 0.2em;
-            margin-bottom: 1.5rem;
-        }
-
-        .section-header p {
-            color: var(--color-text-gold);
-            letter-spacing: 0.1em;
-            font-size: 1.1rem;
-            font-style: italic;
-        }
-
-        /* --- Article Layout --- */
-        .article-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 3rem;
-        }
-
-        /* Scroll Reveal Effect Class */
-        .reveal-item {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        .reveal-item.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .article-card {
-            background: linear-gradient(135deg, rgba(80, 0, 0, 0.6), rgba(40, 0, 0, 0.8));
-            /* Lighter, redder card bg */
-            border: 1px solid var(--color-gold-dark);
-            padding: 0;
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            /* For shine effect */
-        }
-
-        /* Micro-interaction: Shine Sweep */
-        .article-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transform: skewX(-25deg);
-            transition: 0.5s;
-            pointer-events: none;
-        }
-
-        .article-card:hover::after {
-            left: 150%;
-            transition: 0.7s ease-in-out;
-        }
-
-        /* Gold corners */
-        .corner-accent {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border-color: var(--color-gold-bright);
-            transition: all 0.4s ease;
-        }
-
-        .c-tl {
-            top: -1px;
-            left: -1px;
-            border-top: 2px solid;
-            border-left: 2px solid;
-        }
-
-        .c-br {
-            bottom: -1px;
-            right: -1px;
-            border-bottom: 2px solid;
-            border-right: 2px solid;
-        }
-
-        .article-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
-            border-color: var(--color-gold-bright);
-            background: linear-gradient(135deg, rgba(100, 0, 0, 0.7), rgba(50, 0, 0, 0.9));
-        }
-
-        .article-card:hover .c-tl,
-        .article-card:hover .c-br {
-            width: 100%;
-            height: 100%;
-            opacity: 0.5;
-        }
-
-        .card-image-wrapper {
-            width: 100%;
-            height: 240px;
-            overflow: hidden;
-            position: relative;
-            border-bottom: 2px solid var(--color-gold-dark);
-        }
-
-        .card-image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s ease;
-        }
-
-        .article-card:hover .card-image-wrapper img {
-            transform: scale(1.1);
-        }
-
-        .card-content {
-            padding: 2.5rem 2rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .meta-info {
-            font-size: 0.85rem;
-            color: var(--color-gold-main);
-            margin-bottom: 0.8rem;
-            letter-spacing: 0.1em;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            border-bottom: 1px dashed rgba(207, 169, 114, 0.3);
-            padding-bottom: 0.8rem;
-        }
-
-        .article-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            line-height: 1.4;
-            margin-bottom: 1.2rem;
-            color: var(--color-text-white);
-            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.8);
-            transition: color 0.3s;
-        }
-
-        .article-card:hover h3 {
-            color: var(--color-gold-bright);
-        }
-
-        .article-card p {
-            font-size: 1rem;
-            color: #ddd;
-            line-height: 1.8;
-            margin-bottom: 2rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            flex-grow: 1;
-        }
-
-        .read-more {
-            align-self: flex-start;
-            font-size: 0.95rem;
-            color: var(--color-text-white);
-            background: rgba(138, 26, 26, 0.8);
-            border: 1px solid var(--color-red-bright);
-            padding: 0.6rem 2rem;
-            letter-spacing: 0.1em;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .read-more::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 100%;
-            background: var(--color-gold-main);
-            z-index: -1;
-            transition: width 0.3s ease;
-        }
-
-        .read-more:hover {
-            color: var(--color-red-deep);
-            border-color: var(--color-gold-main);
-            font-weight: bold;
-        }
-
-        .read-more:hover::before {
-            width: 100%;
-        }
-
-        /* --- Footer --- */
-        footer {
-            text-align: center;
-            padding: 5rem 2rem;
-            background: #2b0000;
-            border-top: 3px solid var(--color-gold-dark);
-            color: var(--color-gold-main);
-            position: relative;
-        }
-
-        footer::before {
-            content: '❖';
-            position: absolute;
-            top: -16px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #2b0000;
-            padding: 0 15px;
-            font-size: 1.5rem;
-            color: var(--color-gold-bright);
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 1024px) {
-            h1.main-title {
-                font-size: 5rem;
-            }
-
-            .hero-visual-bg {
-                width: 500px;
-                height: 500px;
-            }
-
-            .content-container {
-                padding: 4rem 2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            header {
-                padding: 0 1.5rem;
-                height: 70px;
-            }
-
-            nav ul {
-                display: none;
-                /* Hide default nav */
-                transform: translateX(100%);
-                /* Prepare for slide in */
-                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .hero {
-                padding-top: 80px;
-                min-height: 85vh;
-            }
-
-            /* Responsive Hero Visuals */
-            .hero-visual-bg {
-                width: 320px;
-                height: 320px;
-                opacity: 0.6;
-            }
-
-            /* Scale down */
-
-            /* Reposition Couplets for Mobile */
-            .couplet {
-                font-size: 1rem;
-                letter-spacing: 0.5em;
-                writing-mode: horizontal-tb;
-                text-orientation: mixed;
-                top: auto;
-                transform: none;
-                width: 100%;
-                text-align: center;
-                border: none;
-                padding: 0;
-                position: relative;
-                left: auto;
-                right: auto;
-                margin-bottom: 0.5rem;
-                display: block;
-                opacity: 0.8;
-            }
-
-            .couplet.left {
-                order: -1;
-                margin-bottom: 1rem;
-            }
-
-            /* Move above title */
-            .couplet.right {
-                margin-top: 1rem;
-            }
-
-            /* Move below title */
-            .hero-title-group {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            h1.main-title {
-                font-size: 3.5rem;
-                letter-spacing: 0.1em;
-                margin-bottom: 1.5rem;
-            }
-
-            h1.main-title::after {
-                top: -15px;
-                right: -20px;
-                transform: rotate(10deg) scale(0.8);
-            }
-
-            .sub-title {
-                font-size: 1rem;
-                padding: 0.8rem 1.5rem;
-                width: 90%;
-                letter-spacing: 0.3em;
-            }
-
-            .content-container {
-                padding: 3rem 1rem 6rem;
-            }
-
-            /* Fix Grid for Mobile */
-            .article-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BeautySalon",
+      "name": "御手國醫養生會館",
+      "image": "https://www.e111.com.tw/images/logo.png",
+      "url": "https://www.e111.com.tw/",
+      "telephone": "+886-6-200-0000",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "中華東路三段380巷47號",
+        "addressLocality": "台南市",
+        "addressRegion": "東區",
+        "postalCode": "701",
+        "addressCountry": "TW"
+      },
+      "priceRange": "$$",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "09:00",
+        "closes": "23:00"
+      },
+      "sameAs": [
+        "https://www.facebook.com/e111.com.tw",
+        "https://www.instagram.com/e111/"
+      ]
+    }
+    </script>
 </head>
 
 <body>
@@ -930,8 +96,11 @@
         <nav>
             <ul>
                 <li><a href="#">首頁</a></li>
+                <li><a href="#">最新消息</a></li>
                 <li><a href="#">關於御手</a></li>
+                <li><a href="#">分館資訊</a></li>
                 <li><a href="#">服務項目</a></li>
+                <li><a href="#">達人帶路</a></li>
                 <li><a href="#">御手寶典</a></li>
                 <li><a href="#">線上預約</a></li>
             </ul>
@@ -1087,7 +256,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 御手國醫養生會館. 養生之道，始於足下。</p>
+        <p>&copy; 2026 御手國醫養生會館. 養生之道，始於足下。 Design by WANG.</p>
     </footer>
 
     <script>
@@ -1186,8 +355,8 @@
 
         function initParticles() {
             particlesArray = [];
-            // Reduced density significantly (Half of previous)
-            const numberOfParticles = (canvas.width * canvas.height) / 36000;
+            // Reduced density further (25% less)
+            const numberOfParticles = (canvas.width * canvas.height) / 48000;
             for (let i = 0; i < numberOfParticles; i++) {
                 particlesArray.push(new Particle());
             }
