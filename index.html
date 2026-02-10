@@ -89,6 +89,14 @@
         <div class="mist-layer three"></div>
     </div>
 
+    <!-- Reduced Motion Notice (only shown when system prefers reduced motion) -->
+    <div id="reduced-motion-notice" class="reduced-motion-notice" role="alert" aria-live="polite">
+        <span class="reduced-motion-notice-icon">✨</span>
+        <span class="reduced-motion-notice-text">您的系統已關閉動畫效果，部分視覺動態將不會顯示</span>
+        <button class="reduced-motion-notice-close" aria-label="關閉提示" onclick="dismissReducedMotionNotice()">✕</button>
+    </div>
+
+
     <!-- Header -->
     <header id="main-header">
         <a href="#" class="logo">
@@ -278,6 +286,56 @@
                 timer = setTimeout(() => fn.apply(this, args), ms);
             };
         }
+
+        // --- Reduced Motion Notice ---
+        const REDUCED_MOTION_NOTICE_KEY = 'e111_reduced_motion_dismissed';
+
+        function dismissReducedMotionNotice() {
+            const notice = document.getElementById('reduced-motion-notice');
+            if (notice) {
+                notice.classList.remove('show');
+                try {
+                    localStorage.setItem(REDUCED_MOTION_NOTICE_KEY, 'true');
+                } catch (e) {
+                    // localStorage not available, ignore
+                }
+            }
+        }
+
+        function checkReducedMotion() {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const notice = document.getElementById('reduced-motion-notice');
+
+            if (!notice) return;
+
+            // Only show if: 1) prefers reduced motion, 2) not previously dismissed
+            if (prefersReducedMotion.matches) {
+                try {
+                    const dismissed = localStorage.getItem(REDUCED_MOTION_NOTICE_KEY);
+                    if (!dismissed) {
+                        // Delay showing the notice for a smoother experience
+                        setTimeout(() => {
+                            notice.classList.add('show');
+                            // Auto-hide after 8 seconds
+                            setTimeout(() => {
+                                notice.classList.remove('show');
+                            }, 8000);
+                        }, 1500);
+                    }
+                } catch (e) {
+                    // localStorage not available, still show notice
+                    setTimeout(() => {
+                        notice.classList.add('show');
+                        setTimeout(() => {
+                            notice.classList.remove('show');
+                        }, 8000);
+                    }, 1500);
+                }
+            }
+        }
+
+        // Initialize reduced motion check
+        checkReducedMotion();
 
         // --- Custom Eased Scroll (ease-in-out cubic) ---
         function smoothScrollTo(targetY, duration) {

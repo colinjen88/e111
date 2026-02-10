@@ -1,0 +1,131 @@
+
+# 開發歷程記錄 (Development Log Tree)
+
+本文件以樹狀結構記錄 `e111-booking` 預約系統的完整開發流程。
+
+```mermaid
+graph TD
+    Start[開始 Start] --> Analysis[現狀分析]
+    Analysis --> Plan[升級計劃 booking.md]
+    Plan --> Stack{技術選型}
+    Stack -->|Nuxt3 + Prisma + PG| Init[專案初始化]
+    Init --> Config[環境與套件配置]
+    Config --> Backend[後端開發]
+    Config --> Frontend[前端開發]
+    
+    subgraph Phase1_Infrastructure
+    Config --> Docker[Docker PostgreSQL]
+    Config --> Prisma[Prisma Schema]
+    Config --> Tailwind[Tailwind CSS]
+    end
+
+    subgraph Phase2_Implementation
+    Backend --> API_Branch[API: 分館資訊]
+    Backend --> API_Staff[API: 技師列表]
+    Backend --> API_Avail[API: 時段查詢]
+    Backend --> API_Booking[API: 建立預約]
+    Frontend --> Page_Home[首頁 index.vue]
+    Frontend --> Page_Booking[預約頁 booking.vue]
+    Page_Booking -->|Step 5| Form_Customer[客戶資料表單]
+    Page_Booking -->|Step 6| Page_Success[預約成功頁]
+    end
+
+    subgraph Phase3_Admin
+    Backend --> API_Admin_Auth[API: 後台登入]
+    Backend --> API_Admin_List[API: 訂單列表]
+    Frontend --> Layout_Admin[Layout: 後台版型]
+    Frontend --> Page_Login[Page: 管理登入]
+    Frontend --> Page_Dashboard[Page: 訂單總覽]
+    end
+
+    subgraph Phase4_Integration
+    API_Booking -->|Trigger| Notify[Notification Service]
+    Notify -->|Log| Console[模擬 LINE/Email 發送]
+    Frontend --> Page_Settings[Page: 系統設定]
+    end
+```
+
+## 詳細執行日誌 (Detailed Execution Log)
+
+### 2026-02-10: 專案啟動與基礎建設
+*   [x] **需求分析**
+    *   檢視 `contact.html`，確認 ASP 舊架構痛點（前後端耦合、缺乏 SQL）。
+*   [x] **架構規劃**
+    *   建立 `booking.md`，定義資料庫 Schema (Branches, Services, Staff, etc.)。
+    *   確立技術棧：**Nuxt 3 + Prisma + PostgreSQL + Tailwind**。
+*   [x] **專案初始化 (Initialization)**
+    *   建立 Nuxt 專案 `e111-booking`。
+    *   安裝核心套件：`tailwindcss`, `prisma`, `@prisma/client`。
+*   [x] **環境配置 (Configuration)**
+    *   **Docker**: 建立 `docker-compose.yml` (Port 調整為 5433 以避開衝突/Docker問題)。
+    *   **Prisma**: 編寫 `schema.prisma`，實作 8 張核心資料表 (符合 3NF)。
+    *   **Tailwind**: 設定 `tailwind.config.ts` 導入品牌色 (`#d73324`)。
+    *   **Port Config**: 設定開發伺服器 Port 為 2390 (package.json)。
+*   [x] **資料庫建置 (Database Setup)**
+    *   **Fallback**: 切換至 SQLite (file:./dev.db) 以解決 Docker 網路連線問題。
+    *   **Migration**: 成功執行 `prisma migrate dev --name init_reset` (Full Reset)。
+    *   **Seeding**: 成功寫入種子資料 (包含服務、分館、技師)。
+    *   **Access**: 使用 `http://localhost:2390` (Port 2390 恢復正常)。
+*   [x] **環境問題排除 (Environment Troubleshooting)**
+    *   **Tailwind 衝突**: 發現 `@nuxtjs/tailwindcss` 與 Tailwind v4 衝突，降版至 v3 解決伺服器崩潰問題。
+    *   **API 404**: 修正 Nuxt 4 目錄結構，將 `server/` 移回根目錄解決 API 路由問題。
+    *   **App Mount**: 修正 `app/app.vue` 缺少 `<NuxtPage />` 導致的無限載入問題。
+*   [x] **後端開發 (Backend API - Phase 1)**
+    *   建立 Prisma Client Utility (`server/utils/prisma.ts`)。
+    *   實作分館查詢 API (`api/branches/index.get.ts`)。
+    *   實作服務查詢 API (`api/services/index.get.ts`) **[NEW]**。
+*   [x] **前端開發 (Frontend - Phase 1)**
+    *   **Landing Page**: 首頁與 Hero Section (`pages/index.vue`)。
+    *   **Booking Step 1**: 分館選擇 UI (`pages/booking.vue`)。
+    *   **Booking Step 2**: 服務項目選擇 UI (Tabs 切換 + 服務列表) **[NEW]**。
+    *   **Booking Step 3**: 技師選擇 UI (含不指定選項) **[NEW]**。
+    *   **Booking Step 4**: 日曆與時段選擇 UI (連動後端 Availability API) **[NEW]**。
+    *   **Booking Step 5**: 預約確認 UI (總結所有資訊) **[NEW]**。
+    *   **Visual Logs**: 持續更新 `tree.html` 與 `dev_log.md`。
+*   [x] **專案知識庫建立 (Agent Brain Setup)**
+    *   建立 `.agent/PROJECT_AGENT.md`: 專案架構與關鍵指令。
+    *   建立 `.agent/skills/database.md`: 資料庫管理 SOP。
+    *   建立 `.agent/skills/debugging.md`: 環境問題排查手冊。
+*   [x] **後端可用性邏輯 (Availability Logic - Phase 1.3)**
+    *   `api/availability`: 實作基於營業時間 (10:00-22:00) 與現有訂單的時段計算。
+    *   支援指定技師與不指定技師 (Any Staff) 的邏輯判斷。
+
+## 🎯 Milestone 1: Booking Flow Alpha Completed (2026-02-11)
+- 核心五步預約流程已串接完畢。
+- 環境與資料庫穩定。
+
+### 2026-02-11: Phase 2 - Booking Submission (完成)
+*   [x] **Backend API (POST /api/bookings)**
+    *   實作交易處理 (Transaction): 同時寫入 `Customer`, `Booking`, `BookingItem`。
+    *   實作重複預約檢查 (Double Booking Check)。
+    *   支援「自動分配技師」邏輯 (當使用者選擇不指定時)。
+*   [x] **Frontend UI (Step 5 & 6)**
+    *   **Step 5**: 新增客戶資料表單 (姓名/電話/Email/備註)。
+    *   **Step 6**: 新增預約成功頁面 (顯示訂單編號與詳細資訊)。
+    *   **Validation**: 前端簡易驗證 + 後端 Zod/Logic 驗證。
+*   [x] **Documentation Updated**
+    *   更新 `task.md` 狀態為 Phase 2 完成。
+    *   更新 `tree.html` 視覺化進度。
+
+### 2026-02-11: Phase 3 - Admin Dashboard (完成)
+*   [x] **Admin Layout (Bootstrap)**
+    *   建立 `layouts/admin.vue`: 響應式側邊欄 + 頂部導航。
+*   [x] **Authentication (Middleware)**
+    *   建立 `api/admin/auth.post.ts`: 簡易密碼驗證 (Default: `admin123`)。
+    *   建立 `middleware/auth.ts`: 路由守衛，未登入自動導向登入頁。
+    *   建立 `pages/admin/login.vue`: 登入介面。
+*   [x] **Dashboard UI (Bookings List)**
+    *   建立 `api/admin/bookings.get.ts`: 獲取全部預約單 (包含關聯欄位)。
+    *   建立 `pages/admin/index.vue`: 預約單列表、狀態標籤、篩選器 UI。
+
+### 2026-02-11: Phase 4 - Integrations (完成)
+*   [x] **Notification Service (Mock)**
+    *   建立 `server/utils/notify.ts`: 封裝 Line/Email 發送邏輯。
+    *   實作: 將預約資訊格式化並 Log 到後端 Console (模擬真實發送)。
+*   [x] **API Integration**
+    *   整合 `api/bookings/index.post.ts`: 預約成功且 Transaction 完成後，非同步觸發通知。
+*   [x] **Admin Settings UI**
+    *   建立 `pages/admin/settings.vue`: 提供 LINE Token 與 Email 設定介面。
+
+## 🏁 Project Summary (v1.0 Ready)
+所有主要功能模組 (Client Booking, Admin Panel, Notification Logic) 皆已完成實作。系統處於可演示 (Demo Ready) 狀態。

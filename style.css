@@ -1101,6 +1101,73 @@
             }
         }
 
+        /* Reduced Motion Notification Banner */
+        .reduced-motion-notice {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(42, 0, 0, 0.95), rgba(92, 0, 0, 0.95));
+            border: 1px solid var(--color-gold-dark);
+            border-radius: 8px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 9999;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            max-width: 90%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .reduced-motion-notice.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .reduced-motion-notice-icon {
+            font-size: 1.2rem;
+            color: var(--color-gold-bright);
+            flex-shrink: 0;
+        }
+
+        .reduced-motion-notice-text {
+            font-size: 0.9rem;
+            color: var(--color-text-gold);
+            line-height: 1.4;
+        }
+
+        .reduced-motion-notice-close {
+            background: none;
+            border: none;
+            color: var(--color-gold-main);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            margin-left: 8px;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .reduced-motion-notice-close:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 480px) {
+            .reduced-motion-notice {
+                bottom: 10px;
+                padding: 10px 14px;
+                gap: 8px;
+            }
+
+            .reduced-motion-notice-text {
+                font-size: 0.8rem;
+            }
+        }
+
         /* Accessibility: Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
@@ -1120,5 +1187,10 @@
             .reveal-item {
                 opacity: 1;
                 transform: none;
+            }
+
+            /* Keep notice transitions working */
+            .reduced-motion-notice {
+                transition: opacity 0.3s ease, visibility 0.3s ease !important;
             }
         }

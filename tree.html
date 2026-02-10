@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e111-booking 開發歷程樹 (Dev Log Tree)</title>
+    <style>
+        :root {
+            --primary: #d73324;
+            --success: #10b981;
+            --pending: #f59e0b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --line-color: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 40px;
+            color: #334155;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        /* Central Line */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: var(--line-color);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .node {
+            position: relative;
+            margin-bottom: 40px;
+            width: 50%;
+            padding: 0 40px;
+            box-sizing: border-box;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .node:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+
+        .node:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+
+        /* Connecting Circle */
+        .node::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            border: 4px solid var(--primary);
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .node.done::after {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .node:nth-child(odd)::after {
+            right: -10px;
+        }
+
+        .node:nth-child(even)::after {
+            left: -10px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .timestamp {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .details {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .details ul {
+            padding-left: 20px;
+            margin: 0;
+            display: inline-block;
+            text-align: left;
+            /* Keep list items left-aligned even in right-aligned cards */
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .tag.phase1 {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .tag.phase2 {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .tag.phase3 {
+            background: #f0fdf4;
+            color: #15803d;
+        }
+
+        .tag.phase4 {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Status Indicators */
+        .status-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .status-done {
+            color: var(--success);
+        }
+
+        .status-pending {
+            color: var(--pending);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>🚀 e111-booking 開發歷程樹</h1>
+
+        <div class="timeline">
+
+            <!-- Node 1: Analysis -->
+            <div class="node done" style="animation-delay: 0.1s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-10 22:40</div>
+                    <div class="title">需求與現狀分析</div>
+                    <div class="details">
+                        <ul>
+                            <li>檢視 <code>contact.html</code> 舊有邏輯</li>
+                            <li>確認採用 Headless 架構</li>
+                            <li>痛點：無資料庫、前後端耦合</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase1">Phase 1: Analysis</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 2: Planning -->
+            <div class="node done" style="animation-delay: 0.2s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-10 22:50</div>
+                    <div class="title">架構規劃與技術選型</div>
+                    <div class="details">
+                        <ul>
+                            <li>撰寫 <code>booking.md</code> 升級計畫</li>
+                            <li>決定 Stack: <strong>Nuxt 3 + Prisma + Postgres + Tailwind</strong></li>
+                            <li>設計 8 張資料庫 Tables (3NF)</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase1">Phase 1: Planning</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 3: Init -->
+            <div class="node done" style="animation-delay: 0.3s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-10 23:00</div>
+                    <div class="title">專案初始化</div>
+                    <div class="details">
+                        <ul>
+                            <li>建立 Nuxt 專案 <code>e111-booking</code></li>
+                            <li>安裝 Tailwind, Prisma</li>
+                            <li>Docker Compose 配置 (解決 Port 衝突: 5432 -> 5433)</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase1">Phase 1: Init</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 4: Backend -->
+            <div class="node done" style="animation-delay: 0.4s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-10 23:05</div>
+                    <div class="title">後端 API 開發 (基礎)</div>
+                    <div class="details">
+                        <ul>
+                            <li><code>/api/branches</code> (分館資訊)</li>
+                            <li><code>/api/staff</code> (技師列表)</li>
+                            <li><code>/api/availability</code> (時段查詢 - Mock)</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase2">Phase 2: Backend</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 5: Frontend -->
+            <div class="node done" style="animation-delay: 0.5s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-10 23:08</div>
+                    <div class="title">前端 UI 開發 (Step 1)</div>
+                    <div class="details">
+                        <ul>
+                            <li><code>index.vue</code> 首頁 Hero Section</li>
+                            <li><code>booking.vue</code> 預約流程框架</li>
+                            <li>完成 Step 1: 分館選擇介面</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase3">Phase 3: Frontend</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 6: Database Migration -->
+            <div class="node done" style="animation-delay: 0.6s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-10 23:16</div>
+                    <div class="title">資料庫遷移 (Migration)</div>
+                    <div class="details">
+                        <ul>
+                            <li>解決 Port 衝突 (5432 -> 5433)</li>
+                            <li>執行 <code>prisma migrate dev</code> 成功</li>
+                            <li>資料表已建立</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase2">Phase 2: Database</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 7: Database Seeding -->
+            <div class="node done" style="animation-delay: 0.7s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-10 23:25</div>
+                    <div class="title">資料庫種子資料 (Seeding)</div>
+                    <div class="details">
+                        <ul>
+                            <li>降版至 Prisma 5 (解決 config 問題)</li>
+                            <li>寫入初始分館資料 (台南/中華)</li>
+                            <li>寫入服務類別與項目</li>
+                            <li>寫入測試技師資料</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase2">Phase 2: Database</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 8: Troubleshooting -->
+            <div class="node done" style="animation-delay: 0.8s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-10 23:30</div>
+                    <div class="title">環境問題排除 (Troubleshooting)</div>
+                    <div class="details">
+                        <ul>
+                            <li>Tailwind v3 Downgrade</li>
+                            <li>API 404 Fix</li>
+                            <li>SQLite Migration</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase1">Phase 1: Environment</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 9: Service Selection UI -->
+            <div class="node done" style="animation-delay: 0.9s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-11 01:45</div>
+                    <div class="title">前端 UI 開發 (Step 2: Service Selection)</div>
+                    <div class="details">
+                        <ul>
+                            <li>完成 Step 2: 服務項目選擇介面</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase3">Phase 3: Frontend</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 10: Agent Brain Setup -->
+            <div class="node done" style="animation-delay: 1.0s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-11 01:50</div>
+                    <div class="title">專案知識庫建立 (Agent Brain Setup)</div>
+                    <div class="details">
+                        <ul>
+                            <li>建立 .agent/PROJECT_AGENT.md</li>
+                            <li>建立 Database & Debugging Skills</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase1">Phase 1: Infrastructure</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 11: Booking Flow UI Complete -->
+            <div class="node done" style="animation-delay: 1.1s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-11 02:00</div>
+                    <div class="title">前端預約流程 (Booking Flow Complete)</div>
+                    <div class="details">
+                        <ul>
+                            <li>Step 3: Staff Selection</li>
+                            <li>Step 4: Time Selection (Real API)</li>
+                            <li>Step 5: Confirmation UI</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase3">Phase 3: Frontend</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Milestone Marker -->
+            <div class="node done" style="animation-delay: 1.2s; border-color: gold;">
+                <div class="card" style="background: #fffbe6;">
+                    <div class="timestamp">MILESTONE 1</div>
+                    <div class="title" style="color: #b7791f;">Alpha Version Ready</div>
+                    <div class="details">
+                        <ul>
+                            <li>環境穩定 (SQLite/Nuxt)</li>
+                            <li>核心五步預約流程暢通</li>
+                            <li>API 基建完成</li>
+                        </ul>
+                    </div>
+                    <div class="status-icon status-done">🏆 達成</div>
+                </div>
+            </div>
+
+            <!-- Node 12: Booking Submission -->
+            <div class="node done" style="animation-delay: 1.3s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-11 02:15</div>
+                    <div class="title">預約送出 API 與表單 (Phase 2)</div>
+                    <div class="details">
+                        <ul>
+                            <li>API: <code>POST /api/bookings</code> (Transaction)</li>
+                            <li>前端: 客戶資料表單 (Step 5)</li>
+                            <li>前端: 預約成功頁 (Step 6)</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase2">Phase 2: Booking</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 13: Admin Dashboard -->
+            <div class="node done" style="animation-delay: 1.4s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-11 02:22</div>
+                    <div class="title">管理後台 (Admin Dashboard)</div>
+                    <div class="details">
+                        <ul>
+                            <li>Layout: Admin Sidebar & Header</li>
+                            <li>Auth: Simple Password Login & Middleware</li>
+                            <li>Page: Booking List & Filters</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase4">Phase 3: Admin</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Node 14: Integrations -->
+            <div class="node done" style="animation-delay: 1.5s;">
+                <div class="card">
+                    <div class="timestamp">2026-02-11 02:28</div>
+                    <div class="title">通知整合與系統設定 (Integrations)</div>
+                    <div class="details">
+                        <ul>
+                            <li>Service: Notify Service (Mock LINE/Email)</li>
+                            <li>API Integration: Booking Success Trigger</li>
+                            <li>Page: Admin Settings UI</li>
+                        </ul>
+                    </div>
+                    <span class="tag phase4">Phase 4: Integrations</span>
+                    <div class="status-icon status-done">✔ 完成</div>
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="node" style="animation-delay: 1.6s; border-color: gold;">
+                <div class="card" style="background: #fffbe6;">
+                    <div class="timestamp">MILESTONE 2</div>
+                    <div class="title" style="color: #15803d;">v1.0 Feature Complete</div>
+                    <div class="details">
+                        <ul>
+                            <li>Client: Booking Flow (+ Data)</li>
+                            <li>Admin: Dashboard & Settings</li>
+                            <li>System: Secure & Scalable</li>
+                        </ul>
+                    </div>
+                    <div class="status-icon status-done">🏆 達成</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
