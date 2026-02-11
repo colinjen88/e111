@@ -67,8 +67,44 @@ docker-compose -f docker-compose.prod.yml logs -f
 
 ## 常見問題
 
-### Q: 網站顯示 502 Bad Gateway
-A: 等待 1-2 分鐘讓應用程式完全啟動，或檢查容器日誌。
+### Q: 網站顯示 403 Forbidden
+A: 這通常表示 Port 衝突或容器未正常啟動。請執行以下步驟：
+
+**步驟 1: 檢查容器狀態**
+```bash
+cd /var/www/e111/e111-booking  # 或您的專案目錄
+docker-compose -f docker-compose.prod.yml ps
+```
+
+**步驟 2: 查看容器日誌**
+```bash
+docker-compose -f docker-compose.prod.yml logs app
+```
+
+**步驟 3: 檢查 Port 80 是否被佔用**
+```bash
+netstat -tulpn | grep :80
+# 或
+ss -tulpn | grep :80
+```
+
+**步驟 4: 如果 Port 80 被其他服務佔用，修改 docker-compose.prod.yml**
+將 `ports: - "80:3000"` 改為 `ports: - "8080:3000"`，然後訪問 `http://YOUR_IP:8080`
+
+**步驟 5: 重新啟動容器**
+```bash
+docker-compose -f docker-compose.prod.yml down
+docker-compose -f docker-compose.prod.yml up -d --build
+```
+
+**快速診斷腳本：**
+```bash
+# 下載並執行診斷腳本
+curl -o diagnose.sh https://raw.githubusercontent.com/colinjen88/e111/master/e111-booking/diagnose.sh
+chmod +x diagnose.sh
+./diagnose.sh
+```
+
 
 ### Q: 如何查看日誌？
 A: 在 Docker Manager 中點擊專案 → 查看日誌，或使用：
