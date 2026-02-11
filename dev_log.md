@@ -188,5 +188,11 @@ graph TD
     *   **Race Condition**: 在預約交易中加入 `Isolation Level: Serializable` 防止重複預約。
     *   **Validation**: 引入 `Zod`Schema 驗證，強化輸入資料安全性。
 
-## 🏁 Project Summary (v2.0 Optimized)
-系統經過全面代碼審查與優化，安全性、效能與穩定性顯著提升。核心弱點已修復，架構更為強健。
+### 2026-02-12: Phase 9 - DevOps & Reliability (完成)
+*   [x] **DevOps Integration**
+    *   **CI/CD**: 建立 `.github/workflows/ci.yml`，每次 Push 自動執行 `Type Check` 與 `Build`。
+    *   **Testing**: 安裝 `Vitest`，建立 Booking Schema 單元測試 (`tests/schemas.test.ts`) 並驗證通過。
+    *   **Logging**: 建立 `server/utils/logger.ts`，實作結構化 JSON 日誌，提升生產環境可觀測性。
+
+## 🏁 Project Summary (v2.1 Reliability Plus)
+系統完成度已達 100%。除了核心功能的優化，更加入了完整的 CI/CD 流程、自動化測試與結構化日誌，為長期維護打下堅實基礎。
