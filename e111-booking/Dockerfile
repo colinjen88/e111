@@ -22,9 +22,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files and install production dependencies
+# Copy package files and install production dependencies + prisma CLI
 COPY package*.json ./
-RUN npm install --omit=dev
+RUN npm install --omit=dev && npm install prisma@5.22.0
 
 # Copy prisma schema
 COPY --from=builder /app/prisma ./prisma
@@ -43,5 +43,5 @@ ENV NODE_ENV=production
 
 EXPOSE 3000
 
-# Simple startup with migration
-CMD sh -c "echo 'Waiting for database...' && sleep 10 && echo 'Running migrations...' && ./node_modules/.bin/prisma migrate deploy || true && echo 'Starting server...' && node .output/server/index.mjs"
+# Startup: push schema then start server
+CMD sh -c "echo 'Waiting for database...' && sleep 10 && echo 'Pushing schema...' && ./node_modules/.bin/prisma db push --skip-generate && echo 'Starting server...' && node .output/server/index.mjs"
