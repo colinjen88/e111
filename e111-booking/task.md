@@ -55,3 +55,20 @@
     - [x] Responsive CTA Button
 - [x] **Layout Optimization**
     - [x] Ensure mobile-first approach
+
+## Phase 6: Member Services (In Progress)
+- [x] **Backend API**
+    - [x] `POST /api/orders/lookup`: Verify Ref + Phone
+    - [x] `POST /api/orders/cancel`: Cancel Logic
+- [x] **Frontend UI**
+    - [x] `/order` (Lookup Entry Page)
+    - [x] `/order/[ref]` (Detail & Cancel Page)
+    - [x] Add Footer Links (Lookup/Admin)
+    - [x] `/privacy` (Privacy Policy)
+    - [x] `/terms` (Terms of Service)
+    - [x] `/privacy` (Privacy Policy)
+    - [x] `/terms` (Terms of Service)
+- [x] **Admin Enhancements**
+    - [x] `GET /api/admin/stats` (Revenue API)
+    - [x] Dashboard UI (Charts & Summary Cards)
+    - [x] Calendar View (`/admin/calendar`)

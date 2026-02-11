@@ -181,6 +181,13 @@ const services = [
                 <span>台南市永康區中華二路340巷7號</span>
              </div>
           </div>
+          <div class="mb-6 flex flex-wrap justify-center gap-6 text-xs text-brand-dark/50 font-medium tracking-wider uppercase">
+             <NuxtLink to="/order" class="text-gray-500 hover:text-brand-gold transition-colors">訂單查詢</NuxtLink>
+             <NuxtLink to="/admin" class="text-gray-500 hover:text-brand-gold transition-colors">管理登入</NuxtLink>
+             <span class="text-gray-700">|</span>
+             <NuxtLink to="/privacy" class="text-gray-500 hover:text-brand-gold transition-colors">隱私權政策</NuxtLink>
+             <NuxtLink to="/terms" class="text-gray-500 hover:text-brand-gold transition-colors">服務條款</NuxtLink>
+          </div>
           <p class="text-gray-700 text-xs">&copy; 2026 E111 Booking System. All rights reserved.</p>
        </div>
     </footer>
