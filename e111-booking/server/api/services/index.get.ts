@@ -1,8 +1,4 @@
-
-
-import { prisma } from '../../utils/prisma'
-
-  
+export default defineEventHandler(async (event) => {
   try {
     // 取得所有啟用的分類，並包含其下的啟用服務
     const categories = await prisma.serviceCategory.findMany({
