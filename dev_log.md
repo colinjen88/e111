@@ -48,6 +48,13 @@ graph TD
     Page_Home -- Redesign --> Page_Home_v2[新版首頁 (Oriental Style)]
     Tailwind -- Update --> Brand_Colors[品牌色系與字體]
     end
+
+    subgraph Phase6_Member_Services
+    API_Booking -->|Lookup| API_OrderLookup[訂單查詢 API]
+    API_Booking -->|Cancel| API_OrderCancel[訂單取消 API]
+    Frontend --> Page_Order[查詢/管理頁]
+    Frontend --> Page_Privacy[隱私權/服務條款]
+    end
 ```
 
 ## 詳細執行日誌 (Detailed Execution Log)
@@ -140,6 +147,18 @@ graph TD
     *   **Hero Section**: 全螢幕背景圖 + 漸層疊加 + 入場動畫 (VueUse Motion).
     *   **Services Grid**: 響應式卡片設計，懸停效果優化。
     *   **Ambience Section**: 環境介紹區塊，營造高級感。
+*   [x] **Admin Enhancements**
+    *   建立 `api/admin/stats.get.ts`: 營收統計 API (Today/Month/Chart)。
+    *   更新 `pages/admin/index.vue`: 新增統計卡片與長條圖。
+    *   建立 `pages/admin/calendar.vue`: 新增月曆視圖。
 
-## 🏁 Project Summary (v1.1 UI Enhanced)
-系統核心功能完備，首頁完成品牌化視覺升級，具備動態效果與響應式設計。
+### 2026-02-11: Phase 7 - Deployment (Ready)
+*   [x] **Docker Setup**
+    *   建立 `Dockerfile`: Multi-stage build (Node 20 Alpine)。
+    *   建立 `docker-compose.prod.yml`: 定義 App + Postgres 服務。
+    *   建立 `deploy_vps.ps1`: 自動化部署腳本 (備用)。
+*   [x] **Documentation**
+    *   更新 `README.md` 包含完整 Docker 部署指引。
+
+## 🏁 Project Summary (v1.3 Deployment Ready)
+系統功能完整，包含前台預約、會員服務、後台管理、營收統計。已容器化準備部署。
