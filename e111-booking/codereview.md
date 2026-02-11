@@ -170,9 +170,9 @@ WHERE (status NOT IN ('Cancelled', 'NoShow'));
 ###  第 3 階段：可靠性（1-2 月）
 
 - [x] Race condition 解決（DB constraint or Transaction Isolation）
-- [ ] 完整測試覆蓋
-- [ ] CI/CD 流程
-- [ ] 日誌與監控
+- [x] 完整測試覆蓋 (Vitest Unit Tests: Schemas)
+- [x] CI/CD 流程 (GitHub Actions Build Check)
+- [x] 日誌與監控 (Structured JSON Logging)
 
 ---
 
