@@ -413,35 +413,59 @@
     <div class="container">
         <h1>🚀 e111-booking 開發歷程樹</h1>
 
-        <div class="timeline">
-            <!-- Project Overview Node -->
-            <div id="project-overview" class="node done" style="animation-delay: 0s;">
-                <div class="card" style="background: #eef2ff; border: 2px solid #6366f1;">
-                    <div class="timestamp">Project Overview</div>
-                    <div class="title" style="color: #312e81; font-size: 1.3rem;">e111-booking 技術與功能摘要</div>
-                    <div class="details">
-                        <p style="margin: 5px 0 2px; color: #4338ca;"><strong>🛠️ 技術組合 (Tech Stack)</strong></p>
-                        <ul style="margin-bottom: 8px;">
-                            <li><strong>Frontend:</strong> Nuxt 3, Vue 3, Tailwind CSS</li>
-                            <li><strong>Backend:</strong> Nitro Server, Prisma ORM, PostgreSQL</li>
-                            <li><strong>DevOps:</strong> Docker, GitHub Actions, Vitest</li>
-                        </ul>
-                        <p style="margin: 5px 0 2px; color: #4338ca;"><strong>⚙️ 核心機制 (Mechanisms)</strong></p>
-                        <ul style="margin-bottom: 8px;">
-                            <li><strong>Architecture:</strong> Headless, RESTful API</li>
-                            <li><strong>Security:</strong> Zod Validation, Rate Limiting, Secure Cookies</li>
-                            <li><strong>Reliability:</strong> ACID Transactions, Structured Logging</li>
-                        </ul>
-                        <p style="margin: 5px 0 2px; color: #4338ca;"><strong>✨ 重點特色 (Features)</strong></p>
-                        <ul>
-                            <li><strong>User:</strong> RWD 禪風介面, 五步預約流程, 訂單查詢</li>
-                            <li><strong>Admin:</strong> 儀表板, 訂單管理, 系統設定</li>
-                            <li><strong>Integration:</strong> Line/Email 自動通知</li>
+        <!-- Project Overview (Root) -->
+        <div id="project-overview"
+            style="margin-bottom: 0; animation: fadeIn 0.5s forwards; position: relative; z-index: 2;">
+            <div class="card"
+                style="background: #eef2ff; border: 2px solid #6366f1; text-align: left; padding: 25px; margin-bottom: 0;">
+                <div class="timestamp"
+                    style="text-align: center; margin-bottom: 10px; font-size: 0.9rem; color: #4338ca;">⭐ Project
+                    Overview</div>
+                <div class="title" style="color: #312e81; font-size: 1.5rem; text-align: center; margin-bottom: 20px;">
+                    e111-booking 技術與功能摘要</div>
+
+                <div class="details" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around;">
+                    <div style="flex: 1 1 250px;">
+                        <p
+                            style="margin: 0 0 8px; color: #4338ca; border-bottom: 2px solid #c7d2fe; padding-bottom: 5px;">
+                            <strong>🛠️ 技術組合 (Stack)</strong>
+                        </p>
+                        <ul style="margin-bottom: 0; padding-left: 18px;">
+                            <li><strong>Frontend:</strong> Nuxt 3, Vue 3, Tailwind</li>
+                            <li><strong>Backend:</strong> Nitro, Prisma, Postgres</li>
+                            <li><strong>DevOps:</strong> Docker, Vitest, GH Actions</li>
                         </ul>
                     </div>
-                    <div class="status-icon status-done" style="color: #4338ca;">⭐ 專案核心</div>
+                    <div style="flex: 1 1 250px;">
+                        <p
+                            style="margin: 0 0 8px; color: #4338ca; border-bottom: 2px solid #c7d2fe; padding-bottom: 5px;">
+                            <strong>⚙️ 核心機制 (Core)</strong>
+                        </p>
+                        <ul style="margin-bottom: 0; padding-left: 18px;">
+                            <li><strong>Arch:</strong> Headless, RESTful API</li>
+                            <li><strong>Security:</strong> Zod, Rate Limit, Cookies</li>
+                            <li><strong>Reliability:</strong> ACID, JSON Logs</li>
+                        </ul>
+                    </div>
+                    <div style="flex: 1 1 250px;">
+                        <p
+                            style="margin: 0 0 8px; color: #4338ca; border-bottom: 2px solid #c7d2fe; padding-bottom: 5px;">
+                            <strong>✨ 重點特色 (Features)</strong>
+                        </p>
+                        <ul style="margin-bottom: 0; padding-left: 18px;">
+                            <li><strong>User:</strong> RWD 禪風介面, 五步預約</li>
+                            <li><strong>Admin:</strong> 視覺化儀表板, 訂單管理</li>
+                            <li><strong>Ops:</strong> Line/Email 自動通知</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+            <!-- Connecting line to timeline -->
+            <div style="width: 4px; height: 30px; background: #cbd5e1; margin: 0 auto; position: relative; z-index: 1;">
+            </div>
+        </div>
+
+        <div class="timeline" style="padding-top: 0;">
 
             <!-- Node 1 -->
             <div id="step-01" class="node done" style="animation-delay: 0.05s;">
