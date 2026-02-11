@@ -3,18 +3,18 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
+# Install dependencies
 COPY package*.json ./
 RUN npm ci
 
-# Copy prisma schema and generate client
+# Copy prisma and generate client
 COPY prisma ./prisma/
 RUN npx prisma generate
 
-# Copy all source files
+# Copy source code
 COPY . .
 
-# Build the application
+# Build application
 RUN npm run build
 
 # Production Stage
@@ -22,33 +22,26 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install production dependencies for Prisma
+# Copy package files and install production dependencies
 COPY package*.json ./
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci --omit=dev
 
-# Copy prisma files for migrations
-COPY prisma ./prisma/
+# Copy prisma schema
+COPY --from=builder /app/prisma ./prisma
 
-# Copy built application
+# Copy built output
 COPY --from=builder /app/.output ./.output
 
-# Copy node_modules with Prisma client
+# Copy generated Prisma client
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
+# Set environment variables
 ENV NUXT_HOST=0.0.0.0
 ENV NUXT_PORT=3000
+ENV NODE_ENV=production
 
 EXPOSE 3000
 
-# Create startup script with proper line continuation
-RUN printf '#!/bin/sh\n\
-echo "Waiting for database..."\n\
-sleep 5\n\
-echo "Running database migrations..."\n\
-npx prisma migrate deploy\n\
-echo "Starting application..."\n\
-node .output/server/index.mjs\n' > /app/start.sh && \
-    chmod +x /app/start.sh
-
-CMD ["/bin/sh", "/app/start.sh"]
+# Simple startup with migration
+CMD sh -c "echo 'Waiting for database...' && sleep 10 && echo 'Running migrations...' && npx prisma migrate deploy && echo 'Starting server...' && node .output/server/index.mjs"
