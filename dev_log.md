@@ -152,7 +152,7 @@ graph TD
     *   更新 `pages/admin/index.vue`: 新增統計卡片與長條圖。
     *   建立 `pages/admin/calendar.vue`: 新增月曆視圖。
 
-### 2026-02-11: Phase 7 - Deployment & Troubleshooting (進行中)
+### 2026-02-11: Phase 7 - Deployment & Troubleshooting (完成)
 *   [x] **Docker Production Setup**
     *   建立 `Dockerfile`: 多階段建置 (Node 20 Alpine)，優化生產環境體積。
     *   建立 `docker-compose.prod.yml`: 配置 PostgreSQL 15 + Nuxt 3。
@@ -161,11 +161,13 @@ graph TD
     *   **Compose Bug**: 解決舊版 `docker-compose` 的 `ContainerConfig` KeyError，改用新版 `docker compose`。
     *   **Port Conflict**: 避開瀏覽器 `ERR_UNSAFE_PORT`，改用 Port 3001 配合 Nginx 反向代理。
     *   **Nginx Config**: 建立 `book.gowork.run` 虛擬主機設定，成功串接內部容器。
+    *   **Alpine Engine Fix**: 安裝 OpenSSL 並設定 Prisma 二進制目標解決執行引擎崩潰。
+    *   **API Logic Fix**: 修正預約單模型查詢欄位錯誤。
 *   [x] **App Readiness**
     *   **Container Status**: `e111-booking-app` 成功跑在 Port 3001 並持久運行。
     *   **Database Sync**: 完成 PostgreSQL 資料庫連結。
-*   [ ] **Final Polish**
-    *   [ ] 執行 `npx prisma db seed` 初始化生產環境資料。
+*   [x] **Final Polish**
+    *   [x] 執行 `npx prisma db seed` 初始化生產環境資料。
 
-## 🏁 Project Summary (v1.5 Live Ready)
-系統已成功部署至 Hostinger VPS。核心功能（預約、登入、管理、統計）均已通過容器化測試。目前正進行最後的資料初始化。
+## 🏁 Project Summary (v1.6 Live & Stable)
+系統已完全成功部署至 Hostinger VPS。核心功能（預約、登入、管理、統計）均已通過實際數據測試並穩定運行。預約系統已正式上線。
