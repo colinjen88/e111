@@ -22,7 +22,7 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "80:3000"
+      - "4045:3000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/e111_booking
       - NUXT_HOST=0.0.0.0
