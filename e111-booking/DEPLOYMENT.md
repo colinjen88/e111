@@ -14,11 +14,14 @@
 - **Branch**: `master`
 - **Compose 檔案路徑**: `e111-booking/docker-compose.prod.yml`
 
-**環境變數（可選，已在 compose 中設定）：**
+**環境變數（可選，已在 compose 中設定，建議在 Docker Manager 或 .env 中設定）：**
 ```
 DATABASE_URL=postgresql://postgres:postgres@db:5432/e111_booking
 NUXT_HOST=0.0.0.0
 NUXT_PORT=3000
+# v2.0 新增安全性變數
+ADMIN_PASSWORD=your_secure_password
+ADMIN_SECRET_TOKEN=your_random_secret_string
 ```
 
 ### 步驟 2: 啟動部署
