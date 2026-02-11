@@ -75,8 +75,17 @@ location / {
 
 ---
 
-## 💡 總結：最佳佈署流程
-1. `git pull` 更新程式。
-2. `docker compose -f docker-compose.prod.yml up -d --build` 更新映像檔。
-3. 檢查日誌：`docker logs -f e111-booking-app-1`。
-4. 訪問：`http://book.gowork.run/admin`。
+## 7. Prisma Unknown Field `service` (500 Error)
+### **問題描述**
+預約提交時報錯 `Unknown field service for include statement on model Booking`。
+### **原因分析**
+在 `server/api/bookings/index.post.ts` 中，`booking.create` 的 `include` 區塊包含了一個 `service: false`，但資料庫模型中 `Booking` 並沒有直接關聯 `Service`（關聯是在 `BookingItem` 中）。
+### **解決方案**
+移除 `include` 區塊中不正確的 `service` 欄位。
+
+---
+
+## 💡 總結：最終成果
+- ✅ **前台預約**: http://book.gowork.run/booking (正常運作)
+- ✅ **後台管理**: http://book.gowork.run/admin (帳號: admin / 密碼: admin123)
+- ✅ **環境架構**: Docker + Nginx + Postgres (穩定運行)
