@@ -152,13 +152,20 @@ graph TD
     *   更新 `pages/admin/index.vue`: 新增統計卡片與長條圖。
     *   建立 `pages/admin/calendar.vue`: 新增月曆視圖。
 
-### 2026-02-11: Phase 7 - Deployment (Ready)
-*   [x] **Docker Setup**
-    *   建立 `Dockerfile`: Multi-stage build (Node 20 Alpine)。
-    *   建立 `docker-compose.prod.yml`: 定義 App + Postgres 服務。
-    *   建立 `deploy_vps.ps1`: 自動化部署腳本 (備用)。
-*   [x] **Documentation**
-    *   更新 `README.md` 包含完整 Docker 部署指引。
+### 2026-02-11: Phase 7 - Deployment & Troubleshooting (進行中)
+*   [x] **Docker Production Setup**
+    *   建立 `Dockerfile`: 多階段建置 (Node 20 Alpine)，優化生產環境體積。
+    *   建立 `docker-compose.prod.yml`: 配置 PostgreSQL 15 + Nuxt 3。
+*   [x] **Troubleshooting (Technical Debt Clearing)**
+    *   **Prisma 7 Compatibility**: 解決 P1012 驗證錯誤，修正 `schema.prisma` 規範並鎖定版本。
+    *   **Compose Bug**: 解決舊版 `docker-compose` 的 `ContainerConfig` KeyError，改用新版 `docker compose`。
+    *   **Port Conflict**: 避開瀏覽器 `ERR_UNSAFE_PORT`，改用 Port 3001 配合 Nginx 反向代理。
+    *   **Nginx Config**: 建立 `book.gowork.run` 虛擬主機設定，成功串接內部容器。
+*   [x] **App Readiness**
+    *   **Container Status**: `e111-booking-app` 成功跑在 Port 3001 並持久運行。
+    *   **Database Sync**: 完成 PostgreSQL 資料庫連結。
+*   [ ] **Final Polish**
+    *   [ ] 執行 `npx prisma db seed` 初始化生產環境資料。
 
-## 🏁 Project Summary (v1.3 Deployment Ready)
-系統功能完整，包含前台預約、會員服務、後台管理、營收統計。已容器化準備部署。
+## 🏁 Project Summary (v1.5 Live Ready)
+系統已成功部署至 Hostinger VPS。核心功能（預約、登入、管理、統計）均已通過容器化測試。目前正進行最後的資料初始化。
