@@ -4,22 +4,29 @@
  * In production, replace console.log with actual API calls (e.g., axios to LINE API, SendGrid SDK)
  */
 
-export const sendLineNotify = async (message: string) => {
-  // TODO: Get token from config/env
-  const token = process.env.LINE_NOTIFY_TOKEN
+export const sendLinePushMessage = async (message: string) => {
+  // TODO: Get token and user ID from config/env
+  const token = process.env.LINE_CHANNEL_ACCESS_TOKEN
+  const userId = process.env.LINE_ADMIN_USER_ID // This could be a Group ID too
   
-  console.log('--- [MOCK] LINE Notify ---')
-  console.log(`To: Admin Group`)
+  console.log('--- [MOCK] LINE Push Notification ---')
+  console.log(`To: ${userId || 'Default_Admin'}`)
   console.log(`Message: ${message}`)
-  console.log('--------------------------')
-
-  // Real implementation example:
+  console.log('------------------------------------')
+  
+  // Real implementation example (Messaging API - Push Message):
   /*
-  if (token) {
-    await $fetch('https://notify-api.line.me/api/notify', {
+  if (token && userId) {
+    await $fetch('https://api.line.me/v2/bot/message/push', {
       method: 'POST',
-      headers: { Authorization: `Bearer ${token}` },
-      body: new URLSearchParams({ message })
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: {
+        to: userId,
+        messages: [{ type: 'text', text: message }]
+      }
     })
   }
   */

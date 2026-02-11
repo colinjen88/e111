@@ -38,7 +38,7 @@
 
 ## Phase 4: Integrations (Completed)
 - [x] **Notification Service** (Mock)
-    - [x] `utils/notify.ts`: Centralized logic for LINE/Email
+    - [x] `utils/notify.ts`: Centralized logic for LINE(Push)/Email
     - [x] Console Logging (Simulation)
 - [x] **API Integration**
     - [x] `POST /api/bookings`: Trigger notifications on success

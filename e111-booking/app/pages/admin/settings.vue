@@ -4,7 +4,8 @@ definePageMeta({
   middleware: ['auth']
 })
 
-const lineToken = ref('')
+const lineChannelToken = ref('')
+const lineUserId = ref('')
 const emailService = ref('sendgrid')
 const testEmail = ref('')
 const loading = ref(false)
@@ -27,19 +28,26 @@ const saveSettings = () => {
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
       <div class="p-6 border-b border-gray-100">
         <h4 class="text-lg font-bold text-gray-800 mb-1">通知設定 (Integrations)</h4>
-        <p class="text-sm text-gray-500">設定 LINE Notify 與 Email 通知服務</p>
+        <p class="text-sm text-gray-500">設定 LINE Messaging API 與 Email 通知服務</p>
       </div>
       
       <div class="p-6 space-y-6">
-        <!-- LINE Notify -->
+        <!-- LINE Messaging API -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">LINE Notify Token</label>
+          <label class="block text-sm font-medium text-gray-700 mb-2">LINE Channel Access Token</label>
+          <input v-model="lineChannelToken" type="password" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="輸入 Channel Access Token (Long-lived)">
+        </div>
+
+         <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Admin User ID (Target ID)</label>
           <div class="flex gap-2">
-            <input v-model="lineToken" type="password" class="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="輸入 LINE Notify Token">
+            <input v-model="lineUserId" type="text" class="flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:border-red-500 outline-none" placeholder="輸入接收通知的 User ID / Group ID">
             <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors">測試</button>
           </div>
-          <p class="text-xs text-gray-400 mt-1">預約成功時將發送通知至此 Token 對應的群組。</p>
+          <p class="text-xs text-gray-400 mt-1">請輸入 LINE Developers Console > Basic Settings 中的 "Your User ID"。</p>
         </div>
+
+        <div class="border-t border-gray-100 my-4"></div>
 
         <!-- Email Service -->
         <div>

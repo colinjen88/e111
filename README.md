@@ -21,7 +21,7 @@ A modern, full-stack booking system built with **Nuxt 3**, **Prisma**, **Postgre
 - **RESTful Endpoints**: Clean and structured API for all operations.
 - **Transaction Safety**: Uses Prisma transactions to ensure data integrity during booking creation.
 - **Smart Allocation**: Auto-assigns available staff if the user selects "No Preference".
-- **Notification Integration**: Built-in support for LINE Notify and Email via SendGrid/Resend (Mock implemented).
+- **Notification Integration**: Built-in support for LINE Messaging API and Email via SendGrid/Resend (Mock implemented).
 
 ## 🛠 Tech Stack
 

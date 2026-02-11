@@ -1,6 +1,6 @@
 
 import { PrismaClient } from '@prisma/client'
-import { sendLineNotify, sendEmail, formatBookingMessage } from '../../utils/notify'
+import { sendLinePushMessage, sendEmail, formatBookingMessage } from '../../utils/notify'
 
 export default defineEventHandler(async (event) => {
   const { PrismaClient } = await import('@prisma/client')
@@ -155,7 +155,7 @@ export default defineEventHandler(async (event) => {
       if (bookingForNotify) {
          // Log to console for now
          const msg = formatBookingMessage(bookingForNotify)
-         await sendLineNotify(msg)
+         await sendLinePushMessage(msg)
          if (bookingForNotify.customer.email) {
            await sendEmail(bookingForNotify.customer.email, '預約確認', msg)
          }
