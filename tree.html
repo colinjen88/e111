@@ -267,8 +267,45 @@
             }
 
             .sidebar {
-                display: none !important;
-                /* Force hide sidebar on mobile */
+                display: block !important;
+                position: relative;
+                width: 100%;
+                max-width: none;
+                left: auto;
+                top: auto;
+                transform: none;
+                margin-bottom: 30px;
+                max-height: 200px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+
+            .sidebar h3 {
+                position: sticky;
+                top: 0;
+                background: rgba(255, 255, 255, 0.95);
+                padding-top: 5px;
+                z-index: 10;
+                margin-bottom: 10px;
+            }
+
+            .sidebar ul {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .sidebar li {
+                margin-bottom: 0;
+                flex: 1 1 auto;
+            }
+
+            .sidebar a {
+                text-align: center;
+                border: 1px solid #e2e8f0;
+                padding: 8px 12px;
+                font-size: 0.85rem;
+                background: #fff;
+                border-radius: 8px;
             }
         }
 
