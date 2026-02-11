@@ -1,9 +1,10 @@
 
-import { PrismaClient } from '@prisma/client'
+
+
+import { prisma } from '../../utils/prisma'
 
 export default defineEventHandler(async (event) => {
-  const { PrismaClient } = await import('@prisma/client')
-  const prisma = new PrismaClient()
+
 
   try {
     const body = await readBody(event)
@@ -74,7 +75,5 @@ export default defineEventHandler(async (event) => {
   } catch (error: any) {
     if (error.statusCode) throw error
     throw createError({ statusCode: 500, statusMessage: error.message })
-  } finally {
-    await prisma.$disconnect()
   }
 })

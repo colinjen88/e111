@@ -1,6 +1,5 @@
-export default defineEventHandler(async (event) => {
-  const { PrismaClient } = await import('@prisma/client')
-  const prisma = new PrismaClient()
+import { prisma } from '../../utils/prisma'
+
   
   const query = getQuery(event)
   const branchId = query.branchId ? parseInt(query.branchId as string) : undefined
@@ -38,7 +37,5 @@ export default defineEventHandler(async (event) => {
       statusCode: 500,
       statusMessage: 'Internal Server Error'
     })
-  } finally {
-    await prisma.$disconnect()
   }
 })

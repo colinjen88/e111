@@ -1,6 +1,5 @@
-export default defineEventHandler(async (event) => {
-  const { PrismaClient } = await import('@prisma/client')
-  const prisma = new PrismaClient()
+import { prisma } from '../../utils/prisma'
+
   
   try {
     const branches = await prisma.branch.findMany({
@@ -21,9 +20,5 @@ export default defineEventHandler(async (event) => {
       statusCode: 500,
       statusMessage: 'Internal Server Error'
     })
-  } finally {
-    // In serverless/dev, disconnecting per request is safer to avoid connection limit issues, 
-    // though for SQLite it matters less.
-    await prisma.$disconnect()
   }
 })

@@ -1,15 +1,13 @@
 
-import { PrismaClient } from '@prisma/client'
+
+
+import { prisma } from '../../utils/prisma'
 
 export default defineEventHandler(async (event) => {
-  const { PrismaClient } = await import('@prisma/client')
-  const prisma = new PrismaClient()
 
-  // Simple Auth Check
-  const token = getCookie(event, 'auth_token')
-  if (token !== 'admin-session-token') {
-    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
-  }
+
+  // Admin Auth Check
+  requireAdmin(event)
 
   try {
     const bookings = await prisma.booking.findMany({
@@ -33,7 +31,5 @@ export default defineEventHandler(async (event) => {
   } catch (error) {
     console.error('Admin Fetch Error:', error)
     throw createError({ statusCode: 500, statusMessage: 'Failed to fetch bookings' })
-  } finally {
-    await prisma.$disconnect()
   }
 })

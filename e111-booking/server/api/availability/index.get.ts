@@ -1,8 +1,9 @@
-import { PrismaClient } from '@prisma/client'
+
+
+import { prisma } from '../../utils/prisma'
 
 export default defineEventHandler(async (event) => {
-  const { PrismaClient } = await import('@prisma/client')
-  const prisma = new PrismaClient()
+
   
   const query = getQuery(event)
   const dateStr = query.date as string
@@ -64,6 +65,11 @@ export default defineEventHandler(async (event) => {
       }
     })
 
+    // Pre-fetch total active staff count for the branch (Optimization: Avoid N+1 query inside loop)
+    const totalStaff = await prisma.staff.count({
+      where: { branchId, isActive: true }
+    })
+
     // 4. Calculate availability for each slot
     const blocks = await Promise.all(allSlots.map(async (slotTime) => {
       const slotStart = new Date(`${dateStr}T${slotTime}:00`)
@@ -83,11 +89,6 @@ export default defineEventHandler(async (event) => {
         // Case B: No Preference (Any Staff)
         // We need to find IF THERE IS AT LEAST ONE STAFF MEMBER available at this time
         
-        // Get all active staff count for this branch
-        const totalStaff = await prisma.staff.count({
-          where: { branchId, isActive: true }
-        })
-
         // Count how many staff are busy during this slot
         // A staff is busy if they have a booking overlapping this slot
         // Note: This logic assumes 1 booking = 1 staff occupied.
@@ -119,7 +120,5 @@ export default defineEventHandler(async (event) => {
   } catch (error) {
     console.error('Availability Error:', error)
     throw createError({ statusCode: 500, statusMessage: 'Check Availability Failed' })
-  } finally {
-    await prisma.$disconnect()
   }
 })

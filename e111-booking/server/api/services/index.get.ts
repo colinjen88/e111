@@ -1,8 +1,7 @@
-import { PrismaClient } from '@prisma/client'
 
-export default defineEventHandler(async (event) => {
-  const { PrismaClient } = await import('@prisma/client')
-  const prisma = new PrismaClient()
+
+import { prisma } from '../../utils/prisma'
+
   
   try {
     // 取得所有啟用的分類，並包含其下的啟用服務
@@ -29,7 +28,5 @@ export default defineEventHandler(async (event) => {
       statusCode: 500,
       statusMessage: 'Internal Server Error'
     })
-  } finally {
-    await prisma.$disconnect()
   }
 })
