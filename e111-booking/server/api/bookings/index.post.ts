@@ -1,24 +1,23 @@
 
-import { PrismaClient } from '@prisma/client'
+
+import { Prisma } from '@prisma/client'
+import { prisma } from '../../utils/prisma'
+import { bookingSchema } from '../../utils/schemas'
 import { sendLinePushMessage, sendEmail, formatBookingMessage } from '../../utils/notify'
 
 export default defineEventHandler(async (event) => {
-  const { PrismaClient } = await import('@prisma/client')
-  const prisma = new PrismaClient()
+
 
   try {
-    const body = await readBody(event)
+    // 1. Validate Basic Inputs with Zod
+    // const { branchId, serviceId, staffId, date, time, user } = body
     
-    // 1. Validate Basic Inputs
-    const { branchId, serviceId, staffId, date, time, user } = body
-    
-    if (!branchId || !serviceId || !date || !time || !user || !user.phone || !user.name) {
-      throw createError({ statusCode: 400, statusMessage: 'Missing required fields' })
-    }
+    const parsedBody = await bookingSchema.parseAsync(body)
+    const { branchId, serviceId, staffId, date, time, user } = parsedBody
 
     // 2. Fetch Service Details (Duration & Price)
     const service = await prisma.service.findUnique({
-      where: { id: parseInt(serviceId) }
+      where: { id: serviceId }
     })
     
     if (!service) {
@@ -40,7 +39,7 @@ export default defineEventHandler(async (event) => {
     // Overlap Logic: (ExistingValues.Start < New.End) AND (Existing.End > New.Start)
     const potentialConflict = await prisma.booking.findMany({
       where: {
-        branchId: parseInt(branchId),
+        branchId: branchId,
         startTime: {
           lt: endTime
         },
@@ -58,7 +57,7 @@ export default defineEventHandler(async (event) => {
 
     const busyStaffIds = new Set(potentialConflict.map(b => b.staffId).filter(id => id !== null))
     
-    let allocatedStaffId: number | null = staffId ? parseInt(staffId) : null
+    let allocatedStaffId: number | null = staffId ? staffId : null
 
     if (allocatedStaffId) {
       // Case A: User selected specific staff
@@ -67,7 +66,7 @@ export default defineEventHandler(async (event) => {
       }
       // Also verify staff belongs to branch and is active
       const staffExists = await prisma.staff.findFirst({
-        where: { id: allocatedStaffId, branchId: parseInt(branchId), isActive: true }
+        where: { id: allocatedStaffId, branchId: branchId, isActive: true }
       })
       if (!staffExists) {
         throw createError({ statusCode: 400, statusMessage: 'Invalid staff selection' })
@@ -77,7 +76,7 @@ export default defineEventHandler(async (event) => {
       // Case B: "Any Staff" (Auto-Assign)
       // Get all active staff for this branch
       const allStaff = await prisma.staff.findMany({
-        where: { branchId: parseInt(branchId), isActive: true }
+        where: { branchId: branchId, isActive: true }
       })
 
       // Filter out busy staff
@@ -106,14 +105,14 @@ export default defineEventHandler(async (event) => {
           phone: user.phone,
           name: user.name,
           email: user.email,
-          preferredBranchId: parseInt(branchId) // Update preferred branch on creation
+          preferredBranchId: branchId // Update preferred branch on creation
         }
       })
 
       // 5.2 Create Booking
       const booking = await tx.booking.create({
         data: {
-          branchId: parseInt(branchId),
+          branchId: branchId,
           customerId: customer.id,
           staffId: allocatedStaffId,
           bookingDate: new Date(date), // Stores just date part usually, but Date object is fine
@@ -138,6 +137,8 @@ export default defineEventHandler(async (event) => {
       })
 
       return booking
+    }, {
+      isolationLevel: Prisma.TransactionIsolationLevel.Serializable
     })
 
     // 6. Send Notifications (Fire and Forget)
@@ -184,7 +185,5 @@ export default defineEventHandler(async (event) => {
       throw error // Re-throw Nuxt errors
     }
     throw createError({ statusCode: 500, statusMessage: 'Internal Server Error: ' + error.message })
-  } finally {
-    await prisma.$disconnect()
   }
 })

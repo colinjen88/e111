@@ -44,6 +44,7 @@ COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 ENV NUXT_HOST=0.0.0.0
 ENV NUXT_PORT=3000
 ENV NODE_ENV=production
+ENV TZ=Asia/Taipei
 
 EXPOSE 3000
 

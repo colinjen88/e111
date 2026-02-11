@@ -1,14 +1,14 @@
 
-import { PrismaClient } from '@prisma/client'
+
+import { prisma } from '../../utils/prisma'
 import { subDays, startOfDay, endOfDay, format } from 'date-fns'
 
 export default defineEventHandler(async (event) => {
-  const { PrismaClient } = await import('@prisma/client')
-  const prisma = new PrismaClient()
+
 
   try {
-    // Basic Auth Check (Should align with middleware, simple check here)
-    // In real app, check session/cookie. For now, assuming middleware handles route protection.
+    // Admin Auth Check
+    requireAdmin(event)
     
     const now = new Date()
     const thirtyDaysAgo = subDays(now, 30)
@@ -91,7 +91,5 @@ export default defineEventHandler(async (event) => {
 
   } catch (error: any) {
     throw createError({ statusCode: 500, statusMessage: error.message })
-  } finally {
-    await prisma.$disconnect()
   }
 })
