@@ -20,7 +20,7 @@
             font-family: 'Segoe UI', system-ui, sans-serif;
             background-color: var(--bg);
             margin: 0;
-            padding: 40px;
+            padding: 20px;
             color: var(--text-main);
             display: flex;
             justify-content: center;
@@ -32,13 +32,13 @@
             left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             max-height: 80vh;
             overflow-y: auto;
-            width: 200px;
+            width: 220px;
             display: none;
             /* Hidden on small screens */
             border: 1px solid #e2e8f0;
@@ -46,7 +46,7 @@
             z-index: 100;
         }
 
-        @media (min-width: 1400px) {
+        @media (min-width: 1200px) {
             .sidebar {
                 display: block;
             }
@@ -69,7 +69,7 @@
         }
 
         .sidebar li {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .sidebar a {
@@ -77,9 +77,12 @@
             color: #64748b;
             font-size: 0.85rem;
             display: block;
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 6px 10px;
+            border-radius: 6px;
             transition: all 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .sidebar a:hover {
@@ -89,18 +92,18 @@
 
         /* Container */
         .container {
-            max-width: 1000px;
+            max-width: 800px;
             width: 100%;
-            margin-left: 0;
-            /* Centered by body flex unless sidebar pushes it? No, keep it simple */
+            margin: 0 auto;
+            padding: 0 10px;
         }
 
         h1 {
             text-align: center;
             color: var(--primary);
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            font-size: 2rem;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.05);
         }
 
         .timeline {
@@ -123,15 +126,13 @@
 
         .node {
             position: relative;
-            margin-bottom: 25px;
-            /* Reduced from 40px */
+            margin-bottom: 30px;
             width: 50%;
-            padding: 0 30px;
+            padding: 0 40px;
             box-sizing: border-box;
             opacity: 0;
             animation: fadeIn 0.5s forwards;
             scroll-margin-top: 15vh;
-            /* For anchor scrolling offset */
         }
 
         .node:nth-child(odd) {
@@ -148,7 +149,7 @@
         .node::after {
             content: '';
             position: absolute;
-            top: 20px;
+            top: 24px;
             width: 16px;
             height: 16px;
             border-radius: 50%;
@@ -164,20 +165,18 @@
         }
 
         .node:nth-child(odd)::after {
-            right: -8px;
-            /* Adjusted for smaller circle */
+            right: -10px;
         }
 
         .node:nth-child(even)::after {
-            left: -8px;
-            /* Adjusted for smaller circle */
+            left: -10px;
         }
 
         .card {
             background: var(--card-bg);
-            border-radius: 12px;
-            padding: 18px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             position: relative;
             transition: transform 0.2s ease;
             border: 1px solid #f1f5f9;
@@ -192,22 +191,23 @@
         .timestamp {
             font-size: 0.75rem;
             color: #94a3b8;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
         .title {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: #1e293b;
+            line-height: 1.4;
         }
 
         .details {
             font-size: 0.9rem;
-            line-height: 1.5;
+            line-height: 1.6;
             color: #475569;
         }
 
@@ -216,17 +216,60 @@
             margin: 0;
             display: inline-block;
             text-align: left;
-            /* Keep list items left-aligned even in right-aligned cards */
         }
 
         .tag {
             display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
+            padding: 4px 10px;
+            border-radius: 6px;
             font-size: 0.7rem;
             font-weight: bold;
-            margin-top: 8px;
+            margin-top: 12px;
             text-transform: uppercase;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+                margin-bottom: 30px;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .node {
+                width: 100%;
+                padding-left: 50px;
+                padding-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .node:nth-child(odd),
+            .node:nth-child(even) {
+                left: 0;
+                text-align: left;
+            }
+
+            .node:nth-child(odd)::after,
+            .node:nth-child(even)::after {
+                left: 10px;
+                right: auto;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .sidebar {
+                display: none !important;
+                /* Force hide sidebar on mobile */
+            }
         }
 
         /* Phase Colors */
