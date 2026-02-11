@@ -1,4 +1,5 @@
 import { defineEventHandler, getRequestHeader, createError } from 'h3'
+import { logger } from '../utils/logger'
 
 const rateLimitMap = new Map<string, { count: number, resetTime: number }>()
 
@@ -16,6 +17,7 @@ export default defineEventHandler((event) => {
     rateLimitMap.set(ip, { count: 1, resetTime: now + WINDOW_MS })
   } else {
     if (record.count >= MAX_REQUESTS) {
+      logger.warn(`Rate limit exceeded for IP: ${ip}`)
       throw createError({
         statusCode: 429,
         statusMessage: 'Too Many Requests'

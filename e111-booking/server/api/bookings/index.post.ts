@@ -3,6 +3,7 @@
 import { Prisma } from '@prisma/client'
 import { prisma } from '../../utils/prisma'
 import { bookingSchema } from '../../utils/schemas'
+import { logger } from '../../utils/logger'
 import { sendLinePushMessage, sendEmail, formatBookingMessage } from '../../utils/notify'
 
 export default defineEventHandler(async (event) => {
@@ -178,8 +179,9 @@ export default defineEventHandler(async (event) => {
       }
     }
 
+
   } catch (error: any) {
-    console.error('Booking Creation Error:', error)
+    logger.error('Booking Creation Error', error)
     // Return structured error
     if (error.statusCode) {
       throw error // Re-throw Nuxt errors
