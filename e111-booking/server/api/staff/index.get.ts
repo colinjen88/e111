@@ -1,6 +1,4 @@
-import { prisma } from '../../utils/prisma'
-
-  
+export default defineEventHandler(async (event) => {
   const query = getQuery(event)
   const branchId = query.branchId ? parseInt(query.branchId as string) : undefined
 
