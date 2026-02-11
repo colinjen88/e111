@@ -1,6 +1,8 @@
 # Build Stage
 FROM node:20-alpine AS builder
 
+RUN apk add --no-cache openssl
+
 WORKDIR /app
 
 # Install dependencies
@@ -19,6 +21,8 @@ RUN npm run build
 
 # Production Stage
 FROM node:20-alpine
+
+RUN apk add --no-cache openssl
 
 WORKDIR /app
 
@@ -43,5 +47,5 @@ ENV NODE_ENV=production
 
 EXPOSE 3000
 
-# Startup: push schema then start server
-CMD sh -c "echo 'Waiting for database...' && sleep 10 && echo 'Pushing schema...' && ./node_modules/.bin/prisma db push --skip-generate && echo 'Starting server...' && node .output/server/index.mjs"
+# Startup: push schema then start server (|| true ensures server starts even if push fails)
+CMD sh -c "echo 'Waiting for database...' && sleep 10 && echo 'Pushing schema...' && ./node_modules/.bin/prisma db push --skip-generate || true && echo 'Starting server...' && node .output/server/index.mjs"
