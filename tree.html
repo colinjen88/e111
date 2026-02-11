@@ -18,7 +18,8 @@
 
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: var(--bg);
+            background-color: #fcfcfc;
+            background-image: linear-gradient(to bottom, #fdfbf7 0%, #fcfcfc 100%);
             margin: 0;
             padding: 20px;
             color: var(--text-main);
@@ -55,10 +56,11 @@
         .sidebar h3 {
             margin: 0 0 15px 0;
             font-size: 0.9rem;
-            color: var(--primary);
+            color: #b91c1c;
+            /* Dark Red */
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            border-bottom: 2px solid #f1f5f9;
+            border-bottom: 2px solid #fee2e2;
             padding-bottom: 8px;
         }
 
@@ -86,8 +88,8 @@
         }
 
         .sidebar a:hover {
-            color: var(--primary);
-            background: #fff1f2;
+            color: #b91c1c;
+            background: #fef2f2;
         }
 
         /* Container */
@@ -104,18 +106,25 @@
         }
 
         .logo {
-            max-width: 180px;
+            max-width: 200px;
             height: auto;
             margin-bottom: 15px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
         }
 
         h1 {
             text-align: center;
-            color: var(--primary);
+            color: #991b1b;
+            /* Zen Dark Red */
             margin-bottom: 10px;
-            font-size: 2rem;
-            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.05);
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: 'Microsoft JhengHei', 'Segoe UI', sans-serif;
+            letter-spacing: 2px;
         }
 
         .timeline {
@@ -484,17 +493,17 @@
         <div id="project-overview"
             style="margin-bottom: 0; animation: fadeIn 0.5s forwards; position: relative; z-index: 2;">
             <div class="card"
-                style="background: #eef2ff; border: 2px solid #6366f1; text-align: left; padding: 25px; margin-bottom: 0;">
+                style="background: #fffdf2; border: 2px solid #b45309; text-align: left; padding: 25px; margin-bottom: 0;">
                 <div class="timestamp"
-                    style="text-align: center; margin-bottom: 10px; font-size: 0.9rem; color: #4338ca;">⭐ Project
+                    style="text-align: center; margin-bottom: 10px; font-size: 0.9rem; color: #b45309;">⭐ Project
                     Overview</div>
-                <div class="title" style="color: #312e81; font-size: 1.5rem; text-align: center; margin-bottom: 20px;">
+                <div class="title" style="color: #7c2d12; font-size: 1.5rem; text-align: center; margin-bottom: 20px;">
                     e111-booking 技術與功能摘要</div>
 
                 <div class="details" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around;">
                     <div style="flex: 1 1 250px;">
                         <p
-                            style="margin: 0 0 8px; color: #4338ca; border-bottom: 2px solid #c7d2fe; padding-bottom: 5px;">
+                            style="margin: 0 0 8px; color: #991b1b; border-bottom: 2px solid #fecaca; padding-bottom: 5px;">
                             <strong>🛠️ 技術組合 (Stack)</strong>
                         </p>
                         <ul style="margin-bottom: 0; padding-left: 18px;">
@@ -506,7 +515,7 @@
                     </div>
                     <div style="flex: 1 1 250px;">
                         <p
-                            style="margin: 0 0 8px; color: #4338ca; border-bottom: 2px solid #c7d2fe; padding-bottom: 5px;">
+                            style="margin: 0 0 8px; color: #991b1b; border-bottom: 2px solid #fecaca; padding-bottom: 5px;">
                             <strong>⚙️ 核心機制 (Core)</strong>
                         </p>
                         <ul style="margin-bottom: 0; padding-left: 18px;">
@@ -517,7 +526,7 @@
                     </div>
                     <div style="flex: 1 1 250px;">
                         <p
-                            style="margin: 0 0 8px; color: #4338ca; border-bottom: 2px solid #c7d2fe; padding-bottom: 5px;">
+                            style="margin: 0 0 8px; color: #991b1b; border-bottom: 2px solid #fecaca; padding-bottom: 5px;">
                             <strong>✨ 重點特色 (Features)</strong>
                         </p>
                         <ul style="margin-bottom: 0; padding-left: 18px;">
