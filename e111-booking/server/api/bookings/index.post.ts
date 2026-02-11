@@ -133,8 +133,7 @@ export default defineEventHandler(async (event) => {
         },
         include: {
           staff: true,
-          branch: true,
-          service: false // Service info is in items
+          branch: true
         }
       })
 
