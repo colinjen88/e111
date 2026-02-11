@@ -44,4 +44,4 @@ ENV NODE_ENV=production
 EXPOSE 3000
 
 # Simple startup with migration
-CMD sh -c "export PRISMA_HIDE_UPDATE_MESSAGE=true && echo 'Waiting for database...' && sleep 10 && echo 'Running migrations...' && npx prisma migrate deploy --schema=prisma/schema.prisma || true && echo 'Starting server...' && node .output/server/index.mjs"
+CMD sh -c "echo 'Waiting for database...' && sleep 10 && echo 'Running migrations...' && ./node_modules/.bin/prisma migrate deploy || true && echo 'Starting server...' && node .output/server/index.mjs"
