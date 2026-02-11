@@ -171,3 +171,22 @@ graph TD
 
 ## 🏁 Project Summary (v1.6 Live & Stable)
 系統已完全成功部署至 Hostinger VPS。核心功能（預約、登入、管理、統計）均已通過實際數據測試並穩定運行。預約系統已正式上線。
+
+### 2026-02-12: Phase 8 - Code Review & Optimization (完成)
+*   [x] **Security Hardening**
+    *   **Admin Auth**: 實作 `requireAdmin` 驗證，修復 API 未授權存取漏洞。
+    *   **Cookie Security**: 啟用 `httpOnly`, `secure`, `sameSite: strict`。
+    *   **Environment**: 建立 `.env.example`，移除硬編碼密碼。
+*   [x] **Infrastructure Fixes**
+    *   **Nginx**: 修正 `proxy_pass` 循環導向問題 (Port 80 -> 3001)。
+    *   **Docker**: 設定 `TZ=Asia/Taipei` 統一時區。
+*   [x] **Performance Optimization**
+    *   **Prisma Singleton**: 重構為單例模式 (Singleton)，解決連線數耗盡風險。
+    *   **N+1 Query**: 優化 `availability` API，大幅減少資料庫查詢次數。
+    *   **Rate Limiting**: 實作 `server/middleware/ratelimit.ts` 防止暴力破解/DDoS。
+*   [x] **Reliability**
+    *   **Race Condition**: 在預約交易中加入 `Isolation Level: Serializable` 防止重複預約。
+    *   **Validation**: 引入 `Zod`Schema 驗證，強化輸入資料安全性。
+
+## 🏁 Project Summary (v2.0 Optimized)
+系統經過全面代碼審查與優化，安全性、效能與穩定性顯著提升。核心弱點已修復，架構更為強健。
