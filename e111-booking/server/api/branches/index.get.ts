@@ -1,6 +1,4 @@
-import { prisma } from '../../utils/prisma'
-
-  
+export default defineEventHandler(async (event) => {
   try {
     const branches = await prisma.branch.findMany({
       where: { isActive: true },
