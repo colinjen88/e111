@@ -41,12 +41,14 @@ ENV NUXT_PORT=3000
 
 EXPOSE 3000
 
-# Create startup script
-RUN echo '#!/bin/sh' > /app/start.sh && \
-    echo 'echo "Running database migrations..."' >> /app/start.sh && \
-    echo 'npx prisma migrate deploy' >> /app/start.sh && \
-    echo 'echo "Starting application..."' >> /app/start.sh && \
-    echo 'node .output/server/index.mjs' >> /app/start.sh && \
+# Create startup script with proper line continuation
+RUN printf '#!/bin/sh\n\
+echo "Waiting for database..."\n\
+sleep 5\n\
+echo "Running database migrations..."\n\
+npx prisma migrate deploy\n\
+echo "Starting application..."\n\
+node .output/server/index.mjs\n' > /app/start.sh && \
     chmod +x /app/start.sh
 
-CMD ["/app/start.sh"]
+CMD ["/bin/sh", "/app/start.sh"]
