@@ -43,6 +43,11 @@ graph TD
     Notify -->|Log| Console[模擬 LINE/Email 發送]
     Frontend --> Page_Settings[Page: 系統設定]
     end
+
+    subgraph Phase5_UI_Renewal
+    Page_Home -- Redesign --> Page_Home_v2[新版首頁 (Oriental Style)]
+    Tailwind -- Update --> Brand_Colors[品牌色系與字體]
+    end
 ```
 
 ## 詳細執行日誌 (Detailed Execution Log)
@@ -120,12 +125,21 @@ graph TD
 
 ### 2026-02-11: Phase 4 - Integrations (完成)
 *   [x] **Notification Service (Mock)**
-    *   建立 `server/utils/notify.ts`: 封裝 Line/Email 發送邏輯。
+    *   建立 `server/utils/notify.ts`: 封裝 LINE(Push Message)/Email 發送邏輯。
     *   實作: 將預約資訊格式化並 Log 到後端 Console (模擬真實發送)。
 *   [x] **API Integration**
     *   整合 `api/bookings/index.post.ts`: 預約成功且 Transaction 完成後，非同步觸發通知。
 *   [x] **Admin Settings UI**
-    *   建立 `pages/admin/settings.vue`: 提供 LINE Token 與 Email 設定介面。
+    *   建立 `pages/admin/settings.vue`: 提供 LINE Token/User ID 與 Email 設定介面。
 
-## 🏁 Project Summary (v1.0 Ready)
-所有主要功能模組 (Client Booking, Admin Panel, Notification Logic) 皆已完成實作。系統處於可演示 (Demo Ready) 狀態。
+### 2026-02-11: Phase 5 - UI/UX Renewal (完成)
+*   [x] **Brand Identity**
+    *   設定 Tailwind 品牌色 (`brand-red`, `brand-gold`).
+    *   導入 Google Fonts (Noto Serif TC, Noto Sans TC).
+*   [x] **Index Page Redesign**
+    *   **Hero Section**: 全螢幕背景圖 + 漸層疊加 + 入場動畫 (VueUse Motion).
+    *   **Services Grid**: 響應式卡片設計，懸停效果優化。
+    *   **Ambience Section**: 環境介紹區塊，營造高級感。
+
+## 🏁 Project Summary (v1.1 UI Enhanced)
+系統核心功能完備，首頁完成品牌化視覺升級，具備動態效果與響應式設計。

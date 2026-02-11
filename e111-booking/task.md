@@ -44,3 +44,14 @@
     - [x] `POST /api/bookings`: Trigger notifications on success
 - [x] **Admin Settings**
     - [x] `pages/admin/settings.vue`: UI for configuring tokens
+
+## Phase 5: UI/UX Renewal (Completed)
+- [x] **Global Styling**
+    - [x] Update `tailwind.config.ts` with brand colors #8B0000 (Dark Red)
+    - [x] Import Chinese fonts (Noto Sans TC/Serif)
+- [x] **Index Page Redesign** (`pages/index.vue`)
+    - [x] Hero Section with Background Image & Gradient overlay
+    - [x] "御手國醫" Branding & Logo
+    - [x] Responsive CTA Button
+- [x] **Layout Optimization**
+    - [x] Ensure mobile-first approach
