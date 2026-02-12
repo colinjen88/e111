@@ -1,0 +1,24 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="grad" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" style="stop-color:#a21b1b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#650909;stop-opacity:1" />
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="2" dy="2" stdDeviation="4" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Main Background: Rounded Square (Squircle) for modern feel -->
+  <rect x="32" y="32" width="448" height="448" rx="120" fill="url(#grad)" stroke="#D4AF37" stroke-width="16" filter="url(#shadow)"/>
+  
+  <!-- Inner Border for Elegance -->
+  <rect x="64" y="64" width="384" height="384" rx="90" fill="none" stroke="#D4AF37" stroke-width="4" opacity="0.5"/>
+
+  <!-- Character: 御 (Imperial) -->
+  <!-- Using serif font stack for traditional look -->
+  <text x="50%" y="56%" font-family="'Noto Serif TC', 'Songti TC', 'SimSun', serif" font-weight="900" font-size="320" fill="#D4AF37" text-anchor="middle" dominant-baseline="central" style="text-shadow: 4px 4px 8px rgba(0,0,0,0.4);">御</text>
+  
+  <!-- Subtle Shine/Gloss -->
+  <path d="M 100 80 Q 256 160 412 80" stroke="white" stroke-width="2" fill="none" opacity="0.2"/>
+</svg>
