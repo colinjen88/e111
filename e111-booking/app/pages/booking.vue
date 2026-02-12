@@ -114,7 +114,7 @@ const submitBooking = async () => {
   submitError.value = ''
 
   try {
-    const { data, error } = await useFetch('/api/bookings', {
+    const data = await $fetch('/api/bookings', {
       method: 'POST',
       body: {
         branchId: bookingData.branch?.id,
@@ -131,13 +131,7 @@ const submitBooking = async () => {
       }
     })
 
-    if (error.value) {
-        // Safe error access
-        const errMsg = error.value.data?.statusMessage || error.value.message || 'Booking Failed'
-        throw new Error(errMsg)
-    }
-
-    bookingResult.value = data.value
+    bookingResult.value = data
     goToStep(6) // Success Step
 
   } catch (err: any) {
@@ -181,15 +175,18 @@ const stepIcons = ['🏠', '💆', '👤', '🕐', '✅']
     <div class="relative z-10 container mx-auto px-4 max-w-3xl py-8">
       
       <!-- Header -->
-      <div class="mb-10 flex items-center justify-between">
-        <NuxtLink to="/" class="group flex items-center gap-2 text-gray-400 hover:text-brand-red transition-colors duration-300">
+      <div class="mb-10 flex items-center justify-between bg-black/80 backdrop-blur-md px-6 py-4 rounded-2xl shadow-lg border border-white/10 relative z-20">
+        <NuxtLink to="/" class="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300 min-w-[64px]">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:-translate-x-1 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>
-          <span class="text-sm font-medium">回首頁</span>
+          <span class="text-sm font-medium hidden sm:inline">回首頁</span>
         </NuxtLink>
-        <h1 class="text-xl font-serif font-bold text-brand-dark tracking-wider">線上預約</h1>
-        <div class="w-16"></div>
+        <div class="flex flex-col items-center">
+             <img src="/logo.png" alt="御手國醫" class="h-10 mb-1 drop-shadow-md">
+             <span class="text-[10px] text-brand-gold tracking-[0.3em] font-light uppercase opacity-80">Online Booking</span>
+        </div>
+        <div class="min-w-[64px]"></div>
       </div>
 
       <!-- ========== Progress Bar ========== -->

@@ -70,9 +70,10 @@ onMounted(() => {
         <h1 
           v-motion-slide-visible-once-bottom
           :delay="400"
-          class="text-6xl md:text-8xl font-serif font-bold text-white mb-6 drop-shadow-2xl tracking-wide leading-tight"
+          class="mb-6 drop-shadow-2xl"
         >
-          御手國醫<br/><span class="text-4xl md:text-6xl font-light text-brand-gold/90 block mt-3 tracking-[0.15em]">養生會館</span>
+          <img src="/logo.png" alt="御手國醫養生會館" class="h-24 md:h-32 mx-auto drop-shadow-lg">
+          <span class="sr-only">御手國醫養生會館</span>
         </h1>
         
         <p 
@@ -203,7 +204,7 @@ onMounted(() => {
     <footer class="bg-black text-gray-500 py-20 text-center text-sm border-t border-gray-900/50">
        <div class="max-w-4xl mx-auto px-4">
           <div class="mb-10">
-             <span class="text-4xl text-brand-gold font-serif tracking-[0.2em] block mb-2">御手國醫</span>
+             <img src="/logo.png" alt="御手國醫" class="h-16 mb-4 mx-auto block opacity-90">
              <span class="text-[10px] tracking-[0.4em] uppercase text-gray-600">Master Hand Massage</span>
           </div>
           <div class="flex flex-col md:flex-row justify-center gap-8 mb-12 text-gray-400 font-light">

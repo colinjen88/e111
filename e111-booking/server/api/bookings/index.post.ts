@@ -11,8 +11,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     // 1. Validate Basic Inputs with Zod
-    // const { branchId, serviceId, staffId, date, time, user } = body
-    
+    const body = await readBody(event)
     const parsedBody = await bookingSchema.parseAsync(body)
     const { branchId, serviceId, staffId, date, time, user } = parsedBody
 
@@ -20,7 +19,7 @@ export default defineEventHandler(async (event) => {
     const service = await prisma.service.findUnique({
       where: { id: serviceId }
     })
-    
+
     if (!service) {
       throw createError({ statusCode: 404, statusMessage: 'Service not found' })
     }
@@ -29,7 +28,7 @@ export default defineEventHandler(async (event) => {
     const startTimeStr = `${date}T${time}:00`
     const startTime = new Date(startTimeStr)
     const endTime = new Date(startTime.getTime() + service.durationMinutes * 60000)
-    
+
     // Check for valid Date
     if (isNaN(startTime.getTime())) {
       throw createError({ statusCode: 400, statusMessage: 'Invalid date/time format' })
@@ -57,7 +56,7 @@ export default defineEventHandler(async (event) => {
     })
 
     const busyStaffIds = new Set(potentialConflict.map(b => b.staffId).filter(id => id !== null))
-    
+
     let allocatedStaffId: number | null = staffId ? staffId : null
 
     if (allocatedStaffId) {
@@ -82,7 +81,7 @@ export default defineEventHandler(async (event) => {
 
       // Filter out busy staff
       const availableStaff = allStaff.filter(s => !busyStaffIds.has(s.id))
-      
+
       if (availableStaff.length === 0) {
         throw createError({ statusCode: 409, statusMessage: 'No staff available for this slot' })
       }
@@ -100,7 +99,7 @@ export default defineEventHandler(async (event) => {
         update: {
           name: user.name,
           email: user.email,
-          
+
         },
         create: {
           phone: user.phone,
@@ -152,14 +151,14 @@ export default defineEventHandler(async (event) => {
           items: { include: { service: true } }
         }
       })
-  
+
       if (bookingForNotify) {
-         // Log to console for now
-         const msg = formatBookingMessage(bookingForNotify)
-         await sendLinePushMessage(msg)
-         if (bookingForNotify.customer.email) {
-           await sendEmail(bookingForNotify.customer.email, '預約確認', msg)
-         }
+        // Log to console for now
+        const msg = formatBookingMessage(bookingForNotify)
+        await sendLinePushMessage(msg)
+        if (bookingForNotify.customer.email) {
+          await sendEmail(bookingForNotify.customer.email, '預約確認', msg)
+        }
       }
     } catch (e) {
       console.error('Notification Error:', e)
