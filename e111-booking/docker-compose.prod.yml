@@ -27,6 +27,8 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/e111_booking
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3000
+      - NUXT_LINE_CHANNEL_SECRET=${NUXT_LINE_CHANNEL_SECRET}
+      - NUXT_LINE_CHANNEL_ACCESS_TOKEN=${NUXT_LINE_CHANNEL_ACCESS_TOKEN}
     depends_on:
       db:
         condition: service_healthy
