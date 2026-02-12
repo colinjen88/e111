@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: false // Custom standalone page
+  layout: false
 })
 
 const password = ref('')
@@ -9,19 +9,27 @@ const loading = ref(false)
 const router = useRouter()
 
 const handleLogin = async () => {
+  console.log('Login button clicked!') // Debug
   loading.value = true
   error.value = ''
   
   try {
-    await $fetch('/api/admin/auth', {
+    console.log('Sending request to /api/admin/auth...') // Debug
+    const result = await $fetch('/api/admin/auth', {
       method: 'POST',
-      body: { password: password.value }
+      body: { password: password.value },
+      // Allow user to see detailed error if fetch fails immediately (e.g. invalid json)
+      onResponseError({ response }) {
+          console.error('API Error Response:', response._data)
+      }
     })
+    console.log('Login success!', result) // Debug
     
     // Redirect to admin dashboard
-    router.push('/admin')
+    await router.push('/admin')
     
   } catch (err: any) {
+    console.error('Login failed:', err) // Debug
     error.value = '密碼錯誤，請重試'
   } finally {
     loading.value = false
@@ -33,7 +41,7 @@ const handleLogin = async () => {
   <div class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
     <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-md animate-fade-in">
       <div class="text-center mb-8">
-        <h1 class="text-2xl font-bold text-gray-800 tracking-wider">金指藝 <span class="text-red-600">Admin</span></h1>
+        <h1 class="text-2xl font-bold text-gray-800 tracking-wider">御手國醫 <span class="text-red-600">Admin</span></h1>
         <p class="text-sm text-gray-400 mt-2">請輸入管理員密碼以登入</p>
       </div>
       

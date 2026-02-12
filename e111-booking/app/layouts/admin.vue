@@ -4,7 +4,10 @@
     <!-- Sidebar -->
     <aside class="w-64 bg-gradient-to-b from-gray-900 to-gray-950 text-white flex-shrink-0 flex flex-col border-r border-gray-800/50">
       <div class="h-16 flex items-center justify-center border-b border-gray-800/50 px-6">
-        <h1 class="text-lg font-serif tracking-[0.15em]">御手國醫 <span class="text-brand-red font-bold">Admin</span></h1>
+        <div class="flex items-center gap-3">
+          <img src="/logo.png" alt="御手國醫" class="h-8 w-auto object-contain">
+          <span class="text-xs font-serif tracking-[0.15em] text-gray-400 border-l border-gray-700 pl-3 uppercase py-0.5">Admin</span>
+        </div>
       </div>
       
       <nav class="flex-1 px-3 py-6 space-y-1">

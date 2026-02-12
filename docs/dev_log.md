@@ -12,7 +12,8 @@ graph TD
     Init --> Config[環境與套件配置]
     Config --> Backend[後端開發]
     Config --> Frontend[前端開發]
-    
+   
+
     subgraph Phase1_Infrastructure
     Config --> Docker[Docker PostgreSQL]
     Config --> Prisma[Prisma Schema]
@@ -205,3 +206,19 @@ graph TD
 
 ## 🏁 Project Summary (v2.2 Integrated)
 系統已成功串接 LINE Messaging API，具備接收與回應訊息的基礎能力，為後續的自動化通知功能奠定基礎。
+
+### 2026-02-12: Phase 11 - UI Refinement & Hydration Fixes (完成)
+*   [x] **Brand Logo Integration**
+    *   **Image Replacement**: 全面替換文字 Logo 為圖片 Logo (`index.vue`, `booking.vue`, `admin.vue`)。
+    *   **Visibility Optimization**: 修正預約頁 Header 背景色 (`bg-black/80`) 以確保白色 Logo 可視性。
+*   [x] **Hydration Stability**
+    *   **App Structure**: 重構 `app.vue` 為標準單一根節點結構 (`id="nuxt-app"`)，解決 Fragment 引起的 Hydration Mismatch。
+    *   **Layout System**: 建立 `layouts/default.vue` 統一管理全域樣式，移除 `app.vue` 冗餘 CSS。
+    *   **Global Styles**: 將 `antialiased` 等通用樣式移至 `nuxt.config.ts` (`bodyAttrs`)。
+    *   **Login Page**: 優化 `login.vue` 使用 `layout: false` 並修復事件綁定失效問題。
+*   [x] **Backend Robustness**
+    *   **Body Parsing**: 修正 `api/bookings` 與 `api/admin/auth` 的 Request Body 解析邏輯 (`readBody`)。
+    *   **Auth Hardening**: 強化後台登入驗證邏輯，增加 `trim()` 處理與 Fallback 機制。
+
+## 🏁 Project Summary (v2.3 UI Polished)
+系統介面已完成品牌化調整 (Logo/Colors)，並徹底解決 Nuxt 3 Hydration Mismatch 問題，提升了前後端穩定性與開發體驗。

@@ -1,8 +1,8 @@
 <template>
-  <div class="antialiased text-gray-800 min-h-screen bg-brand-cream selection:bg-brand-red/20 selection:text-brand-red">
-    <NuxtRouteAnnouncer />
+  <NuxtRouteAnnouncer />
+  <NuxtLayout>
     <NuxtPage />
-  </div>
+  </NuxtLayout>
 </template>
 
 <style>

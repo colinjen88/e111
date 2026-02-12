@@ -1,9 +1,12 @@
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
+// Force rebuild comment for hydration fix
 export default defineNuxtConfig({
   app: {
     head: {
-      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }]
+      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+      bodyAttrs: {
+        class: 'antialiased text-gray-800 selection:bg-brand-red/20 selection:text-brand-red'
+      }
     }
   },
   compatibilityDate: '2024-04-03',
@@ -20,6 +23,10 @@ export default defineNuxtConfig({
     port: 2390
   },
   runtimeConfig: {
+    // Private (server-only)
+    adminPassword: process.env.ADMIN_PASSWORD || 'admin',
+    adminSecretToken: process.env.ADMIN_SECRET_TOKEN,
+
     lineChannelSecret: '',
     lineChannelAccessToken: ''
   }
