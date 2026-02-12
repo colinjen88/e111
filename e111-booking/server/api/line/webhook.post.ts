@@ -47,7 +47,8 @@ export default defineEventHandler(async (event) => {
         // Echo the text message (optional: remove for production)
         if (webhookEvent.replyToken && webhookEvent.replyToken !== '00000000000000000000000000000000') {
            // Only reply if we have a valid token
-           await lineClient.replyMessage(webhookEvent.replyToken, {
+           const client = getLineClient()
+           await client.replyMessage(webhookEvent.replyToken, {
              type: 'text',
              text: `收到您的訊息: ${webhookEvent.message.text}`
            })
