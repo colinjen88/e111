@@ -72,12 +72,13 @@
 
         /* Header */
         header {
-            padding: 24px 40px;
+            padding: 0 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 10;
             height: 80px;
+            margin-top: 8px;
         }
 
         .brand {
@@ -87,25 +88,27 @@
         }
 
         .logo {
-            width: 48px;
+            width: 100%;
             height: 48px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            padding: 2px;
+            padding: 4px;
+        }
+
+        .brand-text {
+            width: 100%;
         }
 
         .brand-text h1 {
             font-family: 'Cinzel', serif;
             font-size: 1.2rem;
             letter-spacing: 0.1em;
-            color: #fff;
+            color: #ad5252;
             margin: 0;
         }
 
         .brand-text span {
             display: block;
             font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgb(255 170 142 / 50%);
             text-transform: uppercase;
             letter-spacing: 0.2em;
         }
@@ -148,6 +151,33 @@
             cursor: pointer;
             backdrop-filter: blur(12px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-screenshot {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center top;
+            opacity: 0.06;
+            filter: grayscale(1) contrast(120%);
+            z-index: 0;
+            transition: all 0.6s var(--ease-out);
+            pointer-events: none;
+        }
+
+        .card:hover .card-screenshot {
+            opacity: 0.12;
+            filter: grayscale(0.3) contrast(100%);
+            transform: scale(1.05);
+        }
+
+        .card-icon,
+        .card-title,
+        .card-desc,
+        .card-cta,
+        .card-bg-number {
+            position: relative;
+            z-index: 1;
         }
 
         .card:hover {
@@ -359,7 +389,7 @@
         <div class="brand">
             <img src="https://www.e111.com.tw/images/logo.png" alt="御手國醫 Logo" class="logo">
             <div class="brand-text">
-                <h1>御手國醫</h1>
+                <h1>御手國醫網頁功能試做</h1>
                 <span>Project Output</span>
             </div>
         </div>
@@ -373,6 +403,7 @@
 
             <!-- 1. Main Site -->
             <a href="../main-site/index.html" class="card">
+                <div class="card-screenshot" style="background-image: url('../品牌主官網.jpg')"></div>
                 <div class="card-bg-number">01</div>
                 <div class="card-icon">🏛️</div>
                 <h2 class="card-title">品牌主官網</h2>
@@ -385,6 +416,7 @@
 
             <!-- 2. Booking Frontend -->
             <a href="../e111-booking/" class="card">
+                <div class="card-screenshot" style="background-image: url('../預約前台.jpg')"></div>
                 <div class="card-bg-number">02</div>
                 <div class="card-icon">📅</div>
                 <h2 class="card-title">預約前台</h2>
@@ -397,6 +429,7 @@
 
             <!-- 3. Admin Dashboard -->
             <a href="../e111-booking/admin" class="card">
+                <div class="card-screenshot" style="background-image: url('../管理後台.jpg')"></div>
                 <div class="card-bg-number">03</div>
                 <div class="card-icon">⚙️</div>
                 <h2 class="card-title">管理後台</h2>
@@ -409,6 +442,7 @@
 
             <!-- 4. Dev Timeline -->
             <a href="../tree.html" class="card">
+                <div class="card-screenshot" style="background-image: url('../開發歷程.jpg')"></div>
                 <div class="card-bg-number">04</div>
                 <div class="card-icon">🌳</div>
                 <h2 class="card-title">開發歷程</h2>

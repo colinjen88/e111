@@ -29,8 +29,12 @@ const handleLogin = async () => {
     await router.push('/admin')
     
   } catch (err: any) {
-    console.error('Login failed:', err) // Debug
-    error.value = '密碼錯誤，請重試'
+    console.error('Login failed:', err)
+    if (err.statusCode === 401) {
+      error.value = '密碼錯誤，請重試'
+    } else {
+      error.value = '系統連線故障 (' + (err.statusCode || 'Unknown') + ')'
+    }
   } finally {
     loading.value = false
   }
