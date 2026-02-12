@@ -194,5 +194,14 @@ graph TD
     *   **Testing**: 安裝 `Vitest`，建立 Booking Schema 單元測試 (`tests/schemas.test.ts`) 並驗證通過。
     *   **Logging**: 建立 `server/utils/logger.ts`，實作結構化 JSON 日誌，提升生產環境可觀測性。
 
-## 🏁 Project Summary (v2.1 Reliability Plus)
-系統完成度已達 100%。除了核心功能的優化，更加入了完整的 CI/CD 流程、自動化測試與結構化日誌，為長期維護打下堅實基礎。
+
+### 2026-02-12: Phase 10 - LINE Integration (完成)
+*   [x] **LINE Messaging API Integration**
+    *   **SDK Setup**: 安裝 `@line/bot-sdk`。
+    *   **Webhook Endpoint**: 建立 `server/api/line/webhook.post.ts` 處理 LINE 平台事件。
+    *   **Client Factory**: 實作 `server/utils/line.ts` (Lazy Initialization Pattern) 解決 Runtime Config 初始化問題。
+    *   **Environment**: 設定 `NUXT_LINE_CHANNEL_SECRET` 與 `NUXT_LINE_CHANNEL_ACCESS_TOKEN`。
+    *   **Deployment**: 成功部署至 VPS 並通過 LINE Developers Console Webhook 驗證。
+
+## 🏁 Project Summary (v2.2 Integrated)
+系統已成功串接 LINE Messaging API，具備接收與回應訊息的基礎能力，為後續的自動化通知功能奠定基礎。
