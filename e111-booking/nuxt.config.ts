@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     // Private (server-only)
-    adminPassword: process.env.ADMIN_PASSWORD || 'admin',
+    adminPassword: process.env.ADMIN_PASSWORD || 'admin123',
     adminSecretToken: process.env.ADMIN_SECRET_TOKEN,
 
     lineChannelSecret: '',

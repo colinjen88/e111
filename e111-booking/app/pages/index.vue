@@ -72,7 +72,7 @@ onMounted(() => {
           :delay="400"
           class="mb-6 drop-shadow-2xl"
         >
-          <img src="/logo.png" alt="御手國醫養生會館" class="h-24 md:h-32 mx-auto drop-shadow-lg">
+          <img src="/logo.png" alt="御手國醫養生會館" class="h-16 md:h-24 w-auto object-contain mx-auto drop-shadow-lg">
           <span class="sr-only">御手國醫養生會館</span>
         </h1>
         

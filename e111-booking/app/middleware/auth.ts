@@ -2,10 +2,11 @@ export default defineNuxtRouteMiddleware((to, from) => {
   // Skip middleware on server for now to avoid hydration mismatch if cookie reading differs
   // But Nuxt 3 useCookie works on both.
   
-  const token = useCookie('auth_token')
-
+  const token = useCookie('admin_session')
+  
   // If trying to access admin pages (excluding login)
   if (to.path.startsWith('/admin') && to.path !== '/admin/login') {
+    // Check if the cookie exists
     if (!token.value) {
       return navigateTo('/admin/login')
     }
