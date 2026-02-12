@@ -1,83 +1,69 @@
+# e111 — 御手國醫專案
 
-# e111-booking: High-Performance Booking System
+御手國醫養生會館的數位化專案，包含品牌官網、線上預約系統，以及完整的開發歷程紀錄。
 
-A modern, full-stack booking system built with **Nuxt 3**, **Prisma**, **PostgreSQL**, and **Tailwind CSS**. Designed for high performance, scalability, and excellent user experience.
+## 📁 資料夾結構
 
-## 🚀 Features
+```
+e111/
+├── main-site/          ← 品牌主官網 (御手寶典)
+│   ├── index.html
+│   ├── style.css
+│   └── assets/
+│
+├── e111-booking/       ← 預約系統 (Nuxt 3 全端)
+│   ├── app/            ← 前端 (Vue 3 + Tailwind)
+│   ├── server/         ← 後端 (Nitro + Prisma)
+│   └── prisma/         ← 資料庫 Schema
+│
+├── showcase/           ← 專案導覽頁 (一頁式)
+│   └── index.html
+│
+├── tree.html           ← 開發歷程樹
+│
+├── docs/               ← 技術文件
+│   ├── booking.md
+│   ├── dev_log.md
+│   ├── DEPLOYMENT.md
+│   ├── FUTURE_FEATURES.md
+│   ├── INTEGRATION_GUIDE.md
+│   └── jen_fix_know.md
+│
+├── scripts/            ← 部署腳本
+│   ├── deploy.sh
+│   ├── deploy_vps.ps1
+│   └── auto_deploy.ps1
+│
+└── archive/            ← 歸檔 (舊版檔案)
+    ├── contact.html
+    └── e111/
+```
 
-### Client Side
-- **5-Step Booking Flow**: Branch -> Service -> Staff -> Time -> Confirmation.
-- **Real-time Availability**: Checks time slots against operating hours and existing bookings.
-- **Responsive Design**: Optimized for mobile and desktop using Tailwind CSS.
-- **User Friendly**: Smooth transitions and clear feedback.
+## 🚀 Quick Start
 
-### Admin Dashboard (`/admin`)
-- **Secure Login**: Simple password-based authentication.
-- **Booking Management**: View all bookings with status filters (Pending/Confirmed).
-- **Staff Management**: (Planned) Manage staff schedules and assignments.
-- **System Settings**: Configure notification tokens and business rules.
+### 主官網
+直接用瀏覽器開啟 `main-site/index.html`。
 
-### Backend API
-- **RESTful Endpoints**: Clean and structured API for all operations.
-- **Transaction Safety**: Uses Prisma transactions to ensure data integrity during booking creation.
-- **Smart Allocation**: Auto-assigns available staff if the user selects "No Preference".
-- **Notification Integration**: Built-in support for LINE Messaging API and Email via SendGrid/Resend (Mock implemented).
+### 預約系統
+```bash
+cd e111-booking
+npm install
+npm run dev
+```
+
+### 專案導覽
+用瀏覽器開啟 `showcase/index.html`，可快速跳轉到各個子專案。
 
 ## 🛠 Tech Stack
 
-- **Framework**: [Nuxt 3](https://nuxt.com/) (Vue 3 + Nitro)
-- **Database**: [PostgreSQL](https://www.postgresql.org/) (Production) / SQLite (Dev)
-- **ORM**: [Prisma](https://www.prisma.io/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Deployment**: Vercel / Docker
+| 模組 | 技術 |
+|------|------|
+| 主官網 | HTML, CSS, Canvas Particles |
+| 預約前台 | Nuxt 3, Vue 3, Tailwind CSS |
+| 預約後端 | Nitro, Prisma, PostgreSQL |
+| DevOps | Docker, Vitest, GitHub Actions |
+| 通知 | LINE Messaging API, Email |
 
-## 📂 Project Structure
+## 📄 License
 
-```bash
-e111/
-├── e111-booking/       # Main Nuxt Application
-│   ├── app/            # Vue Pages & Components
-│   ├── server/         # API Routes & Utilities
-│   ├── prisma/         # Database Schema & Migrations
-│   └── public/         # Static Assets
-├── docs/               # Documentation
-│   ├── DEPLOYMENT.md   # How to deploy
-│   ├── INTEGRATION.md  # API Keys setup
-│   └── FUTURE.md       # Roadmap
-└── dev_log.md          # Development Log
-```
-
-## 🏁 Getting Started
-
-1.  **Install Dependencies**
-    ```bash
-    cd e111-booking
-    npm install
-    ```
-
-2.  **Database Setup** (Default: SQLite)
-    ```bash
-    npx prisma migrate dev
-    npx prisma db seed
-    ```
-
-3.  **Run Development Server**
-    ```bash
-    npm run dev
-    # Server running at http://localhost:3000
-    ```
-
-4.  **Access Admin Panel**
-    - URL: `http://localhost:3000/admin`
-    - Default Password: `admin123`
-
-## 📄 Documentation
-
-- [Deployment Guide](./docs/DEPLOYMENT.md)
-- [Integration Guide](./docs/INTEGRATION_GUIDE.md)
-- [Future Features](./docs/FUTURE_FEATURES.md)
-- [Development Log](./dev_log.md)
-
-## 📜 License
-
-MIT License
+Design by WANG. &copy; 2026 御手國醫養生會館.
