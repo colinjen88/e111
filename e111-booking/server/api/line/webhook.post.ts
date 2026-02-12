@@ -44,19 +44,35 @@ export default defineEventHandler(async (event) => {
   for (const webhookEvent of events) {
     try {
       if (webhookEvent.type === 'message' && webhookEvent.message.type === 'text') {
-        // Echo the text message (optional: remove for production)
+        const text = webhookEvent.message.text.trim()
+        
+        // Echo or Reply Menu
         if (webhookEvent.replyToken && webhookEvent.replyToken !== '00000000000000000000000000000000') {
-           // Only reply if we have a valid token
            const client = getLineClient()
-           await client.replyMessage(webhookEvent.replyToken, {
-             type: 'text',
-             text: `收到您的訊息: ${webhookEvent.message.text}`
-           })
+           
+           if (['menu', '選單', '預約', '開始', 'hello', 'hi'].includes(text.toLowerCase())) {
+             await client.replyMessage(webhookEvent.replyToken, getMainMenu())
+           } else {
+             // Default Echo (can be removed later)
+             await client.replyMessage(webhookEvent.replyToken, {
+               type: 'text',
+               text: `收到: ${text}。輸入「選單」或「預約」可開啟主選單。`
+             })
+           }
         }
       } else if (webhookEvent.type === 'follow') {
         const userId = webhookEvent.source.userId
+        if (webhookEvent.replyToken) {
+          const client = getLineClient()
+          await client.replyMessage(webhookEvent.replyToken, [
+            {
+              type: 'text',
+              text: '歡迎加入 e111 預約小幫手！請點擊下方選單開始預約。'
+            },
+            getMainMenu()
+          ])
+        }
         logger.info(`User followed bot: ${userId}`)
-        // Optional: Save userId to database or welcome message
       }
     } catch (err: any) {
       logger.error('Error handling webhook event', err)
