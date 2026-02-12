@@ -222,3 +222,16 @@ graph TD
 
 ## 🏁 Project Summary (v2.3 UI Polished)
 系統介面已完成品牌化調整 (Logo/Colors)，並徹底解決 Nuxt 3 Hydration Mismatch 問題，提升了前後端穩定性與開發體驗。
+
+### 2026-02-13: Phase 12 - Deployment Automation & LINE Bot Launch (完成)
+*   [x] **Deployment Automation**
+    *   **Local Script**: 優化 `deploy_vps.ps1`，新增自動打包 (`tar`) 與上傳流程，移除手動操作步驟。
+    *   **Remote Script**: 優化 `deploy_remote.sh`，新增 `PORT 3001` 強制清理檢測，解決 `Bind for 0.0.0.0:3001 failed` 錯誤。
+    *   **Process**: 實現一鍵部署 (`Run Script` -> `Type Password` -> `Done`)。
+*   [x] **LINE API Readiness**
+    *   **Health Check**: 實作 `/api/line/status`，確認 Production 環境變數 (`NUXT_LINE_...`) 讀取正常。
+    *   **Webhook Verification**: 於 LINE Developers Console 成功驗證 Webhook URL (`https://book.gowork.run/api/line/webhook`)。
+    *   **Bot Online**: 確認 LINE Bot 已上線並可接收/回應訊息。
+
+## 🏁 Project Summary (v2.4 Live & Bot Ready)
+自動化部署流程已建立，LINE Bot 成功上線並通過 webhook 驗證，系統已準備好進行更複雜的對話邏輯開發。
