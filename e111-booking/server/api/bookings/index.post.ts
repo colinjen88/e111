@@ -119,7 +119,7 @@ export default defineEventHandler(async (event) => {
           startTime: startTime,
           endTime: endTime,
           totalPrice: service.basePrice, // Single service for now
-          status: 'Confirmed',
+          status: 'Pending',
           customerNotes: user.note,
           // 5.3 Create Booking Item
           items: {
@@ -153,7 +153,6 @@ export default defineEventHandler(async (event) => {
       })
 
       if (bookingForNotify) {
-        // Log to console for now
         const msg = formatBookingMessage(bookingForNotify)
         await sendLinePushMessage(msg)
         if (bookingForNotify.customer.email) {
@@ -162,7 +161,7 @@ export default defineEventHandler(async (event) => {
       }
     } catch (e) {
       console.error('Notification Error:', e)
-      // Do not fail the request if notification fails
+      // Do not fail
     }
 
     return {
@@ -180,11 +179,10 @@ export default defineEventHandler(async (event) => {
 
 
   } catch (error: any) {
-    logger.error('Booking Creation Error', error)
-    // Return structured error
+    console.error('[DEBUG] Catch Block Error:', error)
     if (error.statusCode) {
       throw error // Re-throw Nuxt errors
     }
-    throw createError({ statusCode: 500, statusMessage: 'Internal Server Error' })
+    throw createError({ statusCode: 500, statusMessage: 'Internal Server Error: ' + (error.message || String(error)) })
   }
 })

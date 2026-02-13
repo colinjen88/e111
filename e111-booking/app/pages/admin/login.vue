@@ -18,8 +18,8 @@ const handleLogin = async () => {
       body: { password: password.value }
     })
     
-    // Redirect to admin dashboard
-    await router.push('/admin')
+    // Redirect to bookings page
+    await router.push('/admin/bookings')
     
   } catch (err: any) {
     if (err.statusCode === 401) {
@@ -52,6 +52,7 @@ const handleLogin = async () => {
             required
             autofocus
           >
+          <p class="text-xs text-gray-400 mt-1.5">臨時測試密碼：<code class="bg-gray-100 px-1.5 py-0.5 rounded text-gray-600 font-mono">admin</code></p>
         </div>
         
         <div v-if="error" class="text-red-500 text-sm bg-red-50 p-3 rounded-lg flex items-center gap-2">
