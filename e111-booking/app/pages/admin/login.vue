@@ -48,6 +48,16 @@ const handleLogin = async () => {
         <h1 class="text-2xl font-bold text-gray-800 tracking-wider">御手國醫 <span class="text-red-600">Admin</span></h1>
         <p class="text-sm text-gray-400 mt-2">請輸入管理員密碼以登入</p>
       </div>
+
+      <!-- Password Hint Block -->
+      <div class="mb-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg shadow-sm animate-pulse-gentle">
+        <div class="flex items-center gap-3">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <p class="text-sm font-bold text-blue-800">藍時密碼提示：(登入密碼)</p>
+        </div>
+      </div>
       
       <form @submit.prevent="handleLogin" class="space-y-6">
         <div>
@@ -91,7 +101,14 @@ const handleLogin = async () => {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes pulseGentle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
 .animate-fade-in {
   animation: fadeIn 0.4s ease-out;
+}
+.animate-pulse-gentle {
+  animation: pulseGentle 2s ease-in-out infinite;
 }
 </style>
