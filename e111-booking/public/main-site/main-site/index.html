@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="御手國醫養生會館 - 結合中醫養生智慧與現代按摩技法，提供足底按摩、經絡推拿等專業服務。御手寶典分享健康養生知識，助您氣血暢通，身心舒暢。">
+    <meta name="keywords" content="養生會館, 按摩, 推拿, 足底按摩, 中醫養生, 經絡疏通, 御手國醫, 身體保健">
+    <meta name="author" content="御手國醫養生會館">
+    <meta name="robots" content="noindex, nofollow"> <!-- Demo Page: Prevent Indexing -->
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.e111.com.tw/">
+    <meta property="og:title" content="御手國醫養生會館｜御手寶典">
+    <meta property="og:description" content="結合中醫養生智慧與現代按摩技法，提供足底按摩、經絡推拿等專業服務。">
+    <meta property="og:image" content="https://www.e111.com.tw/images/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.e111.com.tw/">
+    <meta property="twitter:title" content="御手國醫養生會館｜御手寶典">
+    <meta property="twitter:description" content="結合中醫養生智慧與現代按摩技法，提供足底按摩、經絡推拿等專業服務。">
+    <meta property="twitter:image" content="https://www.e111.com.tw/images/logo.png">
+
+    <title>御手國醫養生會館｜御手寶典</title>
+
+    <!-- Google Fonts: Noto Serif TC -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;400;700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css?v1">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BeautySalon",
+      "name": "御手國醫養生會館",
+      "image": "https://www.e111.com.tw/images/logo.png",
+      "url": "https://www.e111.com.tw/",
+      "telephone": "+886-6-200-0000",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "中華東路三段380巷47號",
+        "addressLocality": "台南市",
+        "addressRegion": "東區",
+        "postalCode": "701",
+        "addressCountry": "TW"
+      },
+      "priceRange": "$$",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "09:00",
+        "closes": "23:00"
+      },
+      "sameAs": [
+        "https://www.facebook.com/e111.com.tw",
+        "https://www.instagram.com/e111/"
+      ]
+    }
+    </script>
+</head>
+
+<body>
+
+    <!-- Backgrounds -->
+    <div class="bg-pattern"></div>
+    <div class="bg-overlay-gradient"></div>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Atmospheric Mist with Depth -->
+    <div class="mist-container">
+        <div class="mist-layer one"></div>
+        <div class="mist-layer two"></div>
+        <div class="mist-layer three"></div>
+    </div>
+
+    <!-- Reduced Motion Notice (only shown when system prefers reduced motion) -->
+    <div id="reduced-motion-notice" class="reduced-motion-notice" role="alert" aria-live="polite">
+        <span class="reduced-motion-notice-icon">✨</span>
+        <span class="reduced-motion-notice-text">您的系統已關閉動畫效果，部分視覺動態將不會顯示</span>
+        <button class="reduced-motion-notice-close" aria-label="關閉提示" onclick="dismissReducedMotionNotice()">✕</button>
+    </div>
+
+
+    <!-- Header -->
+    <header id="main-header">
+        <a href="#" class="logo">
+            <img src="https://www.e111.com.tw/images/logo.png" alt="御手國醫養生會館">
+            <span class="logo-disclaimer">(非官網‧設計示意用)</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#">首頁</a></li>
+                <li><a href="#">最新消息</a></li>
+                <li><a href="#">關於御手</a></li>
+                <li><a href="#">服務項目</a></li>
+                <li><a href="#">達人帶路</a></li>
+                <li><a href="#">御手寶典</a></li>
+                <li><a href="#">線上預約</a></li>
+            </ul>
+        </nav>
+        <div class="mobile-menu-btn" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <!-- Visual Elements -->
+        <div class="hero-visual-bg">
+            <div class="orb top"></div>
+            <div class="orb bottom"></div>
+        </div>
+        <div class="couplet left">經絡運行 氣血暢通</div>
+        <div class="couplet right">古法傳承 養生首選</div>
+
+        <div class="hero-title-group">
+            <h1 class="main-title">御手寶典</h1>
+        </div>
+        <div class="hero-divider"></div>
+        <p class="sub-title">養生文化 ‧ 國醫智慧</p>
+
+        <a href="#knowledge" class="scroll-indicator">
+            <div class="scroll-mouse"></div>
+            <span>SCROLL</span>
+        </a>
+    </section>
+
+    <!-- Main Content -->
+    <div class="content-container">
+
+        <div id="knowledge" class="section-header reveal-item">
+            <h2>養生知識</h2>
+            <p>Traditional Chinese Medicine Wisdom</p>
+        </div>
+
+        <div class="article-grid">
+
+            <!-- Article 1 -->
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/muscle-scraping-therapy.jpg" alt="撥筋">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.06.16</span>
+                        <span>按摩養身</span>
+                    </div>
+                    <h3>撥筋是什麼？7種好處讓你美容養顏又養生</h3>
+                    <p>撥筋這三個字你或許聽過，卻不一定真正了解它的奧妙。這並不是一般印象中的按摩，而是一種源自中醫理論，結合經絡與筋膜概念的深層保養方式。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=773" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+            <!-- Article 2 -->
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/body-brushing.jpg" alt="體刷">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.05.14</span>
+                        <span>健康養身</span>
+                    </div>
+                    <h3>體刷功效有哪些？6個打造柔滑肌膚與增進身心健康好處</h3>
+                    <p>體刷這項看似簡單卻充滿魔力的護理方法，已經越來越受到關注。透過輕柔的刷拭動作，它不僅能促進血液循環，還能有效改善肌膚質地。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=772" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+            <!-- Article 3 -->
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/muscle-soreness.jpg" alt="肌肉痠痛">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.05.05</span>
+                        <span>健康養身</span>
+                    </div>
+                    <h3>肌肉痠痛的原因有那些？帶你了解 8 個原因與舒緩改善方法</h3>
+                    <p>肌肉痠痛是許多人日常中常遇到的不適。無論是運動後、久坐、或是壓力過大，都可能讓身體發出警訊。了解真正的成因，才能找到最適合自己的舒緩與改善方法。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=771" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+            <!-- Article 4 -->
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/lower-back-massage.jpg" alt="腰部按摩">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.04.25</span>
+                        <span>按摩養身</span>
+                    </div>
+                    <h3>腰部按摩怎麼做才有效？6 步驟有效舒緩痠痛與緩解壓力</h3>
+                    <p>腰部按摩不只是放鬆肌肉的一種方式，更是一種讓身體與心靈同時釋放壓力的溫柔呵護。現代人長時間久坐、低頭滑手機、工作壓力大。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=770" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+            <!-- Article 5 -->
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/scalp-massage.jpg" alt="頭皮按摩">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.04.16</span>
+                        <span>按摩養身</span>
+                    </div>
+                    <h3>頭皮按摩好處有哪些？增進身心健康的 6 大驚人好處</h3>
+                    <p>頭皮按摩不只是放鬆身心的享受，更是日常保健不可忽視的一環。當我們在緊湊的生活中感到壓力沉重、思緒混亂，輕柔的頭皮按摩就像一場溫柔的療癒。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=769" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+            <!-- Article 6: Ear Candling -->
+            <article class="article-card reveal-item">
+                <span class="corner-accent c-tl"></span>
+                <span class="corner-accent c-br"></span>
+                <div class="card-image-wrapper">
+                    <img src="https://www.e111.com.tw/article/image/pics/ear-candling.jpg" alt="耳燭">
+                </div>
+                <div class="card-content">
+                    <div class="meta-info">
+                        <span class="meta-date">2025.04.16</span>
+                        <span>健康養身</span>
+                    </div>
+                    <h3>耳燭是什麼？真的能清除耳垢嗎？真實功效為你解答</h3>
+                    <p>耳燭這個聽起來有點神秘、甚至讓人好奇的名詞，近年來在網路上悄悄竄紅，不少人將它視為放鬆紓壓、甚至「清除耳垢」的神器。</p>
+                    <a href="https://www.e111.com.tw/article-info.asp?id=768" class="read-more">閱讀更多</a>
+                </div>
+            </article>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 御手國醫養生會館. 養生之道，始於足下。 Design by WANG.</p>
+    </footer>
+
+    <script>
+        /* ========================================
+         *  Performance-Optimized Scripts
+         *  - IntersectionObserver for scroll reveal
+         *  - rAF-throttled scroll for header
+         *  - Offscreen canvas glow for particles (no shadowBlur)
+         *  - Debounced resize
+         *  - Passive event listeners
+         * ======================================== */
+
+        // --- Utility: Debounce ---
+        function debounce(fn, ms) {
+            let timer;
+            return function (...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn.apply(this, args), ms);
+            };
+        }
+
+        // --- Reduced Motion Notice ---
+        const REDUCED_MOTION_NOTICE_KEY = 'e111_reduced_motion_dismissed';
+
+        function dismissReducedMotionNotice() {
+            const notice = document.getElementById('reduced-motion-notice');
+            if (notice) {
+                notice.classList.remove('show');
+                try {
+                    localStorage.setItem(REDUCED_MOTION_NOTICE_KEY, 'true');
+                } catch (e) {
+                    // localStorage not available, ignore
+                }
+            }
+        }
+
+        function checkReducedMotion() {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const notice = document.getElementById('reduced-motion-notice');
+
+            if (!notice) return;
+
+            // Only show if: 1) prefers reduced motion, 2) not previously dismissed
+            if (prefersReducedMotion.matches) {
+                try {
+                    const dismissed = localStorage.getItem(REDUCED_MOTION_NOTICE_KEY);
+                    if (!dismissed) {
+                        // Delay showing the notice for a smoother experience
+                        setTimeout(() => {
+                            notice.classList.add('show');
+                            // Auto-hide after 8 seconds
+                            setTimeout(() => {
+                                notice.classList.remove('show');
+                            }, 8000);
+                        }, 1500);
+                    }
+                } catch (e) {
+                    // localStorage not available, still show notice
+                    setTimeout(() => {
+                        notice.classList.add('show');
+                        setTimeout(() => {
+                            notice.classList.remove('show');
+                        }, 8000);
+                    }, 1500);
+                }
+            }
+        }
+
+        // Initialize reduced motion check
+        checkReducedMotion();
+
+        // --- Custom Eased Scroll (ease-in-out cubic) ---
+        function smoothScrollTo(targetY, duration) {
+            const startY = window.scrollY;
+            const diff = targetY - startY;
+            if (Math.abs(diff) < 1) return;
+            let startTime = null;
+
+            // easeInOutCubic: slow start → accelerate → decelerate → slow stop
+            function easing(t) {
+                return t < 0.5
+                    ? 4 * t * t * t
+                    : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            }
+
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const elapsed = timestamp - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                window.scrollTo(0, startY + diff * easing(progress));
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            }
+
+            requestAnimationFrame(step);
+        }
+
+        // Bind scroll-indicator click
+        document.querySelector('.scroll-indicator').addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.getElementById('knowledge');
+            if (!target) return;
+            const headerOffset = 90; // account for fixed header
+            const targetY = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+            smoothScrollTo(targetY, 1200); // 1.2s duration
+        });
+
+        // --- Mobile Menu ---
+        const navEl = document.querySelector('nav');
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+
+        function toggleMenu() {
+            navEl.classList.toggle('active');
+            menuBtn.classList.toggle('active');
+            document.body.style.overflow = navEl.classList.contains('active') ? 'hidden' : '';
+        }
+
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (navEl.classList.contains('active')) toggleMenu();
+            });
+        });
+
+        // --- Header Scroll (rAF-throttled) ---
+        const header = document.getElementById('main-header');
+        let lastScrollY = 0;
+        let headerTicking = false;
+
+        function updateHeader() {
+            if (lastScrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            headerTicking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            lastScrollY = window.scrollY;
+            if (!headerTicking) {
+                requestAnimationFrame(updateHeader);
+                headerTicking = true;
+            }
+        }, { passive: true });
+
+        // --- Scroll Reveal (IntersectionObserver) ---
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    revealObserver.unobserve(entry.target); // Once revealed, stop observing
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -60px 0px'
+        });
+
+        document.querySelectorAll('.reveal-item').forEach(el => revealObserver.observe(el));
+
+        // --- Golden Particles (Optimized: Offscreen Glow Canvas, No shadowBlur) ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d', { alpha: true });
+        let particlesArray = [];
+        let animFrameId;
+
+        // Pre-render glow sprite to offscreen canvas (eliminates per-frame shadowBlur)
+        const glowCache = new Map();
+
+        function getGlowSprite(size, alpha) {
+            const key = `${Math.round(size * 10)}_${Math.round(alpha * 10)}`;
+            if (glowCache.has(key)) return glowCache.get(key);
+
+            const spriteSize = Math.ceil(size * 6);
+            const off = document.createElement('canvas');
+            off.width = spriteSize;
+            off.height = spriteSize;
+            const offCtx = off.getContext('2d');
+            const cx = spriteSize / 2;
+
+            // Outer glow (radial gradient instead of shadowBlur)
+            const grad = offCtx.createRadialGradient(cx, cx, 0, cx, cx, cx);
+            grad.addColorStop(0, `rgba(255, 223, 128, ${alpha})`);
+            grad.addColorStop(0.3, `rgba(255, 223, 128, ${alpha * 0.5})`);
+            grad.addColorStop(1, 'rgba(255, 223, 128, 0)');
+            offCtx.fillStyle = grad;
+            offCtx.fillRect(0, 0, spriteSize, spriteSize);
+
+            glowCache.set(key, off);
+            return off;
+        }
+
+        function setCanvasSize() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        setCanvasSize();
+
+        const W = () => window.innerWidth;
+        const H = () => window.innerHeight;
+
+        class Particle {
+            constructor() {
+                this.reset(true);
+            }
+            reset(initial) {
+                this.x = initial ? Math.random() * W() : Math.random() * W();
+                this.y = initial ? Math.random() * H() : H() + 20;
+                this.size = Math.random() * 2.5 + 0.8;
+                this.speedX = Math.random() * 0.9 - 0.45;
+                this.speedY = Math.random() * -1.2 - 0.3;
+                this.alpha = Math.random() * 0.45 + 0.25;
+                this.sprite = getGlowSprite(this.size, this.alpha);
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.y < -10 || this.x > W() + 10 || this.x < -10) {
+                    this.reset(false);
+                }
+            }
+            draw() {
+                const spriteSize = this.sprite.width / (Math.min(window.devicePixelRatio || 1, 2));
+                ctx.drawImage(this.sprite, this.x - spriteSize / 2, this.y - spriteSize / 2, spriteSize, spriteSize);
+            }
+        }
+
+        function initParticles() {
+            glowCache.clear();
+            particlesArray = [];
+            // Adaptive density: fewer on mobile
+            const area = W() * H();
+            const density = W() < 768 ? 90000 : 70000;
+            const count = Math.min(Math.floor(area / density), 60); // Cap at 60
+            for (let i = 0; i < count; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, W(), H());
+            for (let i = 0, len = particlesArray.length; i < len; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            animFrameId = requestAnimationFrame(animateParticles);
+        }
+
+        // Respect reduced motion
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (!prefersReducedMotion.matches) {
+            initParticles();
+            animateParticles();
+        }
+
+        // Debounced resize: avoid rapid re-init
+        window.addEventListener('resize', debounce(() => {
+            setCanvasSize();
+            if (!prefersReducedMotion.matches) {
+                cancelAnimationFrame(animFrameId);
+                initParticles();
+                animateParticles();
+            }
+        }, 250), { passive: true });
+
+        // Pause particles when tab is hidden (save battery)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                cancelAnimationFrame(animFrameId);
+            } else if (!prefersReducedMotion.matches) {
+                animateParticles();
+            }
+        });
+    </script>
+</body>
+
+</html>

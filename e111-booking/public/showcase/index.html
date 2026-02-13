@@ -88,13 +88,14 @@
         }
 
         .logo {
-            width: 100%;
+            width: auto;
+            max-width: 140px;
             height: 48px;
             padding: 4px;
         }
 
         .brand-text {
-            width: 100%;
+            /* width: 100%; removed to prevent forcing width */
         }
 
         .brand-text h1 {
@@ -366,6 +367,30 @@
 
             header {
                 padding: 20px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                height: auto;
+            }
+
+            .brand {
+                width: 100%;
+                justify-content: flex-start;
+                flex-wrap: nowrap;
+            }
+
+            .logo {
+                height: 40px; 
+                width: auto;
+            }
+
+            .brand-text h1 {
+                font-size: 1rem;
+            }
+
+            /* Hide the right-side decoration text on mobile to avoid clutter */
+            header > div:last-child {
+                display: none;
             }
 
             main {
