@@ -1,5 +1,4 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
-// Force rebuild comment for hydration fix
+// Force rebuild comment for hydration and path fix: 2026-02-13 08:05
 export default defineNuxtConfig({
   app: {
     head: {
