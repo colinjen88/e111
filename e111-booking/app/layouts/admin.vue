@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const router = useRouter()
+const isSidebarOpen = ref(false)
 
 const logout = () => {
   // Clear the session cookie
@@ -9,21 +10,40 @@ const logout = () => {
   // Navigate to login
   router.push('/admin/login')
 }
+
+// Close sidebar on route change (mobile)
+watch(router.currentRoute, () => {
+  isSidebarOpen.value = false
+})
 </script>
 
 <template>
-  <div class="h-screen flex bg-gray-50 font-sans">
+  <div class="h-screen flex bg-gray-50 font-sans overflow-hidden">
     
+    <!-- Mobile Overlay -->
+    <div 
+        v-if="isSidebarOpen"
+        class="fixed inset-0 bg-black/50 z-20 lg:hidden"
+        @click="isSidebarOpen = false"
+    ></div>
+
     <!-- Sidebar -->
-    <aside class="w-64 bg-gradient-to-b from-gray-900 to-gray-950 text-white flex-shrink-0 flex flex-col border-r border-gray-800/50">
-      <div class="h-16 flex items-center justify-center border-b border-gray-800/50 px-6">
+    <aside 
+        class="fixed lg:static inset-y-0 left-0 z-30 w-64 bg-gradient-to-b from-gray-900 to-gray-950 text-white flex flex-col border-r border-gray-800/50 transition-transform duration-300 transform lg:transform-none"
+        :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+    >
+      <div class="h-16 flex items-center justify-between border-b border-gray-800/50 px-6">
         <div class="flex items-center gap-3">
           <img src="/logo.png" alt="御手國醫" class="h-8 w-auto object-contain">
           <span class="text-xs font-serif tracking-[0.15em] text-gray-400 border-l border-gray-700 pl-3 uppercase py-0.5">Admin</span>
         </div>
+        <!-- Close Button (Mobile) -->
+        <button @click="isSidebarOpen = false" class="lg:hidden text-gray-400 hover:text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
       </div>
       
-      <nav class="flex-1 px-3 py-6 space-y-1">
+      <nav class="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
         <NuxtLink to="/admin" 
           class="nav-link" 
           active-class="nav-link-active">
@@ -56,10 +76,16 @@ const logout = () => {
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col overflow-hidden">
+    <main class="flex-1 flex flex-col w-full overflow-hidden">
       <!-- Top Header -->
-      <header class="h-16 bg-white/80 backdrop-blur-xl border-b border-gray-100 flex items-center justify-between px-8 z-10">
-        <h2 class="text-base font-bold text-gray-700 tracking-wider">管理儀表板</h2>
+      <header class="h-16 bg-white/80 backdrop-blur-xl border-b border-gray-100 flex items-center justify-between px-4 lg:px-8 z-10">
+        <div class="flex items-center gap-4">
+            <!-- Mobile Menu Button -->
+            <button @click="isSidebarOpen = true" class="lg:hidden text-gray-500 hover:text-brand-red">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+            <h2 class="text-base font-bold text-gray-700 tracking-wider">管理儀表板</h2>
+        </div>
         <div class="flex items-center gap-5">
           <button class="relative group">
             <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-brand-red rounded-full border-2 border-white animate-pulse"></span>
