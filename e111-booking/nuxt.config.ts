@@ -1,4 +1,3 @@
-// Force rebuild comment for hydration and path fix: 2026-02-13 08:05
 export default defineNuxtConfig({
   app: {
     head: {
@@ -19,12 +18,12 @@ export default defineNuxtConfig({
   },
   devServer: {
     host: '0.0.0.0',
-    port: 2390
+    port: 3003
   },
   runtimeConfig: {
-    // Private (server-only)
-    adminPassword: process.env.ADMIN_PASSWORD || 'admin123',
-    adminSecretToken: process.env.ADMIN_SECRET_TOKEN,
+    // Private (server-only) — loaded from environment variables
+    adminPassword: process.env.ADMIN_PASSWORD || '',
+    adminSecretToken: process.env.ADMIN_SECRET_TOKEN || '',
 
     lineChannelSecret: '',
     lineChannelAccessToken: ''

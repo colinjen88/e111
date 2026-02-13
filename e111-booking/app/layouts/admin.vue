@@ -2,12 +2,12 @@
 const router = useRouter()
 const isSidebarOpen = ref(false)
 
-const logout = () => {
-  // Clear the session cookie
-  const sessionCookie = useCookie('admin_session')
-  sessionCookie.value = null
-  
-  // Navigate to login
+const logout = async () => {
+  try {
+    await $fetch('/api/admin/logout', { method: 'POST' })
+  } catch {
+    // Even if API fails, redirect to login
+  }
   router.push('/admin/login')
 }
 

@@ -4,7 +4,7 @@ import { prisma } from '../../utils/prisma'
 
 export default defineEventHandler(async (event) => {
 
-  
+
   const query = getQuery(event)
   const dateStr = query.date as string
   const branchId = query.branchId ? parseInt(query.branchId as string) : undefined
@@ -70,8 +70,8 @@ export default defineEventHandler(async (event) => {
       where: { branchId, isActive: true }
     })
 
-    // 4. Calculate availability for each slot
-    const blocks = await Promise.all(allSlots.map(async (slotTime) => {
+    // 4. Calculate availability for each slot (synchronous — data already loaded)
+    const blocks = allSlots.map((slotTime) => {
       const slotStart = new Date(`${dateStr}T${slotTime}:00`)
       const slotEnd = new Date(slotStart.getTime() + durationMinutes * 60000)
 
@@ -79,7 +79,6 @@ export default defineEventHandler(async (event) => {
 
       if (staffId) {
         // Case A: Specific Staff Selected
-        // Check if this staff has any booking overlapping with [slotStart, slotEnd]
         const conflict = bookings.find(b => {
           return (b.startTime < slotEnd && b.endTime > slotStart)
         })
@@ -87,20 +86,14 @@ export default defineEventHandler(async (event) => {
 
       } else {
         // Case B: No Preference (Any Staff)
-        // We need to find IF THERE IS AT LEAST ONE STAFF MEMBER available at this time
-        
-        // Count how many staff are busy during this slot
-        // A staff is busy if they have a booking overlapping this slot
-        // Note: This logic assumes 1 booking = 1 staff occupied.
-        // We need to group bookings by staffId to count busy staff correctly.
+        // Count busy staff during this slot
         const busyStaffIds = new Set()
         bookings.forEach(b => {
-           if (b.startTime < slotEnd && b.endTime > slotStart) {
-             if (b.staffId) busyStaffIds.add(b.staffId)
-           }
+          if (b.startTime < slotEnd && b.endTime > slotStart) {
+            if (b.staffId) busyStaffIds.add(b.staffId)
+          }
         })
 
-        // If busy staff < total staff, then someone is free!
         if (busyStaffIds.size >= totalStaff) {
           isAvailable = false
         }
@@ -110,7 +103,7 @@ export default defineEventHandler(async (event) => {
         time: slotTime,
         available: isAvailable
       }
-    }))
+    })
 
     return {
       date: dateStr,

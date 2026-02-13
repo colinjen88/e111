@@ -8,136 +8,132 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// 1. 分館資料表 (Branches)
+/// 分館 (Branch)
 model Branch {
   id        Int      @id @default(autoincrement())
-  name      String   // @db.VarChar(50) -> String
-  code      String?  @unique // @db.VarChar(10) -> String
-  address   String?  // @db.VarChar(200) -> String
-  phone     String?  // @db.VarChar(20) -> String
-  lineUrl   String?  // @db.VarChar(255) -> String (LINE官方帳號連結)
-  isActive  Boolean  @default(true) // 是否營業中
+  name      String
+  code      String?  @unique
+  address   String?
+  phone     String?
+  lineUrl   String?  /// LINE 官方帳號連結
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   customers Customer[]
   staff     Staff[]
-  bookings  Booking[] // 該分館的所有預約
+  bookings  Booking[]
 }
 
-// 2. 服務分類資料表 (ServiceCategories)
+/// 服務分類 (ServiceCategory)
 model ServiceCategory {
-  id        Int      @id @default(autoincrement())
-  name      String   // @db.VarChar(50) -> String (ex: 全身按摩, 腳底按摩)
-  description String?  // @db.Text -> String
-  sortOrder Int      @default(0) // 排序權重
-  isActive  Boolean  @default(true)
+  id          Int      @id @default(autoincrement())
+  name        String   /// 例: 全身按摩, 腳底按摩
+  description String?
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
   
-  services  Service[]
+  services    Service[]
 }
 
-// 3. 服務項目資料表 (Services)
+/// 服務項目 (Service)
 model Service {
-  id             Int      @id @default(autoincrement())
-  categoryId     Int
-  name           String   // @db.VarChar(100) -> String (ex: 全身經絡指壓)
-  durationMinutes Int     // 服務時長 (分鐘)
-  basePrice      Decimal  // 基礎價格 (SQLite stores Decimal as Float/String internally but Prisma handles it)
-  description    String?  // @db.Text -> String
-  isActive       Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id              Int      @id @default(autoincrement())
+  categoryId      Int
+  name            String   /// 例: 全身經絡指壓
+  durationMinutes Int      /// 服務時長 (分鐘)
+  basePrice       Decimal  /// 基礎價格
+  description     String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  category       ServiceCategory @relation(fields: [categoryId], references: [id])
-  bookingItems   BookingItem[]
+  category     ServiceCategory @relation(fields: [categoryId], references: [id])
+  bookingItems BookingItem[]
 }
 
-// 4. 技師資料表 (Staff)
+/// 技師 (Staff)
 model Staff {
   id        Int      @id @default(autoincrement())
   branchId  Int
-  name      String   // @db.VarChar(50) -> String
-  code      String?  // @db.VarChar(10) -> String (技師編號 ex: 88, 99)
-  level     String   // Enum 'StaffLevel' -> String (Master, Senior, Junior)
-  // SQLite doesn't support Enums natively
-  
-  photoUrl  String?  // @db.VarChar(255) -> String (技師照片)
-  bio       String?  // @db.Text -> String (簡介)
-  isActive  Boolean  @default(true) // 是否在職/可預約
+  name      String
+  code      String?  /// 技師編號 (例: 36, 88)
+  level     String   /// Master | Senior | Junior
+  photoUrl  String?
+  bio       String?
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  branch        Branch @relation(fields: [branchId], references: [id])
+  branch        Branch             @relation(fields: [branchId], references: [id])
   availability  StaffAvailability[]
-  bookings      Booking[] // 該技師被指定的預約 (主技師)
-  bookingItems  BookingItem[] // 該技師實際執行的項目
+  bookings      Booking[]          /// 被指定的預約 (主技師)
+  bookingItems  BookingItem[]      /// 實際執行的項目
 }
 
-// 5. 技師班表/可用時段 (StaffAvailability)
+/// 技師班表 / 可用時段 (StaffAvailability)
 model StaffAvailability {
   id        Int      @id @default(autoincrement())
   staffId   Int
-  date      DateTime // @db.Date -> DateTime (SQLite stores as String/Numeric)
-  startTime DateTime // @db.Time -> DateTime (SQLite stores as String/Numeric)
-  endTime   DateTime // @db.Time -> DateTime
-  isBooked  Boolean  @default(false) // 是否已被預約 (簡單版標記)
+  date      DateTime
+  startTime DateTime
+  endTime   DateTime
+  isBooked  Boolean  @default(false)
   
-  // NOTE: 更複雜的排班可能需要另一個 Table 存每週規律班表
-
   staff     Staff @relation(fields: [staffId], references: [id])
 
   @@index([staffId, date])
 }
 
-// 6. 客戶資料表 (Customers)
+/// 客戶 (Customer)
 model Customer {
-  id        Int      @id @default(autoincrement())
-  phone     String   @unique // @db.VarChar(20) -> String (主要識別欄位)
-  name      String?  // @db.VarChar(50) -> String
-  email     String?  // @db.VarChar(100) -> String
-  lineId    String?  // @db.VarChar(50) -> String
+  id                Int      @id @default(autoincrement())
+  phone             String   @unique /// 主要識別欄位
+  name              String?
+  email             String?
+  lineId            String?
   preferredBranchId Int?
-  notes     String?  // @db.Text -> String (備註: 喜好、黑名單原因等)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  notes             String?  /// 備註 (喜好、特殊需求等)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
-  branch    Branch? @relation(fields: [preferredBranchId], references: [id])
+  branch    Branch?   @relation(fields: [preferredBranchId], references: [id])
   bookings  Booking[]
 }
 
-// 7. 預約主表 (Bookings)
+/// 預約主表 (Booking)
 model Booking {
-  id        Int      @id @default(autoincrement())
-  branchId  Int
-  customerId Int
-  staffId   Int?     // 指定技師 (若不指定則為 null, 或排班決定)
+  id           Int      @id @default(autoincrement())
+  branchId     Int
+  customerId   Int
+  staffId      Int?     /// 指定技師 (null = 不指定)
   
-  bookingDate DateTime // @db.Date -> DateTime (預約日期)
-  startTime   DateTime // @db.Time -> DateTime (預約開始時間)
-  endTime     DateTime // @db.Time -> DateTime (預計結束時間)
+  bookingDate  DateTime /// 預約日期
+  startTime    DateTime /// 預約開始時間
+  endTime      DateTime /// 預計結束時間
   
-  totalPrice  Decimal
-  status      String   // Enum 'BookingStatus' -> String (Pending, Confirmed, Completed, Cancelled, NoShow)
+  totalPrice     Decimal
+  status         String   /// Pending | Confirmed | Completed | Cancelled | NoShow
   
-  customerNotes String? // @db.Text -> String (客戶留言)
-  internalNotes String? // @db.Text -> String (內部備註)
+  customerNotes  String?  /// 客戶留言
+  internalNotes  String?  /// 內部備註
   
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  branch      Branch   @relation(fields: [branchId], references: [id])
-  customer    Customer @relation(fields: [customerId], references: [id])
-  staff       Staff?   @relation(fields: [staffId], references: [id])
-  items       BookingItem[]
+  branch       Branch       @relation(fields: [branchId], references: [id])
+  customer     Customer     @relation(fields: [customerId], references: [id])
+  staff        Staff?       @relation(fields: [staffId], references: [id])
+  items        BookingItem[]
 }
 
-// 8. 預約細項 (BookingItems) - 用於一張單包含多個服務 (ex: 腳底 + 全身)
+/// 預約細項 (BookingItem) — 一張單可包含多個服務
 model BookingItem {
   id        Int      @id @default(autoincrement())
   bookingId Int
   serviceId Int
-  staffId   Int?     // 該項目實際執行的技師 (可能不同項目不同人)
-  price     Decimal  // 該項目的實際成交價
+  staffId   Int?     /// 該項目實際執行的技師 (可能不同項目不同人)
+  price     Decimal  /// 實際成交價
   
   booking   Booking @relation(fields: [bookingId], references: [id])
   service   Service @relation(fields: [serviceId], references: [id])

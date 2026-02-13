@@ -11,33 +11,29 @@ export default defineEventHandler(async (event) => {
 
    const config = useRuntimeConfig()
 
-   // Allow 'admin' as a hardcoded fallback for dev convenience if config fails
-   const expectedPassword = config.adminPassword || 'admin'
-   const receivedPassword = (body.password || '').toString().trim()
-
-   console.log('[Auth Debug] Login Attempt:', {
-      received: receivedPassword,
-      expected: expectedPassword, // Log it plain for now to solve the issue quickly
-      match: receivedPassword === expectedPassword
-   })
-
-   if (receivedPassword !== expectedPassword) {
-      throw createError({ statusCode: 401, statusMessage: 'Unauthorized - Password Mismatch' })
+   const expectedPassword = config.adminPassword
+   if (!expectedPassword) {
+      throw createError({ statusCode: 500, statusMessage: 'Server configuration error' })
    }
 
-   // Generate a random session token (in a real app, store this in Redis/DB)
-   // For this simple implementation, we'll use the shared secret approach from utils/auth.ts
-   // consistent with the requireAdmin check. 
-   // Ideally: specific session ID checked against DB. 
-   // Simplified per codereview recommendation: use the secret token for the cookie value 
-   // so requireAdmin can verify it statelessly (though less secure than session store).
+   const receivedPassword = (body.password || '').toString().trim()
 
-   const token = config.adminSecretToken || 'admin-secret-token-default-change-me'
+   if (receivedPassword !== expectedPassword) {
+      throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+   }
 
-   setCookie(event, 'admin_session', token, {
+   // Generate a random session token for this login
+   const { randomBytes } = await import('crypto')
+   const sessionToken = randomBytes(32).toString('hex')
+
+   // Store token server-side for validation
+   const { addSession } = await import('../../utils/session-store')
+   addSession(sessionToken)
+
+   setCookie(event, 'admin_session', sessionToken, {
       maxAge: 60 * 60 * 8, // 8 hours
-      httpOnly: false,
-      secure: false,
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/'
    })

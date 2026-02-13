@@ -185,6 +185,6 @@ export default defineEventHandler(async (event) => {
     if (error.statusCode) {
       throw error // Re-throw Nuxt errors
     }
-    throw createError({ statusCode: 500, statusMessage: 'Internal Server Error: ' + error.message })
+    throw createError({ statusCode: 500, statusMessage: 'Internal Server Error' })
   }
 })

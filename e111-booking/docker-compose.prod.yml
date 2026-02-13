@@ -1,19 +1,17 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15-alpine
     restart: unless-stopped
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=e111_booking
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme_in_production}
+      - POSTGRES_DB=${POSTGRES_DB:-e111_booking}
     volumes:
       - e111_data:/var/lib/postgresql/data
     networks:
       - e111-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -24,7 +22,9 @@ services:
     ports:
       - "3001:3000"
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/e111_booking
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-changeme_in_production}@db:5432/${POSTGRES_DB:-e111_booking}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_SECRET_TOKEN=${ADMIN_SECRET_TOKEN}
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=3000
       - NUXT_LINE_CHANNEL_SECRET=${NUXT_LINE_CHANNEL_SECRET}
@@ -37,6 +37,7 @@ services:
 
 networks:
   e111-net:
+
 
 volumes:
   e111_data:

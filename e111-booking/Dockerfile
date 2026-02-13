@@ -40,6 +40,10 @@ COPY --from=builder /app/.output ./.output
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
+# Copy entrypoint script
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
+
 # Set environment variables
 ENV NUXT_HOST=0.0.0.0
 ENV NUXT_PORT=3000
@@ -48,5 +52,4 @@ ENV TZ=Asia/Taipei
 
 EXPOSE 3000
 
-# Startup: push schema then start server (|| true ensures server starts even if push fails)
-CMD sh -c "echo 'Waiting for database...' && sleep 10 && echo 'Pushing schema...' && ./node_modules/.bin/prisma db push --skip-generate || true && echo 'Starting server...' && node .output/server/index.mjs"
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
