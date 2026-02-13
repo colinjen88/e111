@@ -1,3 +1,16 @@
+<script setup lang="ts">
+const router = useRouter()
+
+const logout = () => {
+  // Clear the session cookie
+  const sessionCookie = useCookie('admin_session')
+  sessionCookie.value = null
+  
+  // Navigate to login
+  router.push('/admin/login')
+}
+</script>
+
 <template>
   <div class="h-screen flex bg-gray-50 font-sans">
     
@@ -32,7 +45,10 @@
       </nav>
 
       <div class="p-4 border-t border-gray-800/50">
-        <button class="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300 group">
+        <button 
+          @click="logout"
+          class="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300 group"
+        >
           <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
           登出
         </button>
