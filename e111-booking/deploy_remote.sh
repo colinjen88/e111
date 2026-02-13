@@ -22,7 +22,6 @@ fi
 cd /var/www/booking
 
 # 5. Build and run containers
-# 5. Build and run containers
 echo "Stopping old containers..."
 # Force remove any container using port 3001 (the app port)
 CONTAINER_IDS=$(docker ps --format "{{.ID}} {{.Ports}}" | grep ":3001->" | awk '{print $1}')
@@ -36,5 +35,13 @@ docker-compose -f docker-compose.prod.yml down --remove-orphans || true
 
 echo "Building and starting containers..."
 docker-compose -f docker-compose.prod.yml up -d --build
+
+# 6. Seed database (New Step)
+echo "Waiting for database initialization (30s)..."
+sleep 30
+
+echo "Running database seed..."
+# Run the JS seed script inside the container
+docker-compose -f docker-compose.prod.yml exec -T app node prisma/seed.js || echo "Warning: Seeding failed. Check if database is ready."
 
 echo "Deployment finished successfully!"
