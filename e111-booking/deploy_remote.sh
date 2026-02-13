@@ -45,3 +45,13 @@ echo "Running database seed..."
 docker-compose -f docker-compose.prod.yml exec -T app node prisma/seed.js || echo "Warning: Seeding failed. Check if database is ready."
 
 echo "Deployment finished successfully!"
+
+echo "Verifying application status..."
+sleep 10
+if docker-compose -f docker-compose.prod.yml ps app | grep -q "Up"; then
+    echo "Application is running."
+else
+    echo "ERROR: Application container is not running!"
+    docker-compose -f docker-compose.prod.yml logs --tail=50 app
+    exit 1
+fi

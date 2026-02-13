@@ -9,7 +9,7 @@ MAX_RETRIES=12
 RETRY=0
 
 while [ $RETRY -lt $MAX_RETRIES ]; do
-  if ./node_modules/.bin/prisma db execute --stdin <<< "SELECT 1" 2>/dev/null; then
+  if echo "SELECT 1" | ./node_modules/.bin/prisma db execute --stdin 2>/dev/null; then
     echo "Database is ready!"
     break
   fi

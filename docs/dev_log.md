@@ -235,3 +235,17 @@ graph TD
 
 ## 🏁 Project Summary (v2.4 Live & Bot Ready)
 自動化部署流程已建立，LINE Bot 成功上線並通過 webhook 驗證，系統已準備好進行更複雜的對話邏輯開發。
+
+### 2026-02-13: Phase 13 - Critical Fixes & Enhancements (完成)
+*   [x] **Infrastructure Stability (502 Fixes)**
+    *   **Docker Entrypoint**: 修正 `docker-entrypoint.sh` 中的 CRLF 換行符號問題 (`dos2unix`)，與 `<<<` 語法錯誤 (Alpine Shell 相容性)。
+    *   **Deployment Script**: 優化 `deploy_vps.ps1` 加入 IP 互動輸入與 `deploy_remote.sh` 加入健康檢查與錯誤日誌輸出。
+    *   **Database**: 修正 `.env` 與容器環境變數不一致導致的連線錯誤。
+*   [x] **Security & CSP**
+    *   **CSP Relaxation**: 調整 `nuxt.config.ts` 中的 Content Security Policy，允許 `unsafe-eval` 以支援動效庫，解決前端 500 錯誤。
+*   [x] **UX Improvements**
+    *   **Sticky CTA**: 在首頁 (`index.vue`) 實作 `IntersectionObserver`，當主按鈕捲出視窗時才顯示底部懸浮按鈕，提升轉換率。
+    *   **Showcase External Links**: 將 `showcase/index.html` 的所有連結設為 `target="_blank"`。
+
+## 🏁 Project Summary (v2.5 Stable & Polished)
+系統已修復所有關鍵的部署與連線問題。前後端運作正常，且使用者體驗（如懸浮按鈕）經過優化。Showcase 頁面可正確導向至各個運作中的子系統。

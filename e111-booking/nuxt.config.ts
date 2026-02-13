@@ -7,6 +7,16 @@ export default defineNuxtConfig({
       }
     }
   },
+  render: {
+    csp: {
+      hashAlgorithm: 'sha256',
+      policies: {
+        'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https:", "http:"],
+        'style-src': ["'self'", "'unsafe-inline'", "https:", "http:"],
+      },
+      addMeta: true
+    }
+  },
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', '@vueuse/motion/nuxt'],
@@ -25,7 +35,15 @@ export default defineNuxtConfig({
     adminPassword: process.env.ADMIN_PASSWORD || '',
     adminSecretToken: process.env.ADMIN_SECRET_TOKEN || '',
 
-    lineChannelSecret: '',
     lineChannelAccessToken: ''
+  },
+  nitro: {
+    routeRules: {
+      '/**': {
+        headers: {
+          'Content-Security-Policy': "script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; style-src 'self' 'unsafe-inline' https: http:; img-src 'self' data: https: http:;"
+        }
+      }
+    }
   }
 })

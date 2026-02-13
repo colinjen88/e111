@@ -35,10 +35,29 @@ const services = [
 
 // Scroll indicator
 const showScrollHint = ref(true)
+const showStickyCTA = ref(false)
+const mainCtaRef = ref(null)
+
 onMounted(() => {
+  // Scroll hint logic
   window.addEventListener('scroll', () => {
     if (window.scrollY > 100) showScrollHint.value = false
   }, { passive: true })
+
+  // Sticky CTA Observer
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      // Show sticky CTA when main CTA is NOT intersecting (scrolled out of view)
+      showStickyCTA.value = !entry.isIntersecting
+    })
+  }, {
+    root: null,
+    threshold: 0
+  })
+
+  if (mainCtaRef.value) {
+    observer.observe(mainCtaRef.value as Element)
+  }
 })
 </script>
 
@@ -93,7 +112,7 @@ onMounted(() => {
           :delay="800"
           class="flex flex-col md:flex-row gap-5 justify-center items-center w-full max-w-sm md:max-w-none mx-auto"
         >
-          <NuxtLink to="/booking" class="group relative px-10 py-4 bg-brand-red text-white text-lg font-bold rounded-full overflow-hidden shadow-[0_0_25px_rgba(139,0,0,0.5)] hover:shadow-[0_0_40px_rgba(139,0,0,0.7)] transition-all duration-500 w-full md:w-auto active:scale-95">
+          <NuxtLink ref="mainCtaRef" to="/booking" class="group relative px-10 py-4 bg-brand-red text-white text-lg font-bold rounded-full overflow-hidden shadow-[0_0_25px_rgba(139,0,0,0.5)] hover:shadow-[0_0_40px_rgba(139,0,0,0.7)] transition-all duration-500 w-full md:w-auto active:scale-95">
              <span class="relative z-10 flex items-center justify-center gap-2 tracking-[0.15em]">
                立即預約
                <svg class="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
@@ -233,11 +252,13 @@ onMounted(() => {
     </footer>
 
     <!-- Mobile Sticky CTA -->
-    <div class="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-xl border-t border-brand-gold/10 md:hidden z-50 safe-area-bottom">
-       <NuxtLink to="/booking" class="block w-full py-4 bg-gradient-to-r from-brand-red to-red-800 text-white text-center font-bold text-lg rounded-2xl shadow-xl shadow-brand-red/20 active:scale-[0.97] transition-transform tracking-wider">
-         立即預約按摩
-       </NuxtLink>
-    </div>
+    <Transition name="fade-up">
+      <div v-if="showStickyCTA" class="fixed bottom-0 left-0 right-0 p-4 bg-white/90 backdrop-blur-xl border-t border-brand-gold/10 md:hidden z-50 safe-area-bottom">
+         <NuxtLink to="/booking" class="block w-full py-4 bg-gradient-to-r from-brand-red to-red-800 text-white text-center font-bold text-lg rounded-2xl shadow-xl shadow-brand-red/20 active:scale-[0.97] transition-transform tracking-wider">
+           立即預約按摩
+         </NuxtLink>
+      </div>
+    </Transition>
 
   </div>
 </template>
@@ -297,5 +318,17 @@ onMounted(() => {
 /* Safe area for mobile */
 .safe-area-bottom {
   padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+/* Fade Up Transition */
+.fade-up-enter-active,
+.fade-up-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-up-enter-from,
+.fade-up-leave-to {
+  opacity: 0;
+  transform: translateY(100%);
 }
 </style>

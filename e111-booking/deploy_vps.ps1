@@ -9,11 +9,17 @@
 $ErrorActionPreference = "Stop"
 
 $vpsHost = $env:VPS_HOST
+
+if (-not $vpsHost) {
+    Write-Host "Checking environment variables..." -ForegroundColor Gray
+    $vpsHost = Read-Host "Please enter the VPS IP address (e.g. 1.2.3.4)"
+}
+
 $vpsPort = if ($env:VPS_PORT) { $env:VPS_PORT } else { "22" }
 $vpsUser = if ($env:VPS_USER) { $env:VPS_USER } else { "root" }
 
 if (-not $vpsHost) {
-    Write-Error "VPS_HOST is not set. Run: `$env:VPS_HOST = 'your-ip'"
+    Write-Error "VPS_HOST is required. Exiting."
     exit 1
 }
 

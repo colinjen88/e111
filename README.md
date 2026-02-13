@@ -44,7 +44,7 @@ e111/
 ### 主官網
 直接用瀏覽器開啟 `main-site/index.html`。
 
-### 預約系統
+### 預約系統 (Live Demo: https://book.gowork.run/)
 ```bash
 cd e111-booking
 npm install
