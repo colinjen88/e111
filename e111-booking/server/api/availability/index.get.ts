@@ -1,10 +1,6 @@
-
-
 import { prisma } from '../../utils/prisma'
 
 export default defineEventHandler(async (event) => {
-
-  
   const query = getQuery(event)
   const dateStr = query.date as string
   const branchId = query.branchId ? parseInt(query.branchId as string) : undefined
@@ -16,7 +12,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    // 1. Define Operating Hours (TODO: Fetch from Branch model if added later)
+    // 1. Define Operating Hours
     const openTime = '10:00'
     const closeTime = '22:00'
     const slotInterval = 30 // minutes
@@ -25,8 +21,6 @@ export default defineEventHandler(async (event) => {
     const allSlots: string[] = []
     let current = new Date(`${dateStr}T${openTime}:00`)
     const end = new Date(`${dateStr}T${closeTime}:00`)
-    // Adjust end time to allow finishing the service before closing
-    // e.g. if close at 22:00 and service is 60m, last slot is 21:00
     const lastStart = new Date(end.getTime() - durationMinutes * 60000)
 
     while (current <= lastStart) {
@@ -36,7 +30,6 @@ export default defineEventHandler(async (event) => {
     }
 
     // 3. Fetch existing bookings for that day
-    // Needs to cover the whole day roughly
     const startOfDay = new Date(`${dateStr}T00:00:00`)
     const endOfDay = new Date(`${dateStr}T23:59:59`)
 
@@ -51,7 +44,6 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    // If specific staff selected, filter by that staff
     if (staffId) {
       whereClause.staffId = staffId
     }
@@ -65,13 +57,12 @@ export default defineEventHandler(async (event) => {
       }
     })
 
-    // Pre-fetch total active staff count for the branch (Optimization: Avoid N+1 query inside loop)
     const totalStaff = await prisma.staff.count({
       where: { branchId, isActive: true }
     })
 
     // 4. Calculate availability for each slot
-    const blocks = await Promise.all(allSlots.map(async (slotTime) => {
+    const blocks = allSlots.map((slotTime) => {
       const slotStart = new Date(`${dateStr}T${slotTime}:00`)
       const slotEnd = new Date(slotStart.getTime() + durationMinutes * 60000)
 
@@ -79,7 +70,6 @@ export default defineEventHandler(async (event) => {
 
       if (staffId) {
         // Case A: Specific Staff Selected
-        // Check if this staff has any booking overlapping with [slotStart, slotEnd]
         const conflict = bookings.find(b => {
           return (b.startTime < slotEnd && b.endTime > slotStart)
         })
@@ -87,20 +77,13 @@ export default defineEventHandler(async (event) => {
 
       } else {
         // Case B: No Preference (Any Staff)
-        // We need to find IF THERE IS AT LEAST ONE STAFF MEMBER available at this time
-        
-        // Count how many staff are busy during this slot
-        // A staff is busy if they have a booking overlapping this slot
-        // Note: This logic assumes 1 booking = 1 staff occupied.
-        // We need to group bookings by staffId to count busy staff correctly.
         const busyStaffIds = new Set()
         bookings.forEach(b => {
-           if (b.startTime < slotEnd && b.endTime > slotStart) {
-             if (b.staffId) busyStaffIds.add(b.staffId)
-           }
+          if (b.startTime < slotEnd && b.endTime > slotStart) {
+            if (b.staffId) busyStaffIds.add(b.staffId)
+          }
         })
 
-        // If busy staff < total staff, then someone is free!
         if (busyStaffIds.size >= totalStaff) {
           isAvailable = false
         }
@@ -110,7 +93,7 @@ export default defineEventHandler(async (event) => {
         time: slotTime,
         available: isAvailable
       }
-    }))
+    })
 
     return {
       date: dateStr,

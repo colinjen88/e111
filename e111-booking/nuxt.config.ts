@@ -19,14 +19,27 @@ export default defineNuxtConfig({
   },
   devServer: {
     host: '0.0.0.0',
-    port: 2390
+    port: 3003
   },
   runtimeConfig: {
-    // Private (server-only)
-    adminPassword: process.env.ADMIN_PASSWORD || 'admin123',
-    adminSecretToken: process.env.ADMIN_SECRET_TOKEN,
+    // Private (server-only) — loaded from environment variables
+    adminPassword: process.env.ADMIN_PASSWORD || '',
+    adminSecretToken: process.env.ADMIN_SECRET_TOKEN || '',
 
-    lineChannelSecret: '',
-    lineChannelAccessToken: ''
+    lineChannelSecret: process.env.NUXT_LINE_CHANNEL_SECRET || '',
+    lineChannelAccessToken: process.env.NUXT_LINE_CHANNEL_ACCESS_TOKEN || ''
+  },
+  nitro: {
+    routeRules: {
+      '/': { ssr: false },
+      '/**': {
+        headers: {
+          'Content-Security-Policy': "script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; style-src 'self' 'unsafe-inline' https: http:; img-src 'self' data: https: http:;"
+        }
+      }
+    }
+  },
+  build: {
+    transpile: ['@vueuse/motion']
   }
 })

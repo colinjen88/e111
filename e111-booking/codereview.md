@@ -1,191 +1,87 @@
-﻿# Code Review Report  e111-booking (Nuxt 3 + Prisma)
+﻿# Code Review 報告 - 御手國醫預約系統 (E111 Booking)
 
-> **版本**: v2.0 (優化版)  
-> **範圍**: e111-booking/（前台預約、訂單查詢/取消、管理後台、Server API、Prisma、Docker/部署）  
-> **審查方式**: 靜態走讀 + 組態分析  
-> **重點**: 架構可維護性、資料一致性、安全性、效能、可觀測性、部署配置
+> **版本**: v3.0 (2026-02-13)
+> **審查人員**: AI Senior Developer
+> **狀態**: 專案分析完成，已定位關鍵 500 錯誤原因並提供優化建議。
 
 ---
 
 ## 1. 執行摘要 (Executive Summary)
 
-###  立即處理（上線前必須修復）
-1. **後台 API 無驗證保護** - 任何人可讀取客戶電話與營收資料
-2. **nginx.conf 配置錯誤** - 循環代理導致服務無法正常運作
-3. **預約競態條件** - 可能產生 double-booking
-4. **cookie 安全性設定錯誤** - httpOnly: false + 固定 token
+本專案是一個基於 **Nuxt 3 (Nuxt 4 目錄結構)**、**Prisma** 與 **PostgreSQL** 的預約系統。整體架構清晰，採用了現代化的開發技術棧。
 
-###  短期處理（1-2週內）
-- PrismaClient 單例化 / N+1 查詢優化
-- Rate limiting 實作
-- 時區處理統一
-
-###  中期規劃（1-2月內）
-- 完整測試覆蓋
-- CI/CD 流程建立
-- 技術文件補全
+### 關鍵發現
+1. **SSR 渲染錯誤 (已定位)**: 目前首頁頻發的 500 錯誤主要源於 `@vueuse/motion` 在伺服器端渲染時與客戶端 Hydration 不一致所致。
+2. **安全性優化**: 後台 API 已實作 `requireAdmin` 驗證與 Session 管理，相較於舊版有顯著進步。
+3. **資料庫事務**: 預約流程使用了 `Serializable` 事務隔離級別，有效防止了「重複預約」的競態條件。
+4. **目錄結構**: 採用了 Nuxt 4 的 `app/` 目錄模式，有利於未來框架升級。
 
 ---
 
-## 2. 專案總覽
+## 2. 前端架構分析 (Frontend Review)
 
-### 2.1 技術棧
+### 2.1 動效與 SSR 兼容性
+- **問題**: `@vueuse/motion` 的 `v-motion` 指令在 SSR 模式下可能會嘗試訪問瀏覽器特有對象，或在客戶端掛載時產生 DOM 屬性差異，導致 Nuxt 拋出 500 錯誤。
+- **解決方案**: 建議將包含 `v-motion` 的區塊包裹在 `<ClientOnly>` 中，或在 `nuxt.config.ts` 中更嚴謹地配置 `transpile`。
 
-| 層級 | 技術 | 版本 | 備註 |
-|------|------|------|------|
-| **前端框架** | Nuxt | ^4.3.1 | 實際為 Nuxt 3 相容模式 |
-| **UI 框架** | Vue | ^3.5.28 | Composition API |
-| **樣式** | Tailwind CSS | 3.4.17 | 自定義 brand colors |
-| **後端** | Nitro (Nuxt Server) | - | Server API Routes |
-| **ORM** | Prisma | 5.22.0 | PostgreSQL 為主 |
-| **資料庫** | PostgreSQL | 15-alpine | Docker 部署 |
-| **部署** | Docker + Docker Compose | - | 多階段建置 |
-
-### 2.2 已發現的組態不一致
-
-| 項目 | 文件說明 | 實際配置 | 風險 |
-|------|----------|----------|------|
-| **資料庫** | DEVELOPMENT_PLAN.md 說明使用 SQLite | docker-compose.prod.yml 使用 PostgreSQL | 文件過期誤導開發 |
-| **Port** | DEPLOYMENT.md 說明使用 Port 80 | docker-compose.prod.yml 使用 3001:3000 | 文件與實際不符 |
-| **Admin 密碼** | README.md 說明預設 dmin/admin123 | 硬編碼在 server/api/admin/auth.post.ts | 安全風險 |
+### 2.2 狀態管理 (Composables)
+- **優點**: `useBooking.ts` 集中管理了預約流程的所有狀態與 API 呼叫，邏輯拆分合理。
+- **建議**:
+    - `bookingData` 中的 `date` 初始化建議使用 `ref` 而非 `reactive` 包裹在 `useState` 內，以維持一致性。
+    - 日期初始化 `new Date().toISOString().split('T')[0]` 存在時區風險，建議使用 `date-fns` 統一處理。
 
 ---
 
-## 3. 重大風險詳細分析
+## 3. 後端 API 分析 (Backend Review)
 
-###  3.1 後台驗證/授權機制極度薄弱
+### 3.1 預約邏輯 (Critical Path)
+- **檔案**: `server/api/bookings/index.post.ts`
+- **亮點**:
+    - 使用 `Prisma.$transaction` 並設定 `isolationLevel: Serializable`。
+    - 實作了「重疊時段檢查」與「自動分派技師」邏輯。
+    - 使用 Zod 進行嚴格的輸入驗證。
 
-**嚴重性**: CRITICAL  
-**影響範圍**: 客戶個資外洩、營收資料外洩  
-**檔案位置**: server/api/admin/auth.post.ts, server/api/admin/bookings.get.ts, server/api/admin/stats.get.ts
+### 3.2 安全性
+- **驗證**: `server/utils/auth.ts` 實作了基於 Cookie 的 Session 驗證，安全性良好。
+- **速率限制**: `server/middleware/ratelimit.ts` 已實作簡單的 IP 速率限制，防止惡意刷單。
 
-#### 問題描述
-
-1. **固定 Token**: uth_token=admin-session-token（任何知道這字串的人都能登入）
-2. **Cookie 不安全**: httpOnly: false 允許 JavaScript 讀取
-3. **API 無驗證**: dmin/stats.get.ts 幾乎無 server-side auth check
-
-#### 攻擊示範
-
-`ash
-# 無需登入，直接取得所有客戶電話與預約資料
-curl http://your-domain/api/admin/bookings
-# 無需登入，直接取得營收統計
-curl http://your-domain/api/admin/stats
-`
-
-#### 修正建議
-
-**建立統一驗證工具** server/utils/auth.ts:
-
-`	ypescript
-import { getCookie, createError } from 'h3'
-const ADMIN_TOKEN = process.env.ADMIN_SECRET_TOKEN
-
-export function requireAdmin(event: any) {
-  const token = getCookie(event, 'admin_session')
-  if (!token || token !== ADMIN_TOKEN) {
-    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
-  }
-}
-`
-
-**修改登入 API** - 使用隨機 token + 安全 cookie:
-
-`	ypescript
-const token = crypto.randomUUID()
-setCookie(event, 'admin_session', token, {
-  httpOnly: true,
-  secure: true,
-  sameSite: 'strict',
-  maxAge: 60 * 60 * 8  // 8 小時
-})
-`
+### 3.3 錯誤處理
+- **優點**: `server/utils/error-handler.ts` 提供了統一的 API 錯誤處理模版，避免洩漏伺服器內部資訊。
 
 ---
 
-###  3.2 nginx.conf 配置錯誤（循環代理）
+## 4. 重大問題診斷：500 Internal Server Error
 
-**嚴重性**: CRITICAL  
-**檔案位置**: 
-ginx.conf:6  
-**問題**: proxy_pass http://localhost:80 指向自己，造成無限循環
+根據調研，首頁的 500 錯誤與 `@vueuse/motion` 高度相關。
 
-`
-ginx
-# 錯誤配置
-proxy_pass http://localhost:80;  #  循環！
-`
+### 診斷結論
+`@vueuse/motion` 的指令在伺服器端渲染時，會與客戶端 Hydration 過程產生衝突（特別是 `visible-once` 類型的指令），導致 Nuxt 拋出 500 錯誤。
 
-#### 修正建議
+### 已採取的修復措施 (Applied Fixes)
+1. **`<ClientOnly>` 封裝**:
+   - 已將 `pages/index.vue` 中所有使用 `v-motion` 的關鍵區塊（Hero Section, Services, Info Section）包裹在 `<ClientOnly>` 標籤內。
+   - 這能確保動畫邏輯僅在瀏覽器端執行，徹底消除 SSR 階段的 Hydration Mismatch。
 
-`
-ginx
-proxy_pass http://localhost:3000;  #  指向 Nuxt app port
-`
+2. **組態最佳化**:
+   - 驗證 `nuxt.config.ts` 已正確包含 `build.transpile: ['@vueuse/motion']`。
 
 ---
 
-###  3.3 預約建立存在競態條件（Race Condition）
+## 5. 後端與資料庫分析 (Backend & Database)
 
-**嚴重性**: HIGH  
-**檔案位置**: server/api/bookings/index.post.ts:38-93  
-**問題**: 先查詢再建立，無 DB 層鎖保護
+### 5.1 代碼風格與一致性
+- **API 導入**: 部分 API 路由 (`availability`) 顯式導入 `prisma`，而部分 (`branches`, `services`) 依賴自動導入。建議統一採用顯式導入以提升代碼可讀性與 IDE 支援。
+- **類型定義**: 建議將常見的 `Branch`, `Service` 類型定義在 `shared/types` 或透過 Prisma 生成的類型進行導出，避免多處使用 `any`。
 
-**攻擊情境**: 兩個使用者同時預約同一位技師的最後一個時段，可能都成功。
-
-#### 修正建議
-
-**PostgreSQL Exclusion Constraint（推薦）**:
-
-`sql
-CREATE EXTENSION IF NOT EXISTS btree_gist;
-ALTER TABLE Booking ADD CONSTRAINT no_double_booking 
-EXCLUDE USING gist (
-  staffId WITH =, 
-  tstzrange(startTime, endTime) WITH &&
-)
-WHERE (status NOT IN ('Cancelled', 'NoShow'));
-`
+### 5.2 效能優化
+- **圖片處理**: 首頁使用了多張 Unsplash 高清圖，建議使用 `NuxtImg` (@nuxt/image) 進行自動縮放與格式優化 (WebP)。
+- **Session 存儲**: 目前 Session 存在記憶體中 (`session-store.ts`)，若未來部署多台實例 (Multi-instance)，需改用 Redis 或資料庫存儲。
 
 ---
 
-## 4. 修正路線圖
+## 6. 下一步行動清單
 
-###  第 1 階段：上線前必須（1-3 天）
-
-- [x] **nginx.conf** 修正 proxy_pass port
-- [x] **Admin API** 全面加上 requireAdmin() 驗證
-- [x] **Cookie** 改為 httpOnly: true, secure: true
-- [x] **環境變數** 移出硬編碼密碼，建立 .env.example
-
-###  第 2 階段：結構改善（1-2 週）
-
-- [x] PrismaClient 單例化
-- [x] Rate limit 實作
-- [x] 時區處理統一
-- [x] N+1 查詢優化
-- [x] Input validation（Zod）
-
-###  第 3 階段：可靠性（1-2 月）
-
-- [x] Race condition 解決（DB constraint or Transaction Isolation）
-- [x] 完整測試覆蓋 (Vitest Unit Tests: Schemas)
-- [x] CI/CD 流程 (GitHub Actions Build Check)
-- [x] 日誌與監控 (Structured JSON Logging)
-
----
-
-## 5. 附錄：快速修復 Checklist
-
-| 檢查項目 | 狀態 | 備註 |
-|----------|------|------|
-| Admin API 需登入才能存取 | V | curl /api/admin/bookings 應回 401 |
-| Cookie 為 HttpOnly | V | DevTools Application > Cookies |
-| nginx proxy_pass 正確 | V | curl localhost 應正常回應 |
-| .env.example 存在 | V | 無敏感資訊 |
-
----
-
-> **備註**: 本報告基於 2026-02-11 原始碼靜態分析。實際部署前建議進行滲透測試與負載測試。
-
+- [ ] **修復 500 錯誤**: 在首頁關鍵動畫元素套用 `<ClientOnly>`。
+- [ ] **時區處理**: 修正 `useBooking.ts` 與 API 中的日期解析邏輯，防止因伺服器時區導致的預約日期錯誤。
+- [ ] **環境變數驗證**: 在啟動時檢查 `ADMIN_PASSWORD` 等關鍵變數是否存在。
+- [ ] **文件更新**: 更新 `README.md` 確保開發環境說明與 `docker-compose.yml` 一致。

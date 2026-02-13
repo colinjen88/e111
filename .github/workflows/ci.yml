@@ -2,14 +2,24 @@ name: CI
 
 on:
   push:
+<<<<<<< HEAD
     branches: [ master ]
+=======
+    branches: [ master, dev ]
+>>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e
   pull_request:
     branches: [ master ]
 
 jobs:
+<<<<<<< HEAD
   build:
     runs-on: ubuntu-latest
 
+=======
+  lint-and-build:
+    runs-on: ubuntu-latest
+    
+>>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e
     steps:
     - uses: actions/checkout@v4
 
@@ -24,10 +34,28 @@ jobs:
       working-directory: e111-booking
       run: npm ci
 
+<<<<<<< HEAD
     - name: Type Check
       working-directory: e111-booking
       run: npx nuxi typecheck
+=======
+    - name: Lint Check
+      working-directory: e111-booking
+      run: npx nuxi typecheck
+      continue-on-error: false
+>>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e
 
     - name: Build Application
       working-directory: e111-booking
       run: npm run build
+<<<<<<< HEAD
+=======
+
+    - name: Verify Build Output
+      working-directory: e111-booking
+      run: |
+        echo "✅ Build output:"
+        ls -la .output/server/index.mjs
+        echo "📦 Total size:"
+        du -sh .output/
+>>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e

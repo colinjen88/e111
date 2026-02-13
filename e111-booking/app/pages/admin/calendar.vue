@@ -35,6 +35,10 @@ const prevMonth = () => {
 const nextMonth = () => {
     currentDate.value = new Date(currentDate.value.getFullYear(), currentDate.value.getMonth() + 1, 1)
 }
+const today = () => {
+    currentDate.value = new Date()
+    selectedDate.value = new Date()
+}
 
 const statusColor = (status: string) => {
     switch(status) {

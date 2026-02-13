@@ -1,0 +1,13 @@
+{
+    "branchId": 1,
+    "serviceId": 1,
+    "staffId": null,
+    "date": "2026-02-15",
+    "time": "15:00",
+    "user": {
+        "name": "Test User 2",
+        "phone": "0987654321",
+        "email": "test@example.com",
+        "note": "Testing notification"
+    }
+}

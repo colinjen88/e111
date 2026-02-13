@@ -1,5 +1,3 @@
-
-
 import { Prisma } from '@prisma/client'
 import { prisma } from '../../utils/prisma'
 import { bookingSchema } from '../../utils/schemas'
@@ -7,8 +5,6 @@ import { logger } from '../../utils/logger'
 import { sendLinePushMessage, sendEmail, formatBookingMessage } from '../../utils/notify'
 
 export default defineEventHandler(async (event) => {
-
-
   try {
     // 1. Validate Basic Inputs with Zod
     const body = await readBody(event)
@@ -87,7 +83,6 @@ export default defineEventHandler(async (event) => {
       }
 
       // Simple Allocation Strategy: Pick the first available one (or random)
-      // TODO: Implement Round-robin or "Least Busy" in Phase 3
       allocatedStaffId = availableStaff[0].id
     }
 
@@ -99,7 +94,6 @@ export default defineEventHandler(async (event) => {
         update: {
           name: user.name,
           email: user.email,
-
         },
         create: {
           phone: user.phone,
@@ -119,7 +113,7 @@ export default defineEventHandler(async (event) => {
           startTime: startTime,
           endTime: endTime,
           totalPrice: service.basePrice, // Single service for now
-          status: 'Confirmed',
+          status: 'Pending',
           customerNotes: user.note,
           // 5.3 Create Booking Item
           items: {
@@ -153,7 +147,6 @@ export default defineEventHandler(async (event) => {
       })
 
       if (bookingForNotify) {
-        // Log to console for now
         const msg = formatBookingMessage(bookingForNotify)
         await sendLinePushMessage(msg)
         if (bookingForNotify.customer.email) {
@@ -162,7 +155,7 @@ export default defineEventHandler(async (event) => {
       }
     } catch (e) {
       console.error('Notification Error:', e)
-      // Do not fail the request if notification fails
+      // Do not fail
     }
 
     return {
@@ -178,13 +171,11 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-
   } catch (error: any) {
     logger.error('Booking Creation Error', error)
-    // Return structured error
     if (error.statusCode) {
       throw error // Re-throw Nuxt errors
     }
-    throw createError({ statusCode: 500, statusMessage: 'Internal Server Error: ' + error.message })
+    throw createError({ statusCode: 500, statusMessage: 'Internal Server Error: ' + (error.message || String(error)) })
   }
 })

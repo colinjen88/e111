@@ -1,21 +1,60 @@
+<script setup lang="ts">
+const router = useRouter()
+const isSidebarOpen = ref(false)
+
+const logout = async () => {
+  try {
+    await $fetch('/api/admin/logout', { method: 'POST' })
+  } catch {
+    // Even if API fails, redirect to login
+  }
+  router.push('/admin/login')
+}
+
+// Close sidebar on route change (mobile)
+watch(router.currentRoute, () => {
+  isSidebarOpen.value = false
+})
+</script>
+
 <template>
-  <div class="h-screen flex bg-gray-50 font-sans">
+  <div class="h-screen flex bg-gray-50 font-sans overflow-hidden">
     
+    <!-- Mobile Overlay -->
+    <div 
+        v-if="isSidebarOpen"
+        class="fixed inset-0 bg-black/50 z-20 lg:hidden"
+        @click="isSidebarOpen = false"
+    ></div>
+
     <!-- Sidebar -->
-    <aside class="w-64 bg-gradient-to-b from-gray-900 to-gray-950 text-white flex-shrink-0 flex flex-col border-r border-gray-800/50">
-      <div class="h-16 flex items-center justify-center border-b border-gray-800/50 px-6">
-        <div class="flex items-center gap-3">
-          <img src="/logo.png" alt="御手國醫" class="h-8 w-auto object-contain">
-          <span class="text-xs font-serif tracking-[0.15em] text-gray-400 border-l border-gray-700 pl-3 uppercase py-0.5">Admin</span>
+    <aside 
+        class="fixed lg:static inset-y-0 left-0 z-30 w-64 bg-gradient-to-b from-gray-900 to-gray-950 text-white flex flex-col border-r border-gray-800/50 transition-transform duration-300 transform lg:transform-none overflow-hidden"
+        :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+    >
+      <div class="h-16 flex items-center border-b border-gray-800/50 px-4">
+        <div class="flex items-center gap-2 min-w-0 flex-1">
+          <img src="/logo.png" alt="御手國醫" class="h-7 max-w-[140px] w-auto object-contain flex-shrink-0">
+          <span class="text-[10px] font-serif tracking-[0.1em] text-gray-500 border-l border-gray-800 pl-2 uppercase py-0.5 truncate shrink-0">Admin</span>
         </div>
+        <!-- Close Button (Mobile) -->
+        <button @click="isSidebarOpen = false" class="lg:hidden text-gray-400 hover:text-white flex-shrink-0 ml-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
       </div>
       
-      <nav class="flex-1 px-3 py-6 space-y-1">
+      <nav class="flex-1 px-3 py-6 space-y-1 overflow-y-auto">
         <NuxtLink to="/admin" 
           class="nav-link" 
           active-class="nav-link-active">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
           預約總覽
+        </NuxtLink>
+        <NuxtLink to="/admin/bookings" 
+          class="nav-link" 
+          active-class="nav-link-active">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          查詢訂單
         </NuxtLink>
         <NuxtLink to="/admin/calendar" 
           class="nav-link" 
@@ -32,7 +71,10 @@
       </nav>
 
       <div class="p-4 border-t border-gray-800/50">
-        <button class="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300 group">
+        <button 
+          @click="logout"
+          class="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300 group"
+        >
           <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
           登出
         </button>
@@ -40,10 +82,18 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 flex flex-col overflow-hidden">
+    <main class="flex-1 flex flex-col w-full overflow-hidden">
       <!-- Top Header -->
-      <header class="h-16 bg-white/80 backdrop-blur-xl border-b border-gray-100 flex items-center justify-between px-8 z-10">
-        <h2 class="text-base font-bold text-gray-700 tracking-wider">管理儀表板</h2>
+      <header class="h-16 bg-white/80 backdrop-blur-xl border-b border-gray-100 flex items-center justify-between px-4 sm:px-6 lg:px-8 z-10 flex-shrink-0">
+        <div class="flex items-center gap-4">
+            <!-- Mobile Menu Button -->
+            <button @click="isSidebarOpen = true" class="lg:hidden text-gray-500 hover:text-brand-red">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+            <h2 class="text-sm sm:text-base font-bold text-gray-700 tracking-wider">
+              {{ $route.meta.title || ($route.path === '/admin' ? '管理儀表板' : $route.path === '/admin/bookings' ? '訂單查詢' : $route.path === '/admin/calendar' ? '行事曆' : '管理系統') }}
+            </h2>
+        </div>
         <div class="flex items-center gap-5">
           <button class="relative group">
             <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-brand-red rounded-full border-2 border-white animate-pulse"></span>
@@ -54,7 +104,7 @@
       </header>
 
       <!-- Page Content -->
-      <div class="flex-1 overflow-auto p-8 bg-gray-50/50">
+      <div class="flex-1 overflow-auto p-4 sm:p-6 lg:p-8 bg-gray-50/50">
         <slot />
       </div>
     </main>

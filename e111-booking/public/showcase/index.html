@@ -88,13 +88,22 @@
         }
 
         .logo {
+<<<<<<< HEAD
             width: 100%;
+=======
+            width: auto;
+            max-width: 140px;
+>>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e
             height: 48px;
             padding: 4px;
         }
 
         .brand-text {
+<<<<<<< HEAD
             width: 100%;
+=======
+            /* width: 100%; removed to prevent forcing width */
+>>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e
         }
 
         .brand-text h1 {
@@ -366,6 +375,33 @@
 
             header {
                 padding: 20px;
+<<<<<<< HEAD
+=======
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                height: auto;
+            }
+
+            .brand {
+                width: 100%;
+                justify-content: flex-start;
+                flex-wrap: nowrap;
+            }
+
+            .logo {
+                height: 40px; 
+                width: auto;
+            }
+
+            .brand-text h1 {
+                font-size: 1rem;
+            }
+
+            /* Hide the right-side decoration text on mobile to avoid clutter */
+            header > div:last-child {
+                display: none;
+>>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e
             }
 
             main {

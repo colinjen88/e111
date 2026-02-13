@@ -49,7 +49,7 @@ ADMIN_SECRET_TOKEN=your_random_secret_string
 
 ```bash
 # 1. SSH 登入伺服器
-ssh root@72.62.66.151 -p 4740
+ssh root@***REDACTED_IP*** -p 4740
 
 # 2. 安裝 Git（如果尚未安裝）
 apt-get update && apt-get install -y git
