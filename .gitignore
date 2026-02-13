@@ -34,5 +34,9 @@ yarn-error.log*
 *.sqlite
 dev.db
 
+# Build artifacts
+*.tar.gz
+deploy.tar.gz
+
 # My Agent
 .agent
