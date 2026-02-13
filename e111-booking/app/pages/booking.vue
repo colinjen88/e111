@@ -1,5 +1,14 @@
 <script setup lang="ts">
 const { step, direction } = useBooking()
+
+useHead({
+  title: '線上預約 | 御手國醫養生會館',
+  meta: [
+    { name: 'description', content: '御手國醫線上預約系統 — 選擇分館、服務、技師與時段，輕鬆完成預約。' },
+    { property: 'og:title', content: '線上預約 | 御手國醫養生會館' },
+    { property: 'og:description', content: '選擇分館、服務、技師與時段，輕鬆完成按摩預約。' },
+  ]
+})
 </script>
 
 <template>

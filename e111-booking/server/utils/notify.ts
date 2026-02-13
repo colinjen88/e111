@@ -1,54 +1,57 @@
-
 /**
- * Notification Service (Mock Implementation)
- * In production, replace console.log with actual API calls (e.g., axios to LINE API, SendGrid SDK)
+ * Unified Notification Service
+ * 
+ * LINE: Uses @line/bot-sdk when configured, otherwise logs mock messages.
+ * Email: Mock implementation (Coming Soon — can integrate SendGrid/Resend later).
  */
 
-export const sendLinePushMessage = async (message: string) => {
-  // TODO: Get token and user ID from config/env
-  const token = process.env.LINE_CHANNEL_ACCESS_TOKEN
-  const userId = process.env.LINE_ADMIN_USER_ID // This could be a Group ID too
-  
-  console.log('--- [MOCK] LINE Push Notification ---')
-  console.log(`To: ${userId || 'Default_Admin'}`)
-  console.log(`Message: ${message}`)
-  console.log('------------------------------------')
-  
-  // Real implementation example (Messaging API - Push Message):
-  /*
-  if (token && userId) {
-    await $fetch('https://api.line.me/v2/bot/message/push', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-      body: {
-        to: userId,
-        messages: [{ type: 'text', text: message }]
-      }
-    })
+import { isLineConfigured, pushLineMessage } from './line'
+
+/**
+ * Send a LINE push notification to the admin.
+ * Uses the real LINE Messaging API when configured; otherwise falls back to console log.
+ */
+export const sendLinePushMessage = async (message: string): Promise<boolean> => {
+  const adminUserId = process.env.LINE_ADMIN_USER_ID
+
+  // Real LINE API
+  if (isLineConfigured() && adminUserId) {
+    return await pushLineMessage(adminUserId, [{ type: 'text', text: message }])
   }
-  */
+
+  // Fallback: log to console (development / unconfigured)
+  console.log('[Notify] LINE not configured — message logged instead:')
+  console.log(`  → ${message.substring(0, 120)}...`)
   return true
 }
 
-export const sendEmail = async (to: string, subject: string, htmlBody: string) => {
-  console.log('--- [MOCK] Email Sent ---')
-  console.log(`To: ${to}`)
-  console.log(`Subject: ${subject}`)
-  console.log(`Body Length: ${htmlBody.length} chars`)
-  console.log('-------------------------')
-  
+/**
+ * Send an email notification.
+ * Currently a mock — logs to console. 
+ * TODO: Integrate with SendGrid, Resend, or SMTP in a future phase.
+ */
+export const sendEmail = async (to: string, subject: string, htmlBody: string): Promise<boolean> => {
+  console.log(`[Notify] Email (mock) → To: ${to}, Subject: ${subject}, Body: ${htmlBody.length} chars`)
   return true
 }
 
-export const formatBookingMessage = (booking: any) => {
-  return `
-[新預約通知]
-客戶: ${booking.customer.name} (${booking.customer.phone})
-時間: ${booking.bookingDate.toISOString().split('T')[0]} ${booking.startTime.toISOString().split('T')[1].substr(0,5)}
-項目: ${booking.items[0]?.service?.name || '未指定'}
-技師: ${booking.staff?.name || '不指定'}
-  `.trim()
+/**
+ * Format a booking into a human-readable notification message.
+ */
+export const formatBookingMessage = (booking: any): string => {
+  const date = booking.bookingDate instanceof Date
+    ? booking.bookingDate.toISOString().split('T')[0]
+    : String(booking.bookingDate)
+
+  const time = booking.startTime instanceof Date
+    ? booking.startTime.toISOString().split('T')[1].substring(0, 5)
+    : String(booking.startTime)
+
+  return [
+    '📋 [新預約通知]',
+    `客戶: ${booking.customer?.name || '—'} (${booking.customer?.phone || '—'})`,
+    `時間: ${date} ${time}`,
+    `項目: ${booking.items?.[0]?.service?.name || '未指定'}`,
+    `技師: ${booking.staff?.name || '不指定'}`,
+  ].join('\n')
 }

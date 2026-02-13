@@ -2,7 +2,10 @@
 useHead({
   title: '御手國醫養生會館 - 源自中醫，專注養生',
   meta: [
-    { name: 'description', content: '提供專業足底按摩、經絡推拿、精油SPA服務。源自中醫養生智慧，為您舒緩身心疲勞。' }
+    { name: 'description', content: '提供專業足底按摩、經絡推拿、精油SPA服務。源自中醫養生智慧，為您舒緩身心疲勞。' },
+    { property: 'og:title', content: '御手國醫養生會館 - 源自中醫，專注養生' },
+    { property: 'og:description', content: '提供專業足底按摩、經絡推拿、精油SPA服務。台南市養生按摩首選。' },
+    { property: 'og:type', content: 'website' },
   ]
 })
 
