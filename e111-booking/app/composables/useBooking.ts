@@ -23,12 +23,25 @@ export const useBooking = () => {
         }
     }
 
+    // ===================== Helper: Taiwan Today =====================
+    const getTaiwanToday = () => {
+        const now = new Date()
+        // Use Intl.DateTimeFormat to get YYYY-MM-DD in Asia/Taipei timezone
+        const formatter = new Intl.DateTimeFormat('sv-SE', {
+            timeZone: 'Asia/Taipei',
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        })
+        return formatter.format(now)
+    }
+
     // ===================== Booking Data =====================
     const bookingData = useState('booking-data', () => reactive({
         branch: null as any,
         service: null as any,
         staff: null as any,
-        date: new Date().toISOString().split('T')[0],
+        date: getTaiwanToday(),
         time: null as string | null,
         customer: {
             name: '',
@@ -118,6 +131,11 @@ export const useBooking = () => {
             return
         }
 
+        if (bookingData.value.customer.phone.length < 4) {
+            submitError.value = '電話號碼過短 (至少4碼)'
+            return
+        }
+
         submitting.value = true
         submitError.value = ''
 
@@ -151,12 +169,20 @@ export const useBooking = () => {
     // ===================== Helper: Next 7 days =====================
     const next7Days = computed(() => {
         const days = []
-        const today = new Date()
+        // Use a fixed reference point to avoid timezone shifts during iteration
+        const todayStr = getTaiwanToday()
+        const [year, month, day] = todayStr.split('-').map(Number)
+        
         for (let i = 0; i < 7; i++) {
-            const d = new Date(today)
-            d.setDate(today.getDate() + i)
+            const d = new Date(year, month - 1, day + i)
+            const dStr = new Intl.DateTimeFormat('sv-SE', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).format(d)
+
             days.push({
-                dateStr: d.toISOString().split('T')[0],
+                dateStr: dStr,
                 dayName: i === 0 ? '今日' : i === 1 ? '明日' : d.toLocaleDateString('zh-TW', { weekday: 'short' }),
                 dayNum: d.getDate()
             })

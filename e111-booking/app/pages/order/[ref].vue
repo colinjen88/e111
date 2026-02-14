@@ -188,8 +188,22 @@ const canCancel = computed(() => {
 
          <!-- Actions -->
          <div class="flex flex-col gap-3">
+            <!-- Cancelled State -->
+            <div v-if="booking.status === 'Cancelled'" class="text-center space-y-4">
+                <div class="p-4 bg-gray-50 rounded-lg text-gray-500 text-sm">
+                    此訂單已於 {{ booking.updatedAt ? new Date(booking.updatedAt).toLocaleString('zh-TW') : '先前' }} 取消
+                </div>
+                <NuxtLink 
+                   to="/booking"
+                   class="block w-full py-3 bg-brand-dark text-brand-gold font-bold rounded-lg shadow hover:bg-black transition-colors"
+                >
+                   重新預約
+                </NuxtLink>
+            </div>
+
+            <!-- Active State -->
             <button 
-               v-if="canCancel"
+               v-else-if="canCancel"
                @click="cancelOrder"
                class="w-full py-3 bg-white text-brand-red border border-brand-red font-bold rounded-lg hover:bg-brand-red hover:text-white transition-colors"
                :disabled="loading"
@@ -197,10 +211,22 @@ const canCancel = computed(() => {
                {{ loading ? '處理中...' : '取消預約' }}
             </button>
             
-            <p v-else-if="booking.status !== 'Cancelled' && booking.status !== 'Completed'" class="text-center text-xs text-gray-400">
-               * 距離預約時間不足 2 小時，無法線上取消。如有特殊需求請直接致電分館。
-            </p>
+            <!-- Cannot Cancel State (Time limit or Completed) -->
+            <div v-else-if="booking.status !== 'Completed'" class="text-center text-xs text-gray-400">
+               <p>* 距離預約時間不足 2 小時，無法線上取消。如有特殊需求請直接致電分館。</p>
+            </div>
             
+            <!-- Completed State -->
+             <div v-else class="text-center space-y-3">
+                <p class="text-green-600 font-bold">訂單已完成，期待再次為您服務！</p>
+                <NuxtLink 
+                   to="/booking"
+                   class="block w-full py-3 bg-brand-dark text-brand-gold font-bold rounded-lg shadow hover:bg-black transition-colors"
+                >
+                   再次預約
+                </NuxtLink>
+             </div>
+
             <NuxtLink 
                to="/"
                class="w-full py-3 text-center text-gray-500 hover:text-brand-dark transition-colors text-sm"

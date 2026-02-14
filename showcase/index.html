@@ -126,12 +126,14 @@
 
         .showcase-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 24px;
             width: 100%;
-            max-width: 1600px;
-            height: 75vh;
+            max-width: 1800px;
+            height: auto;
+            min-height: 75vh;
             perspective: 1000px;
+            padding: 40px 0;
         }
 
         /* Card Styles */
@@ -333,6 +335,21 @@
             --accent: var(--c-purple);
         }
 
+        /* Teal for Order Lookup */
+        .card:nth-child(5) {
+            --accent: #14b8a6;
+        }
+
+        /* Ambient Amber for Member */
+        .card:nth-child(6) {
+            --accent: #f59e0b;
+        }
+
+        /* Indigo for Staff */
+        .card:nth-child(7) {
+            --accent: #6366f1;
+        }
+
         /* Responsive Design */
         @media (max-width: 1200px) {
             .showcase-container {
@@ -402,12 +419,10 @@
         <div class="showcase-container">
 
             <!-- 1. Main Site -->
-<<<<<<< HEAD
+            <!-- 1. Main Site -->
             <a href="../main-site/index.html" class="card">
-=======
-            <a href="https://book.gowork.run/" target="_blank" class="card">
->>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e
-                <div class="card-screenshot" style="background-image: url('../品牌主官網.jpg')"></div>
+                <div class="card-screenshot"
+                    style="background-image: url('../main-site/assets/preview.jpg'); background-color: #2a1b1b;"></div>
                 <div class="card-bg-number">01</div>
                 <div class="card-icon">🏛️</div>
                 <h2 class="card-title">品牌主官網</h2>
@@ -419,12 +434,10 @@
             </a>
 
             <!-- 2. Booking Frontend -->
-<<<<<<< HEAD
-            <a href="../e111-booking/" class="card">
-=======
-            <a href="https://book.gowork.run/booking" target="_blank" class="card">
->>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e
-                <div class="card-screenshot" style="background-image: url('../預約前台.jpg')"></div>
+            <a href="http://localhost:3003" target="_blank" class="card">
+                <div class="card-screenshot"
+                    style="background-image: url('../e111-booking/public/preview.jpg'); background-color: #1b2a1b;">
+                </div>
                 <div class="card-bg-number">02</div>
                 <div class="card-icon">📅</div>
                 <h2 class="card-title">預約前台</h2>
@@ -436,12 +449,10 @@
             </a>
 
             <!-- 3. Admin Dashboard -->
-<<<<<<< HEAD
-            <a href="../e111-booking/admin" class="card">
-=======
-            <a href="https://book.gowork.run/admin" target="_blank" class="card">
->>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e
-                <div class="card-screenshot" style="background-image: url('../管理後台.jpg')"></div>
+            <a href="http://localhost:3003/admin" target="_blank" class="card">
+                <div class="card-screenshot"
+                    style="background-image: url('../e111-booking/public/admin_preview.jpg'); background-color: #1b1b2a;">
+                </div>
                 <div class="card-bg-number">03</div>
                 <div class="card-icon">⚙️</div>
                 <h2 class="card-title">管理後台</h2>
@@ -453,18 +464,60 @@
             </a>
 
             <!-- 4. Dev Timeline -->
-<<<<<<< HEAD
             <a href="../tree.html" class="card">
-=======
-            <a href="https://github.com/colinjen88/e111" target="_blank" class="card">
->>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e
-                <div class="card-screenshot" style="background-image: url('../開發歷程.jpg')"></div>
+                <div class="card-screenshot"
+                    style="background-image: url('../docs/dev_tree_preview.png'); background-color: #2c3e50;"></div>
                 <div class="card-bg-number">04</div>
-                <div class="card-icon">🌳</div>
+                <div class="card-icon">📅</div>
                 <h2 class="card-title">開發歷程</h2>
-                <p class="card-desc">透明化的開發軌跡，紀錄從 0 到 1 的完整技術決策。</p>
+                <p class="card-desc">專案開發日誌與技術決策的時間軸視覺化。</p>
                 <div class="card-cta">
-                    View Process
+                    View Timeline
+                    <div class="arrow"></div>
+                </div>
+            </a>
+
+            <!-- 5. Order Lookup -->
+            <a href="http://localhost:3003/order" target="_blank" class="card">
+                <div class="card-screenshot"
+                    style="background-image: url('../e111-booking/public/preview.jpg'); background-color: #2a3b3b; filter: hue-rotate(180deg) grayscale(0.5);">
+                </div>
+                <div class="card-bg-number">05</div>
+                <div class="card-icon">🔍</div>
+                <h2 class="card-title">訂單查詢</h2>
+                <p class="card-desc">客戶專屬自助服務，快速查詢預約狀態與詳細資訊。</p>
+                <div class="card-cta">
+                    Check Order
+                    <div class="arrow"></div>
+                </div>
+            </a>
+
+            <!-- 6. Member Center -->
+            <a href="http://localhost:3003/member/login" target="_blank" class="card">
+                <div class="card-screenshot"
+                    style="background-image: url('../e111-booking/public/preview.jpg'); background-color: #3b2a1a; filter: sepia(0.8) hue-rotate(320deg);">
+                </div>
+                <div class="card-bg-number">06</div>
+                <div class="card-icon">👤</div>
+                <h2 class="card-title">會員中心</h2>
+                <p class="card-desc">會員專屬服務，包含預約管理、點數查詢與個人資料。</p>
+                <div class="card-cta">
+                    Member Login
+                    <div class="arrow"></div>
+                </div>
+            </a>
+
+            <!-- 7. Staff Portal -->
+            <a href="http://localhost:3003/staff/login" target="_blank" class="card">
+                <div class="card-screenshot"
+                    style="background-image: url('../e111-booking/public/preview.jpg'); background-color: #1a2a3b; filter: hue-rotate(200deg);">
+                </div>
+                <div class="card-bg-number">07</div>
+                <div class="card-icon">🪪</div>
+                <h2 class="card-title">技師後台</h2>
+                <p class="card-desc">內部技師專用，查看排班表、待執行預約與顧客備註。</p>
+                <div class="card-cta">
+                    Staff Login
                     <div class="arrow"></div>
                 </div>
             </a>
