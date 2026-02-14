@@ -1,0 +1,3 @@
+﻿Checking connectivity to 72.62.66.151...
+Port 22 : OPEN
+Port 7650 : CLOSED / TIMEOUT
