@@ -3,6 +3,7 @@ definePageMeta({
   layout: false
 })
 
+const username = ref('admin')
 const password = ref('E111@Admin2026')
 const error = ref('')
 const loading = ref(false)
@@ -51,16 +52,32 @@ const handleLogin = async () => {
     <div class="bg-white/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 w-full max-w-md animate-fade-in relative z-10 border border-white/20">
       <div class="text-center mb-6 sm:mb-8">
         <div class="mb-4 flex justify-center">
-          <img src="/logo.png" alt="御手國醫" class="h-12 sm:h-14 w-auto opacity-90">
+          <div class="bg-brand-dark p-3 rounded-xl shadow-lg">
+            <img src="/logo.png" alt="御手國醫" class="h-10 sm:h-12 w-auto">
+          </div>
         </div>
         <h1 class="text-xl sm:text-2xl font-bold text-gray-800 tracking-wider font-serif">
-          御手國醫 <span class="text-brand-red">Admin</span>
+          御手國醫管理後台
           <span class="text-xs text-red-500 font-bold ml-2 border border-red-200 bg-red-50 px-1 py-0.5 rounded align-middle">測試模式</span>
         </h1>
-        <p class="text-xs sm:text-sm text-gray-400 mt-2">請輸入管理員密碼以登入</p>
       </div>
       
       <form @submit.prevent="handleLogin" class="space-y-5 sm:space-y-6">
+        <div>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">管理帳號</label>
+          <div class="relative">
+            <input 
+              v-model="username"
+              type="text" 
+              class="w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg sm:rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-all outline-none text-sm sm:text-base"
+              placeholder="請輸入管理帳號"
+            >
+             <div class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+              <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            </div>
+          </div>
+        </div>
+
         <div>
           <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1.5 sm:mb-2">管理密碼</label>
           <div class="relative">

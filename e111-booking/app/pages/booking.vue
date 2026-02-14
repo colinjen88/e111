@@ -24,28 +24,28 @@ const stepIcons = ['🏠', '💆', '👤', '🕐', '✅']
       <div class="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-brand-gold/[0.05] rounded-full blur-3xl"></div>
     </div>
 
-    <div class="relative z-10 container mx-auto px-4 max-w-3xl py-8">
+    <div class="relative z-10 container mx-auto px-3 sm:px-4 max-w-3xl py-6 sm:py-8">
       
       <!-- Header -->
-      <div class="mb-10 flex items-center justify-between bg-black/80 backdrop-blur-md px-6 py-4 rounded-2xl shadow-lg border border-white/10 relative z-20">
-        <NuxtLink to="/" class="group flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300 min-w-[64px]">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:-translate-x-1 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
+      <div class="mb-6 sm:mb-10 flex items-center justify-between bg-black/80 backdrop-blur-md px-3 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl shadow-lg border border-white/10 relative z-20">
+        <NuxtLink to="/" class="group flex items-center gap-1.5 sm:gap-2 text-gray-400 hover:text-white transition-all duration-300 min-w-[48px] sm:min-w-[64px] active:scale-95">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 group-hover:-translate-x-1 transition-transform duration-300" viewBox="0 0 20 20" fill="currentColor">
             <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
           </svg>
-          <span class="text-sm font-medium hidden sm:inline">回首頁</span>
+          <span class="text-xs sm:text-sm font-medium hidden sm:inline">回首頁</span>
         </NuxtLink>
         <div class="flex flex-col items-center">
-             <img src="/logo.png" alt="御手國醫" class="h-10 mb-1 drop-shadow-md">
-             <span class="text-[10px] text-brand-gold tracking-[0.3em] font-light uppercase opacity-80">Online Booking</span>
+             <img src="/logo.png" alt="御手國醫" class="h-8 sm:h-10 mb-0.5 sm:mb-1 drop-shadow-md">
+             <span class="text-[9px] sm:text-[10px] text-brand-gold tracking-[0.2em] sm:tracking-[0.3em] font-light uppercase opacity-80">Online Booking</span>
         </div>
-        <div class="min-w-[64px]"></div>
+        <div class="min-w-[48px] sm:min-w-[64px]"></div>
       </div>
 
       <!-- Progress Bar -->
       <BookingProgressBar />
 
       <!-- Step Content Card -->
-      <div class="bg-white/90 backdrop-blur-xl rounded-3xl shadow-xl p-8 min-h-[420px] border border-white/60 relative overflow-hidden">
+      <div class="bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-8 min-h-[350px] sm:min-h-[420px] border border-white/60 relative overflow-hidden">
         
         <!-- Decorative corner -->
         <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-brand-gold/5 to-transparent rounded-bl-full pointer-events-none"></div>

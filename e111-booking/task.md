@@ -80,3 +80,33 @@
     - [x] Wrapped animated components in `ClientOnly` to stabilize layout.
 - [x] **GitHub Integration**
     - [x] Pushed latest fixes to remote repository.
+
+## Phase 8: Staff & Leave Management
+    - [x] Implemented Staff Management UI with weekly schedule editor
+    - [x] Added Leave Management UI for recording technician time-off
+    - [x] Refactored availability API to respect individual staff schedules and approved leaves
+    - [x] Integrated Database migrations for `StaffSchedule` and `StaffLeave` models
+- [x] Phase 9: Real Notification Integrations
+    - [x] Implemented LINE Notify integration with token configuration
+    - [x] Integrated Resend for automated customer confirmation emails
+    - [x] Developed a unified `notifyBooking` trigger for multiple channels
+    - [x] Upgraded Admin Settings UI for managing third-party API keys
+- [x] Phase 10: Client Membership System
+    - [x] Enhanced `Customer` schema with `password`, `points`, and `memberLevel`
+    - [x] Implemented JWT-less secure cookie session auth for members
+    - [x] Created Member Dashboard for viewing personal booking history and points
+    - [x] Added Phone/Password Registration and Login flows
+    - [x] Integrated Member Center links into Homepage and Navigation
+- [x] Phase 11: Staff Portal
+    - [x] Added `password` field to Staff model and seeded default credentials
+    - [x] Implemented Staff Login API & Middleware
+    - [x] Created Mobile-First Staff Dashboard (`/staff/dashboard`)
+    - [x] Developed Booking Task List for technicians
+- [x] Phase 12: Integrated System Hub (Startup Page)
+    - [x] Created `startup.vue` as a premium "Command Center" for the local environment
+    - [x] Unified all 4 major entry points (Public, Member, Staff, Admin) in one UI
+    - [x] Added system status and environment indicators
+
+
+
+

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const orderId = ref('1')
+const orderId = ref('')
 const isFocused = ref(false)
 const hasError = ref(false)
 const router = useRouter()

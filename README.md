@@ -19,7 +19,7 @@ e111/
 ├── showcase/           ← 專案導覽頁 (一頁式)
 │   └── index.html
 │
-├── tree.html           ← 開發歷程樹
+├── tree.html           ← 開發歷程樹 (現代化版本: docs/dev-tree.html)
 │
 ├── docs/               ← 技術文件
 │   ├── booking.md

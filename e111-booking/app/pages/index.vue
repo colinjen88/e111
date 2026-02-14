@@ -87,8 +87,8 @@ onMounted(() => {
             }"></div>
           </div>
           
-          <div v-motion-fade-visible-once :delay="200" class="mb-8">
-             <span class="inline-block py-2 px-5 border border-brand-gold/60 text-brand-gold text-sm md:text-base tracking-[0.25em] mb-4 rounded-full bg-black/40 backdrop-blur-xl shadow-brand-gold/10 shadow-2xl font-light">
+          <div v-motion-fade-visible-once :delay="200" class="mb-6 sm:mb-8">
+             <span class="inline-block py-1.5 sm:py-2 px-4 sm:px-5 border border-brand-gold/60 text-brand-gold text-xs sm:text-sm md:text-base tracking-[0.2em] sm:tracking-[0.25em] mb-3 sm:mb-4 rounded-full bg-black/40 backdrop-blur-xl shadow-brand-gold/10 shadow-2xl font-light hover:bg-brand-gold/10 transition-colors duration-300 cursor-default">
                源自中醫 · 專注養生
              </span>
           </div>
@@ -96,37 +96,37 @@ onMounted(() => {
           <h1 
             v-motion-slide-visible-once-bottom
             :delay="400"
-            class="mb-6 drop-shadow-2xl"
+            class="mb-4 sm:mb-6 drop-shadow-2xl"
           >
-            <img src="/logo.png" alt="御手國醫養生會館" class="h-16 md:h-24 w-auto object-contain mx-auto drop-shadow-lg">
+            <img src="/logo.png" alt="御手國醫養生會館" class="h-12 sm:h-16 md:h-20 lg:h-24 w-auto object-contain mx-auto drop-shadow-lg transition-transform duration-700 hover:scale-105">
             <span class="sr-only">御手國醫養生會館</span>
           </h1>
           
           <p 
             v-motion-slide-visible-once-bottom
             :delay="600"
-            class="text-gray-300 text-lg md:text-xl mb-14 max-w-2xl mx-auto font-light leading-relaxed px-4"
+            class="text-gray-300 text-base sm:text-lg md:text-xl mb-10 sm:mb-14 max-w-2xl mx-auto font-light leading-relaxed px-2 sm:px-4"
           >
-            在繁忙的都市中，尋找一處靜謐的角落。<br class="hidden md:block" />
+            在繁忙的都市中，尋找一處靜謐的角落。<br class="hidden sm:block" />
             透過專業技師的手，喚醒身體的自癒力量。
           </p>
           
           <div 
             v-motion-slide-visible-once-bottom
             :delay="800"
-            class="flex flex-col md:flex-row gap-5 justify-center items-center w-full max-w-sm md:max-w-none mx-auto"
+            class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center items-center w-full max-w-xs sm:max-w-md md:max-w-none mx-auto px-4 sm:px-0"
           >
-            <NuxtLink ref="mainCtaRef" to="/booking" class="group relative px-10 py-4 bg-brand-red text-white text-lg font-bold rounded-full overflow-hidden shadow-[0_0_25px_rgba(139,0,0,0.5)] hover:shadow-[0_0_40px_rgba(139,0,0,0.7)] transition-all duration-500 w-full md:w-auto active:scale-95">
+            <NuxtLink ref="mainCtaRef" to="/booking" class="group relative px-8 sm:px-10 py-3.5 sm:py-4 bg-brand-red text-white text-base sm:text-lg font-bold rounded-full overflow-hidden shadow-[0_0_25px_rgba(139,0,0,0.5)] hover:shadow-[0_0_40px_rgba(139,0,0,0.7)] transition-all duration-500 w-full sm:w-auto active:scale-95 hover:-translate-y-0.5">
                <span class="relative z-10 flex items-center justify-center gap-2 tracking-[0.15em]">
                  立即預約
-                 <svg class="w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                 <svg class="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                </span>
-               <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+               <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out shimmer"></div>
             </NuxtLink>
             
-            <a href="#services" class="px-10 py-4 border border-white/20 text-white/90 rounded-full hover:bg-white/10 hover:border-white/40 transition-all duration-300 w-full md:w-auto backdrop-blur-sm tracking-[0.15em] font-light active:scale-95">
-              服務介紹
-            </a>
+            <NuxtLink to="/member/login" class="px-8 sm:px-10 py-3.5 sm:py-4 border border-white/20 text-white/90 rounded-full hover:bg-white/10 hover:border-white/40 transition-all duration-300 w-full sm:w-auto backdrop-blur-sm tracking-[0.15em] font-light active:scale-95 hover:-translate-y-0.5 text-center">
+              會員中心
+            </NuxtLink>
           </div>
         </div>
       </ClientOnly>
@@ -159,29 +159,29 @@ onMounted(() => {
             <p class="text-gray-400 mt-8 tracking-wider text-lg font-light">結合傳統經絡理論與現代舒壓手法</p>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 md:px-0">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 px-4 sm:px-6 lg:px-0">
             <div 
               v-for="(service, index) in services" 
               :key="index" 
               v-motion-slide-visible-once-bottom
-              :delay="index * 200"
-              class="group bg-brand-cream/50 rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-all duration-700 border border-brand-gold/10 flex flex-col h-full"
+              :delay="index * 150"
+              class="group bg-brand-cream/50 rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 sm:hover:-translate-y-3 transition-all duration-500 border border-brand-gold/10 flex flex-col h-full"
             >
-              <div class="h-72 overflow-hidden relative shrink-0">
-                <img :src="service.image" :alt="service.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                <div class="absolute bottom-6 left-6 text-white">
-                   <p class="text-brand-gold text-[10px] font-bold tracking-[0.25em] mb-2 uppercase">{{ service.icon }} Recommended</p>
-                   <h3 class="text-3xl font-serif font-bold tracking-wider drop-shadow-lg">{{ service.title }}</h3>
+              <div class="h-56 sm:h-64 lg:h-72 overflow-hidden relative shrink-0">
+                <img :src="service.image" :alt="service.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 transition-all duration-500"></div>
+                <div class="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                   <p class="text-brand-gold text-[10px] font-bold tracking-[0.25em] mb-1.5 sm:mb-2 uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-300">{{ service.icon }} Recommended</p>
+                   <h3 class="text-2xl sm:text-3xl font-serif font-bold tracking-wider drop-shadow-lg">{{ service.title }}</h3>
                 </div>
               </div>
-              <div class="p-8 flex flex-col flex-grow bg-gradient-to-br from-brand-cream/60 to-white">
-                <p class="text-gray-500 mb-8 leading-relaxed text-justify flex-grow font-light">{{ service.desc }}</p>
-                <div class="flex items-center justify-between pt-6 border-t border-brand-gold/15">
-                  <span class="text-brand-red font-bold text-2xl font-serif">{{ service.price }}</span>
-                  <NuxtLink to="/booking" class="inline-flex items-center justify-center px-6 py-2.5 border-2 border-brand-dark/80 text-brand-dark hover:bg-brand-dark hover:text-brand-gold transition-all duration-300 rounded-full text-sm font-bold tracking-wider group/btn active:scale-95">
+              <div class="p-6 sm:p-8 flex flex-col flex-grow bg-gradient-to-br from-brand-cream/60 to-white">
+                <p class="text-gray-500 mb-6 sm:mb-8 leading-relaxed text-justify flex-grow font-light text-sm sm:text-base">{{ service.desc }}</p>
+                <div class="flex items-center justify-between pt-5 sm:pt-6 border-t border-brand-gold/15">
+                  <span class="text-brand-red font-bold text-xl sm:text-2xl font-serif">{{ service.price }}</span>
+                  <NuxtLink to="/booking" class="inline-flex items-center justify-center px-5 sm:px-6 py-2 sm:py-2.5 border-2 border-brand-dark/80 text-brand-dark hover:bg-brand-dark hover:text-brand-gold transition-all duration-300 rounded-full text-sm font-bold tracking-wider group/btn active:scale-95">
                     <span>預約</span>
-                    <svg class="w-4 h-4 ml-1 opacity-0 group-hover/btn:opacity-100 group-hover/btn:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    <svg class="w-4 h-4 ml-1 opacity-0 -translate-x-2 group-hover/btn:opacity-100 group-hover/btn:translate-x-0 transition-all duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                   </NuxtLink>
                 </div>
               </div>
@@ -250,6 +250,7 @@ onMounted(() => {
              </div>
           </div>
           <div class="mb-8 flex flex-wrap justify-center gap-6 text-xs text-gray-600 font-medium tracking-wider uppercase">
+             <NuxtLink to="/member/dashboard" class="hover:text-brand-gold transition-colors duration-300">會員專區</NuxtLink>
              <NuxtLink to="/order" class="hover:text-brand-gold transition-colors duration-300">訂單查詢</NuxtLink>
              <NuxtLink to="/admin" class="hover:text-brand-gold transition-colors duration-300">管理登入</NuxtLink>
              <span class="text-gray-800">|</span>
@@ -339,5 +340,27 @@ onMounted(() => {
 .fade-up-leave-to {
   opacity: 0;
   transform: translateY(100%);
+}
+
+/* Shimmer effect for CTA button */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus visible styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--brand-gold, #d4a853);
+  outline-offset: 2px;
 }
 </style>

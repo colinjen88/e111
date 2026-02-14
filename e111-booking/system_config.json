@@ -1,0 +1,6 @@
+{
+  "emailEnabled": true,
+  "maintenanceMode": false,
+  "bookingWindowDays": 14,
+  "minBookingLeadTime": "1 小時前"
+}

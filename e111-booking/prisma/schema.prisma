@@ -58,6 +58,7 @@ model Staff {
   branchId  Int
   name      String
   code      String?  /// 技師編號 (例: 36, 88)
+  password  String?  /// 登入密碼 (加密)
   level     String   /// Master | Senior | Junior
   photoUrl  String?
   bio       String?
@@ -67,6 +68,8 @@ model Staff {
 
   branch        Branch             @relation(fields: [branchId], references: [id])
   availability  StaffAvailability[]
+  schedules     StaffSchedule[]
+  leaves        StaffLeave[]
   bookings      Booking[]          /// 被指定的預約 (主技師)
   bookingItems  BookingItem[]      /// 實際執行的項目
 }
@@ -85,14 +88,46 @@ model StaffAvailability {
   @@index([staffId, date])
 }
 
+/// 技師固定班表 (StaffSchedule)
+model StaffSchedule {
+  id        Int      @id @default(autoincrement())
+  staffId   Int
+  dayOfWeek Int      /// 0=Sun, 1=Mon...
+  startTime String   /// 例: "10:00"
+  endTime   String   /// 例: "22:00"
+  isActive  Boolean  @default(true)
+  
+  staff     Staff @relation(fields: [staffId], references: [id])
+
+  @@unique([staffId, dayOfWeek])
+}
+
+/// 技師休假紀錄 (StaffLeave)
+model StaffLeave {
+  id        Int      @id @default(autoincrement())
+  staffId   Int
+  startDate DateTime
+  endDate   DateTime
+  type      String   /// Sick | Vacation | Personal | Training
+  reason    String?
+  status    String   /// Pending | Approved | Rejected
+  
+  staff     Staff @relation(fields: [staffId], references: [id])
+
+  @@index([staffId, startDate, endDate])
+}
+
 /// 客戶 (Customer)
 model Customer {
   id                Int      @id @default(autoincrement())
   phone             String   @unique /// 主要識別欄位
+  password          String?  /// 密碼 (加密存儲)
   name              String?
   email             String?
   lineId            String?
   preferredBranchId Int?
+  points            Int      @default(0)
+  memberLevel       String   @default("General") /// General | Silver | Gold | Platinum
   notes             String?  /// 備註 (喜好、特殊需求等)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt

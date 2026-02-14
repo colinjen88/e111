@@ -135,8 +135,7 @@ const formatTime = (timeStr: string) => {
 
     <!-- Loading -->
     <div v-if="pending" class="py-16 flex items-center justify-center text-gray-400">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-red mr-3"></div>
-      載入中...
+      <UiLoadingSpinner size="md" text="載入中..." />
     </div>
 
     <!-- Empty -->

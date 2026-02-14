@@ -24,7 +24,7 @@ const verifyOrder = async () => {
       booking.value = res.data
     }
   } catch (err: any) {
-    error.value = err.data?.statusMessage || '查詢失敗，請確認電話號碼正確。'
+    error.value = '未找到此訂單或手機號碼不符，請確認您的輸入資訊。'
   } finally {
     loading.value = false
   }
