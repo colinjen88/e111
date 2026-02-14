@@ -37,13 +37,13 @@ docker-compose -f docker-compose.prod.yml down --remove-orphans || true
 echo "Building and starting containers..."
 docker-compose -f docker-compose.prod.yml up -d --build
 
-# 6. Seed database (New Step)
-echo "Waiting for database initialization (30s)..."
-sleep 30
+# 6. Seed database (Updated to use npx prisma db seed)
+echo "Waiting for database initialization (15s)..."
+sleep 15
 
 echo "Running database seed..."
-# Run the JS seed script inside the container
-docker-compose -f docker-compose.prod.yml exec -T app node prisma/seed.js || echo "Warning: Seeding failed. Check if database is ready."
+# Run the prisma seed command which uses npx tsx prisma/seed.ts as defined in package.json
+docker-compose -f docker-compose.prod.yml exec -T app npx prisma db seed || echo "Warning: Seeding failed. Check if database is ready."
 
 echo "Deployment finished successfully!"
 

@@ -570,9 +570,9 @@
             <li><a href="#milestone-6">🏆 Milestone 6</a></li>
             <li><a href="#step-24">Step 24 - 部署自動化</a></li>
             <li><a href="#step-25">Step 25 - 關鍵修復</a></li>
-            <li><a href="#step-26">Step 26 - Code Review</a></li>
-            <li><a href="#step-27">Step 27 - 系統文件</a></li>
-            <li><a href="#milestone-7">🏆 Milestone 7</a></li>
+            <li><a href="#step-26">Step 26 - 技師後台</a></li>
+            <li><a href="#step-27">Step 27 - 會員與入口</a></li>
+            <li><a href="#phase-1-complete" style="font-weight: bold; color: #be123c;">🏁 第一階段完成</a></li>
         </ul>
     </nav>
 
@@ -859,12 +859,15 @@
             <div id="step-13" class="node done" style="animation-delay: 0.7s;">
                 <div class="card">
                     <div class="timestamp">Step 13</div>
-                    <div class="title">管理後台 (Admin Dashboard)</div>
+                    <div class="title">管理後台 (Admin System)</div>
                     <div class="details">
                         <ul>
-                            <li>Layout: Admin Sidebar & Header</li>
-                            <li>Auth: Login & Middleware</li>
-                            <li>Page: Booking List & Filters</li>
+                            <li><strong>Dashboard:</strong> <code>/admin</code> (營運總覽)</li>
+                            <li><strong>Management:</strong> <code>/admin/bookings</code> (訂單),
+                                <code>/admin/calendar</code> (行事曆)
+                            </li>
+                            <li><strong>HR & Config:</strong> <code>/admin/staff</code> (技師), <code>/admin/leaves</code>
+                                (休假), <code>/admin/settings</code> (設定)</li>
                         </ul>
                     </div>
                     <span class="tag phase4">Phase 3: Admin</span>
@@ -1163,15 +1166,15 @@
             <div id="step-26" class="node done" style="animation-delay: 1.6s;">
                 <div class="card">
                     <div class="timestamp">Step 26</div>
-                    <div class="title">程式碼審查 (Code Review v2.0)</div>
+                    <div class="title">技師專屬後台 (Staff Portal)</div>
                     <div class="details">
                         <ul>
-                            <li>Report: Security & Arch Analysis</li>
-                            <li>Fixes: Auth, Nginx Loop, Race Condition</li>
-                            <li>Roadmap: 3-Stage Optimization Plan</li>
+                            <li><strong>Auth:</strong> <code>/staff/login</code> (專屬登入)</li>
+                            <li><strong>Workspace:</strong> <code>/staff/dashboard</code> (工作儀表板)</li>
+                            <li><strong>Schedule:</strong> <code>/staff/schedule</code> (班表確認)</li>
                         </ul>
                     </div>
-                    <span class="tag" style="background: #eef2ff; color: #4338ca;">Phase 14: Optimization</span>
+                    <span class="tag" style="background: #eef2ff; color: #4338ca;">Phase 14: Staff Features</span>
                     <div class="status-icon status-done">✔ 完成</div>
                 </div>
             </div>
@@ -1180,30 +1183,34 @@
             <div id="step-27" class="node done" style="animation-delay: 1.65s;">
                 <div class="card">
                     <div class="timestamp">Step 27</div>
-                    <div class="title">AI 系統手冊與專案整合</div>
+                    <div class="title">會員中心與其他入口 (Member & Hub)</div>
                     <div class="details">
                         <ul>
-                            <li>Manual: AI_SYSTEM_MANUAL.md</li>
-                            <li>Docs: Centralized /docs (dev_log, tree)</li>
-                            <li>Framework: Agent Rules & Workflows</li>
+                            <li><strong>Member:</strong> <code>/member/login</code>, <code>/member/register</code>,
+                                <code>/member/dashboard</code></li>
+                            <li><strong>Hub:</strong> <code>/startup</code> (開發啟動頁), <code>/tree</code> (LinkTree)</li>
+                            <li><strong>Legal:</strong> <code>/privacy</code> (隱私權), <code>/terms</code> (服務條款)</li>
                         </ul>
                     </div>
-                    <span class="tag" style="background: #f0fdf4; color: #15803d;">Phase 15: Documentation</span>
+                    <span class="tag" style="background: #f0fdf4; color: #15803d;">Phase 15: Expansion</span>
                     <div class="status-icon status-done">✔ 完成</div>
                 </div>
             </div>
 
-            <!-- Milestone 7 -->
-            <div id="milestone-7" class="node done"
+            <!-- Final Phase Block -->
+            <div id="phase-1-complete" class="node done"
                 style="animation-delay: 1.7s; width: 100%; left: 0; text-align: center; margin-bottom: 60px;">
                 <div class="card"
-                    style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%); color: white; display: inline-block; padding: 15px 40px; border: none; box-shadow: 0 10px 25px rgba(217, 119, 6, 0.3);">
-                    <div class="timestamp" style="color: rgba(255,255,255,0.9); margin-bottom: 5px;">🏆 MILESTONE 7
+                    style="background: linear-gradient(135deg, #be123c 0%, #881337 100%); color: white; display: inline-block; padding: 25px 50px; border: none; box-shadow: 0 15px 35px rgba(190, 18, 60, 0.4); transform: scale(1.05);">
+                    <div class="timestamp"
+                        style="color: rgba(255,255,255,0.8); margin-bottom: 5px; letter-spacing: 0.1em;">PHASE 1
+                        COMPLETE
                     </div>
-                    <div class="title" style="color: white; font-size: 1.4rem; margin-bottom: 0;">v2.6 Doc Complete
-                    </div>
-                    <div class="details" style="color: rgba(255,255,255,0.9); font-size: 0.9rem; margin-top: 5px;">
-                        2026-02-14</div>
+                    <div class="title"
+                        style="color: white; font-size: 1.8rem; margin-bottom: 10px; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                        第一階段試做開發完成</div>
+                    <div class="details" style="color: rgba(255,255,255,0.9); font-size: 1rem; margin-top: 5px;">
+                        核心功能上線 • 系統穩定運行 • 準備進入第二階段</div>
                 </div>
             </div>
 

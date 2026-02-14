@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev --host 0.0.0.0 --port 3003",
+    "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "test": "vitest",
@@ -16,11 +16,15 @@
     "@prisma/client": "^5.22.0",
     "@vueuse/core": "^14.2.1",
     "@vueuse/motion": "^3.0.3",
+    "bcryptjs": "^3.0.3",
     "date-fns": "^4.1.0",
     "nuxt": "^4.3.1",
+    "resend": "^6.9.2",
     "vue": "^3.5.28",
     "vue-router": "^4.6.4",
-    "zod": "^4.3.6"
+    "zod": "^4.3.6",
+    "tsx": "^4.21.0",
+    "dotenv": "^17.2.4"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
@@ -29,14 +33,13 @@
     "@nuxt/test-utils": "^4.0.0",
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@tailwindcss/postcss": "^4.1.18",
+    "@types/bcryptjs": "^2.4.6",
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.24",
-    "dotenv": "^17.2.4",
     "happy-dom": "^20.6.1",
     "postcss": "^8.5.6",
     "prisma": "5.22.0",
     "tailwindcss": "3.4.17",
-    "tsx": "^4.21.0",
     "vitest": "^4.0.18"
   }
 }

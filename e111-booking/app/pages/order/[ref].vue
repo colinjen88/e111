@@ -2,7 +2,7 @@
 const route = useRoute()
 const orderId = route.params.ref as string
 
-const phone = ref('')
+const phone = ref('0912345678')
 const loading = ref(false)
 const error = ref('')
 const booking = ref<any>(null)
@@ -96,7 +96,10 @@ const canCancel = computed(() => {
     <div class="max-w-2xl w-full bg-white rounded-xl shadow-lg overflow-hidden">
       <!-- Header -->
       <div class="bg-brand-dark p-6 text-white flex justify-between items-center">
-         <h1 class="text-xl font-serif font-bold">訂單 #{{ orderId }}</h1>
+         <h1 class="text-xl font-serif font-bold">
+            訂單 #{{ orderId }}
+            <span class="text-xs text-red-300 font-bold ml-2 border border-red-300/50 bg-white/10 px-1 py-0.5 rounded align-middle">測試模式</span>
+         </h1>
          <NuxtLink to="/order" class="text-sm text-gray-300 hover:text-white underline">重新查詢</NuxtLink>
       </div>
 
