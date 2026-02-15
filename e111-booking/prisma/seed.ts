@@ -103,20 +103,25 @@ async function main() {
         })
     }
 
-    // 5. Create Default Schedules for Staff
-    // Clear old schedules to prevent clashes or duplicates if logic changed
-    await prisma.staffSchedule.deleteMany({ where: { staffId: staffMei.id } })
-    
+    // 5. Create Default Schedules for ALL Staff (who have no schedule yet)
+    const allStaff = await prisma.staff.findMany({ where: { isActive: true } })
     const daysArr = [0, 1, 2, 3, 4, 5, 6]
-    await prisma.staffSchedule.createMany({
-      data: daysArr.map(d => ({
-        staffId: staffMei.id,
-        dayOfWeek: d,
-        startTime: '10:00',
-        endTime: '22:00',
-        isActive: true
-      }))
-    })
+    
+    for (const s of allStaff) {
+      const existingCount = await prisma.staffSchedule.count({ where: { staffId: s.id } })
+      if (existingCount === 0) {
+        await prisma.staffSchedule.createMany({
+          data: daysArr.map(d => ({
+            staffId: s.id,
+            dayOfWeek: d,
+            startTime: '10:00',
+            endTime: '22:00',
+            isActive: true
+          }))
+        })
+        console.log(`Created schedule for staff: ${s.name} (ID: ${s.id})`)
+      }
+    }
 
     // 6. Create Test Member (NEW)
     const testPhone = '0912345678'
