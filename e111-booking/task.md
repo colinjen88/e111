@@ -107,6 +107,13 @@
     - [x] Unified all 4 major entry points (Public, Member, Staff, Admin) in one UI
     - [x] Added system status and environment indicators
 
+- [x] Phase 13: Showcase & Deployment
+    - [x] Redesigned `tree.html` with premium glassmorphism UI
+    - [x] Deployed to VPS via `deploy_vps.ps1`
+    - [x] Troubleshot and resolved 502 Bad Gateway (Database credentials)
+    - [x] Implemented Hard Reset script for VPS Database (`reset_vps.ps1`)
+    - [x] Documentation Updates (DEPLOYMENT.md)
+
 
 
 

@@ -136,8 +136,47 @@ A: 不會，資料儲存在 Docker Volume `e111_data` 中，即使重建容器�
 - **容器化**: Docker + Docker Compose
 - **Port**: 80 (HTTP)
 
+
+---
+
+## 4. VPS 部署疑難排解 (Troubleshooting)
+
+### SSH 連線失敗 (`Could not resolve hostname \026`)
+如果在 PowerShell 中看見亂碼錯誤，請直接手動輸入 IP：
+```powershell
+# 請確保在 e111-booking 目錄下執行
+.\deploy_vps.ps1
+# 當詢問 IP 時，輸入: 72.62.66.151
+```
+
+### 502 Bad Gateway / Database Connection Error
+如果部署後網站顯示 502 錯誤，且 logs 顯示 `credentials for 'postgres' are not valid`：
+這表示 VPS 上舊的 Database Volume 密碼與新設定不符。
+
+**解決方案：執行資料庫重置腳本**
+此腳本會刪除舊的資料庫 Volume 並重新建立，使用當前 `.env` 中的密碼。
+```powershell
+cd e111-booking
+.\reset_vps.ps1
+# 輸入 VPS IP: 72.62.66.151
+```
+
+### 手動檢查 VPS 狀態
+```bash
+# SSH 登入
+ssh root@72.62.66.151
+
+# 檢查容器狀態
+cd /var/www/booking
+docker-compose -f docker-compose.prod.yml ps
+
+# 查看應用程式日誌
+docker-compose -f docker-compose.prod.yml logs --tail 100 app
+```
+
 ---
 
 ## 聯絡資訊
 
 如有問題，請聯絡：colinjen88@gmail.com
+
