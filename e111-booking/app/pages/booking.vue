@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { step, direction } = useBooking()
+const { step, direction, bookingData, goToStep } = useBooking()
 
 useHead({
   title: '線上預約 | 御手國醫養生會館',
@@ -50,7 +50,37 @@ const stepIcons = ['🏠', '💆', '👤', '🕐', '✅']
         <!-- Decorative corner -->
         <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-brand-gold/5 to-transparent rounded-bl-full pointer-events-none"></div>
 
-        <Transition :name="direction === 'forward' ? 'slide-left' : 'slide-right'" mode="out-in">
+        <!-- Booking Summary / Breadcrumbs -->
+      <div v-if="step > 1 && step < 6" class="flex flex-wrap items-center gap-2 mb-4 px-2">
+        <!-- Branch -->
+        <div v-if="bookingData.branch" 
+          @click="goToStep(1)"
+          class="flex items-center gap-1.5 px-3 py-1.5 bg-white/60 backdrop-blur-sm border border-brand-gold/20 rounded-full text-xs sm:text-sm font-medium text-gray-700 hover:bg-brand-red/10 hover:text-brand-red hover:border-brand-red/30 cursor-pointer transition-all shadow-sm">
+          <span class="opacity-60">🏠</span>
+          {{ bookingData.branch.name }}
+          <span class="text-gray-400 text-[10px] ml-1">✕</span>
+        </div>
+
+        <!-- Service -->
+        <div v-if="step > 2 && bookingData.service" 
+          @click="goToStep(2)"
+          class="flex items-center gap-1.5 px-3 py-1.5 bg-white/60 backdrop-blur-sm border border-brand-gold/20 rounded-full text-xs sm:text-sm font-medium text-gray-700 hover:bg-brand-red/10 hover:text-brand-red hover:border-brand-red/30 cursor-pointer transition-all shadow-sm">
+          <span class="opacity-60">💆</span>
+          {{ bookingData.service.name }}
+          <span class="text-gray-400 text-[10px] ml-1">✕</span>
+        </div>
+
+        <!-- Staff -->
+        <div v-if="step > 3 && bookingData.staff" 
+          @click="goToStep(3)"
+          class="flex items-center gap-1.5 px-3 py-1.5 bg-white/60 backdrop-blur-sm border border-brand-gold/20 rounded-full text-xs sm:text-sm font-medium text-gray-700 hover:bg-brand-red/10 hover:text-brand-red hover:border-brand-red/30 cursor-pointer transition-all shadow-sm">
+          <span class="opacity-60">👤</span>
+          {{ bookingData.staff.name }}
+          <span class="text-gray-400 text-[10px] ml-1">✕</span>
+        </div>
+      </div>
+
+      <Transition :name="direction === 'forward' ? 'slide-left' : 'slide-right'" mode="out-in">
           <BookingStepBranch   v-if="step === 1" key="step1" />
           <BookingStepService  v-else-if="step === 2" key="step2" />
           <BookingStepStaff    v-else-if="step === 3" key="step3" />

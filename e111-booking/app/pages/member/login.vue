@@ -27,7 +27,7 @@ const handleLogin = async () => {
   <div class="min-h-screen bg-brand-cream flex items-center justify-center p-6 bg-[url('https://images.unsplash.com/photo-1540555700478-4be289aefcf1?auto=format&fit=crop&q=80')] bg-cover bg-center relative">
     <div class="absolute inset-0 bg-brand-dark/40 backdrop-blur-sm"></div>
     
-    <div class="max-w-md w-full relative z-10" v-motion-fade-visible>
+    <div class="max-w-md w-full relative z-10 animate-fade-in">
       <div class="bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-white/20">
         <div class="px-10 pt-12 pb-10 text-center">
           <h1 class="text-3xl font-bold font-serif text-brand-dark mb-2">

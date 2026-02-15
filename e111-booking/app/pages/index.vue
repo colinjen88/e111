@@ -14,21 +14,21 @@ const services = [
     title: '足底按摩',
     desc: '刺激足部反射區，調理臟腑功能，舒緩雙腿疲勞',
     image: 'https://images.unsplash.com/photo-1519823551278-64ac927ac4ad?auto=format&fit=crop&q=80&w=800',
-    price: 'NT$ 600 起',
+    price: 'NT$ 600 起 (示意價格)',
     icon: '🦶'
   },
   {
     title: '經絡推拿',
     desc: '針對全身經絡穴位進行按壓，緩解肌肉痠痛與僵硬',
     image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=800',
-    price: 'NT$ 1,000 起',
+    price: 'NT$ 1,000 起 (示意價格)',
     icon: '💆'
   },
   {
     title: '精油 SPA',
     desc: '搭配頂級精油與舒緩手技，釋放深層壓力，滋潤肌膚',
     image: 'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&q=80&w=800',
-    price: 'NT$ 1,500 起',
+    price: 'NT$ 1,500 起 (示意價格)',
     icon: '🌿'
   }
 ]

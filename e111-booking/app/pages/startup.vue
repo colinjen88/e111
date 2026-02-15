@@ -19,7 +19,7 @@ const apps = [
   {
     name: '技師作業端',
     path: '/staff/login',
-    desc: '內步技師專屬任務板與排班系統',
+    desc: '內部技師專屬任務板與排班系統',
     icon: '🪪',
     color: 'from-blue-500 to-indigo-700',
     tags: ['Staff', 'Internal']
@@ -55,7 +55,7 @@ const envInfo = [
 
     <div class="relative z-10 max-w-7xl mx-auto px-6 py-20 lg:py-32 flex flex-col items-center justify-center min-h-screen">
       <!-- Header Area -->
-      <div class="text-center mb-20" v-motion-fade-visible>
+      <div class="text-center mb-20 animate-fade-in">
         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-6">
           <span class="relative flex h-2 w-2">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>

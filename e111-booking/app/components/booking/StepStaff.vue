@@ -9,8 +9,8 @@ const { bookingData, staffList, loadingStaff, errorStaff, selectStaff, selectNoP
         <h2 class="text-xl sm:text-2xl font-serif font-bold text-brand-dark mb-1 sm:mb-2">選擇服務技師</h2>
         <p class="text-xs sm:text-sm text-gray-400">{{ bookingData.service?.name }} · 挑選您喜愛的技師</p>
       </div>
-      <button @click="goBack" class="text-xs sm:text-sm text-gray-400 hover:text-brand-red transition-colors flex items-center gap-1 group self-start sm:self-auto active:scale-95">
-        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      <button @click="goBack" class="px-3 py-1.5 text-xs sm:text-sm text-gray-600 bg-white border border-gray-200 rounded-full hover:bg-gray-50 hover:text-brand-red hover:border-brand-red/30 transition-all flex items-center gap-1.5 group shadow-sm self-start sm:self-auto active:scale-95">
+        <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:-translate-x-0.5 transition-transform text-gray-400 group-hover:text-brand-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
         更換服務
       </button>
     </div>

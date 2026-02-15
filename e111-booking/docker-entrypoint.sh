@@ -27,7 +27,8 @@ echo "Pushing database schema..."
 if ./node_modules/.bin/prisma db push --skip-generate; then
   echo "Schema pushed successfully!"
 else
-  echo "WARNING: Schema push failed. The application may not work correctly."
+  echo "ERROR: Schema push failed! Deployment aborted."
+  exit 1
 fi
 
 # Start the application

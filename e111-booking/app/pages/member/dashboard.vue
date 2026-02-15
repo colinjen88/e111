@@ -150,8 +150,8 @@ const getLevelName = (level: string) => {
               </div>
 
               <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <div v-for="b in bookings" :key="b.id" v-motion-slide-visible-bottom
-                  class="bg-white rounded-[2rem] p-6 shadow-sm border border-gray-100 flex flex-col justify-between gap-4 hover:shadow-lg hover:-translate-y-1 transition-all group">
+                <div v-for="b in bookings" :key="b.id"
+                  class="bg-white rounded-[2rem] p-6 shadow-sm border border-gray-100 flex flex-col justify-between gap-4 hover:shadow-lg hover:-translate-y-1 transition-all group animate-fade-in">
                   
                   <div class="flex justify-between items-start">
                     <div class="flex items-center gap-4">

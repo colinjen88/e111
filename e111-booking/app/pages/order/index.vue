@@ -1,8 +1,9 @@
 <script setup lang="ts">
-const orderId = ref('')
+const route = useRoute()
+const router = useRouter()
+const orderId = ref(route.query.ref as string || '4')
 const isFocused = ref(false)
 const hasError = ref(false)
-const router = useRouter()
 
 const submit = () => {
     if (!orderId.value) {

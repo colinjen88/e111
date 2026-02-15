@@ -60,7 +60,7 @@ if (Test-Path "deploy_remote.sh") {
 
 # 2. Deploy (Execute Remote Script)
 Write-Host "`n[2/3] Deploying on VPS..." -ForegroundColor Green
-$commands = "sed -i 's/\r$//' /root/deploy_remote.sh && chmod +x /root/deploy_remote.sh && /root/deploy_remote.sh"
+$commands = "sed -i 's/\r$//' /root/deploy_remote.sh && chmod +x /root/deploy_remote.sh && /root/deploy_remote.sh || (echo 'DEPLOYMENT FAILED. FETCHING LOGS...' && docker-compose -f /var/www/booking/docker-compose.prod.yml logs --tail=50 app)"
 ssh -p $vpsPort -o ConnectTimeout=10 $server $commands
 
 # Clean up local tarball

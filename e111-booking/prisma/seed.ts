@@ -53,7 +53,7 @@ async function main() {
     const s1Name = '全身經絡指壓 (60分)'
     let s1 = await prisma.service.findFirst({ where: { name: s1Name } })
     if (!s1) {
-        await prisma.service.create({
+        s1 = await prisma.service.create({
             data: {
               categoryId: categoryBody.id,
               // Using non-null assertion or ensuring categoryBody.id is valid
@@ -68,7 +68,7 @@ async function main() {
     const s2Name = '漢方足底按摩 (60分)'
     let s2 = await prisma.service.findFirst({ where: { name: s2Name } })
     if (!s2) {
-        await prisma.service.create({
+        s2 = await prisma.service.create({
             data: {
               categoryId: categoryFoot.id,
               name: s2Name,
