@@ -275,12 +275,12 @@ graph TD
 ## 🏁 Project Summary (v2.6 Documentation Complete)
 系統已完成全面的 Code Review 與 AI 開發框架建立。專案文件已整合，具備完整的開發、部署、維護指南。AI Agent 已準備好執行標準化開發流程。
 
-### 2026-02-21: Phase 16 - Multi-Project 502 Conflict Resolution (完成)
+### 2026-02-21: Phase 16 - Multi-Project 502 & Isolation Conflict Resolution (完成)
 *   [x] **CRLF Infrastructure Fixes**
     *   **Prisma Engine Crash**: 修復 Windows 環境下 `schema.prisma` 帶有 `\r\n` 導致 Prisma at Linux UTF-8 錯誤並造成 Container Crash Loop 的根本問題。
     *   **Build-time Filter**: 在 `Dockerfile` 中加入 `find /app/prisma -type f -exec sed -i 's/\r$//' {} +`。
-    *   **Deploy-time Filter**: 在 `full_deploy_fix.ps1` 遠端腳本中加入大量 `sed` 過濾所有的 `.prisma`, `.sh`, `.yml`, `.ts` 的 `\r` 字元。
-*   [x] **Multi-Host Conflict Fixes**
-    *   **Deployment Isolation**: 在同一台 VPS 部署 `e111-booking` (Port 3001) 與 `royal-booking` (Port 3002) 專案。
-    *   **Nginx Routing**: 修正 Nginx `sites-available` 組態，徹底解決 Port 3970 空指向造成的互相干擾，恢復各站點穩定獨立運作。
-    *   **Documentation**: 生成 `docs/502_conflict_resolution.md` 建立防 Crash 指南。
+*   [x] **Isolation & Conflict Resolution**
+    *   **Resource Isolation**: 徹底分離 `e111-booking` 與 `royal-booking` 的 Docker 資源（Volume, Network, Container Name），解決兩站內容互相覆蓋的問題。
+    *   **Nginx Cleanup**: 清理 `/etc/nginx/sites-enabled` 與 `conf.d` 中的配置衝突，實施單一站點、單一 Port (3001 vs 3002) 的路由管理。
+    *   **Seeding**: 修復新環境資料庫空白導致的 500 錯誤，完成 `prisma db seed`。
+    *   **Documentation**: 生成 `docs/multi_project_isolation_fix.md` 建立正式的隔離部署標準與修復紀錄。
