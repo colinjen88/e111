@@ -42,6 +42,8 @@ COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
 # Copy entrypoint script
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+# Fix Windows CRLF line endings for all text files (prevents Prisma UTF-8 errors)
+RUN find /app/prisma -type f -exec sed -i 's/\r$//' {} +
 RUN sed -i 's/\r$//' /app/docker-entrypoint.sh
 RUN chmod +x /app/docker-entrypoint.sh
 

@@ -17,7 +17,7 @@ if (Test-Path "deploy_bundle.tar.gz") { Remove-Item "deploy_bundle.tar.gz" }
 
 # Create tarball using git archive if possible, or manual tar
 # ensuring we send the latest local files
-tar --exclude='node_modules' --exclude='.output' --exclude='.git' --exclude='.nuxt' -czf deploy_bundle.tar.gz .
+tar --exclude='deploy_bundle.tar.gz' --exclude='node_modules' --exclude='.output' --exclude='.git' --exclude='.nuxt' -czf deploy_bundle.tar.gz .
 
 if (-not (Test-Path "deploy_bundle.tar.gz")) {
     Write-Error "Failed to create deployment bundle."
@@ -39,6 +39,16 @@ tar -xzf deploy_bundle.tar.gz -C /var/www/booking
 
 cd /var/www/booking
 
+# Fix Windows CRLF line endings for all text files
+find . -type f -name '*.prisma' -exec sed -i 's/\r$//' {} +
+find . -type f -name '*.sh' -exec sed -i 's/\r$//' {} +
+find . -type f -name '*.yml' -exec sed -i 's/\r$//' {} +
+find . -type f -name '*.ts' -exec sed -i 's/\r$//' {} +
+find . -type f -name 'Dockerfile' -exec sed -i 's/\r$//' {} +
+
+# Fix port: book.gowork.run uses port 3001
+sed -i 's/3002:3000/3001:3000/' docker-compose.prod.yml
+
 echo '[2/5] Cleaning old database volume to force re-seed...'
 # We assume the user creates a fresh DB for testing
 docker-compose -f docker-compose.prod.yml down -v --remove-orphans
@@ -55,6 +65,7 @@ docker-compose -f docker-compose.prod.yml exec -T app npx prisma db seed
 echo '=== DEPLOYMENT COMPLETE ==='
 "
 
+$remoteScript = $remoteScript.Replace("`r", "")
 ssh -p 22 $server $remoteScript
 
 # Cleanup
