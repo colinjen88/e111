@@ -235,9 +235,6 @@ graph TD
 
 ## 🏁 Project Summary (v2.4 Live & Bot Ready)
 自動化部署流程已建立，LINE Bot 成功上線並通過 webhook 驗證，系統已準備好進行更複雜的對話邏輯開發。
-<<<<<<< HEAD
-=======
-
 ### 2026-02-13: Phase 13 - Critical Fixes & Enhancements (完成)
 *   [x] **Infrastructure Stability (502 Fixes)**
     *   **Docker Entrypoint**: 修正 `docker-entrypoint.sh` 中的 CRLF 換行符號問題 (`dos2unix`)，與 `<<<` 語法錯誤 (Alpine Shell 相容性)。
@@ -278,4 +275,12 @@ graph TD
 ## 🏁 Project Summary (v2.6 Documentation Complete)
 系統已完成全面的 Code Review 與 AI 開發框架建立。專案文件已整合，具備完整的開發、部署、維護指南。AI Agent 已準備好執行標準化開發流程。
 
->>>>>>> 121280c2ffa1a4da7fbe5c59c34cfca84d9ec59e
+### 2026-02-21: Phase 16 - Multi-Project 502 Conflict Resolution (完成)
+*   [x] **CRLF Infrastructure Fixes**
+    *   **Prisma Engine Crash**: 修復 Windows 環境下 `schema.prisma` 帶有 `\r\n` 導致 Prisma at Linux UTF-8 錯誤並造成 Container Crash Loop 的根本問題。
+    *   **Build-time Filter**: 在 `Dockerfile` 中加入 `find /app/prisma -type f -exec sed -i 's/\r$//' {} +`。
+    *   **Deploy-time Filter**: 在 `full_deploy_fix.ps1` 遠端腳本中加入大量 `sed` 過濾所有的 `.prisma`, `.sh`, `.yml`, `.ts` 的 `\r` 字元。
+*   [x] **Multi-Host Conflict Fixes**
+    *   **Deployment Isolation**: 在同一台 VPS 部署 `e111-booking` (Port 3001) 與 `royal-booking` (Port 3002) 專案。
+    *   **Nginx Routing**: 修正 Nginx `sites-available` 組態，徹底解決 Port 3970 空指向造成的互相干擾，恢復各站點穩定獨立運作。
+    *   **Documentation**: 生成 `docs/502_conflict_resolution.md` 建立防 Crash 指南。
