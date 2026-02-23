@@ -69,8 +69,8 @@ npm run dev
 1.  建立 Node.js 應用映像檔 (Builder Stage -> Production Stage)。
 2.  啟動 PostgreSQL 資料庫。
 3.  執行 Prisma Client 生成。
-4.  啟動 Nuxt 伺服器 (Port 80 -> 3000)。
+4.  啟動 Nuxt 伺服器 (Port 9088 -> 3000)。
 
 ### 部署後檢查
-訪問 `http://YOUR_SERVER_IP/` 或您設定的網域。
+訪問 `https://book.gowork.run/` 或您設定的網域。
 預設後台帳號: `admin` / `admin123`

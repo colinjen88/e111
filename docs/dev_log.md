@@ -284,3 +284,18 @@ graph TD
     *   **Nginx Cleanup**: 清理 `/etc/nginx/sites-enabled` 與 `conf.d` 中的配置衝突，實施單一站點、單一 Port (3001 vs 3002) 的路由管理。
     *   **Seeding**: 修復新環境資料庫空白導致的 500 錯誤，完成 `prisma db seed`。
     *   **Documentation**: 生成 `docs/multi_project_isolation_fix.md` 建立正式的隔離部署標準與修復紀錄。
+
+### 2026-02-23: Phase 17 - VPS Gateway Integration & SSL Loop Resolution (完成)
+*   [x] **Infrastructure Compliance**
+    *   **Port Re-allocation**: 遵照 VPS 管理守則，將生產環境 Port 從 3001 遷移至受控區段 **9088** (範圍 9000-9999)。
+    *   **Container Naming**: 統一容器名稱前綴為 `book-gowork-` 以利多專案並存管理。
+    *   **Network Integration**: 將應用容器加入 `web-proxy` 外部網路，與 Caddy 中央網關對接。
+*   [x] **SSL & Redirect Loop Fix**
+    *   **Problem Identification**: 診斷 `ERR_TOO_MANY_REDIRECTS` 原因為 Cloudflare Flexible SSL 與 Caddy 自動 HTTPS 升級之間的衝突。
+    *   **Caddy Label Fix**: 將標籤顯式設定為 `caddy: http://book.gowork.run`，成功移除重新導向死循環。
+*   [x] **Deployment Optimization**
+    *   **Directory isolation**: 修正 `deploy_vps.ps1` 的執行路徑問題，確保腳本僅打包 `e111-booking` 內容而非整個 Repo 根目錄。
+    *   **Cleanup Logic**: 更新 `deploy_remote.sh` 以配合新 Port 9088 進行舊容器清理。
+
+## 🏁 Project Summary (v2.7 Gateway Integrated)
+系統已完全符合 VPS 中央網關架構規範。SSL 跳轉問題已修復，專案正式透過 Caddy Docker Proxy 對外發布，穩定性與擴充性大幅提升。

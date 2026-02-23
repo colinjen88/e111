@@ -25,10 +25,10 @@ cd /var/www/booking
 # 5. Build and run containers
 
 echo "Stopping old containers..."
-# Force remove any container using port 3001
-CONTAINER_IDS=$(docker ps --format "{{.ID}} {{.Ports}}" | grep ":3001->" | awk '{print $1}')
+# Force remove any container using port 9088
+CONTAINER_IDS=$(docker ps --format "{{.ID}} {{.Ports}}" | grep ":9088->" | awk '{print $1}')
 if [ ! -z "$CONTAINER_IDS" ]; then
-    echo "Force removing containers occupying port 3001: $CONTAINER_IDS"
+    echo "Force removing containers occupying port 9088: $CONTAINER_IDS"
     echo "$CONTAINER_IDS" | xargs docker rm -f
 fi
 

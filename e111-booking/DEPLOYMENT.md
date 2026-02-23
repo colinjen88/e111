@@ -9,17 +9,16 @@
 3. 填寫以下資訊：
 
 **基本設定：**
-- **專案名稱**: `booking-system`
+- **專案名稱**: `book-gowork` (依照 VPS Gateway 命名規範)
 - **Repository URL**: `https://github.com/colinjen88/e111.git`
 - **Branch**: `master`
 - **Compose 檔案路徑**: `e111-booking/docker-compose.prod.yml`
 
-**環境變數（可選，已在 compose 中設定，建議在 Docker Manager 或 .env 中設定）：**
+**環境變數：**
 ```
-DATABASE_URL=postgresql://postgres:postgres@db:5432/e111_booking
+DATABASE_URL=postgresql://postgres:password123@db:5432/e111_booking
 NUXT_HOST=0.0.0.0
 NUXT_PORT=3000
-# v2.0 新增安全性變數
 ADMIN_PASSWORD=your_secure_password
 ADMIN_SECRET_TOKEN=your_random_secret_string
 ```
@@ -28,14 +27,15 @@ ADMIN_SECRET_TOKEN=your_random_secret_string
 
 點擊「啟動」或「部署」按鈕。系統會自動：
 1. 從 GitHub 拉取程式碼
-2. 建立 Docker 映像檔（約 3-5 分鐘）
-3. 啟動 PostgreSQL 資料庫
+2. 建立 Docker 映像檔
+3. 啟動 PostgreSQL 資料庫 (Container: `book-gowork-db`)
 4. 執行資料庫遷移
-5. 啟動 Nuxt 應用程式
+5. 啟動 Nuxt 應用程式 (Container: `book-gowork-app`)
 
 ### 步驟 3: 驗證部署
 
-訪問 `http://book.gowork.run/` 確認網站正常運作。
+訪問 `https://book.gowork.run/` 確認網站正常運作。
+Caddy 會透過 `web-proxy` 網路自動處理反向代理與 SSL。
 
 **預設管理員帳號：**
 - 帳號：`admin`
@@ -134,7 +134,9 @@ A: 不會，資料儲存在 Docker Volume `e111_data` 中，即使重建容器�
 - **資料庫**: PostgreSQL 15
 - **ORM**: Prisma
 - **容器化**: Docker + Docker Compose
-- **Port**: 80 (HTTP)
+- **Port**: 9088 (Production) / 3000 (Internal)
+- **Gateway**: Caddy (web-proxy network)
+- **SSL**: Cloudflare (Flexible) + Caddy Labels
 
 
 ---
@@ -161,6 +163,16 @@ cd e111-booking
 # 輸入 VPS IP: 72.62.66.151
 ```
 
+### 重新導向次數過多 (`ERR_TOO_MANY_REDIRECTS`)
+這通常是因為 Cloudflare SSL (Flexible) 與 Caddy 自動 HTTPS 升級之間的衝突。
+**解決方案：**
+在 `docker-compose.prod.yml` 的 Labels 中明確指定 `http` 協定：
+```yaml
+labels:
+  caddy: http://book.gowork.run
+  caddy.reverse_proxy: "{{upstreams 3000}}"
+```
+
 ### 手動檢查 VPS 狀態
 ```bash
 # SSH 登入
@@ -168,10 +180,10 @@ ssh root@72.62.66.151
 
 # 檢查容器狀態
 cd /var/www/booking
-docker-compose -f docker-compose.prod.yml ps
+docker compose -f docker-compose.prod.yml ps
 
 # 查看應用程式日誌
-docker-compose -f docker-compose.prod.yml logs --tail 100 app
+docker compose -f docker-compose.prod.yml logs --tail 100 app
 ```
 
 ---
