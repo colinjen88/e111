@@ -40,7 +40,7 @@
 
 ---
 
-## � 問題三：新站點 500 錯誤 (Missing Seed Data)
+## 📌 問題三：新站點 500 錯誤 (Missing Seed Data)
 
 ### 現象
 隔離部署完成後，訪問 `royal.gowork.run` 出現 500 錯誤。
@@ -53,12 +53,34 @@
 
 ---
 
-## �🛠️ 維護指南：如何安全部署新站點？
+## 📌 問題四：ERR_TOO_MANY_REDIRECTS 重新導向迴圈 (2026-02-23)
 
-1. **Port 分配**：每增加一個 Nginx 站點，必須分配一個唯一的外部 Port (如 3003, 3004)。
-2. **Compose 隔離**：每個新專案的 `docker-compose.prod.yml` 必須改名其 `volumes` 與 `networks`（例如加前綴），避免 Docker 誤認。
-3. **格式清理**：若從 Windows 上傳，請務必執行 `sed -i 's/\r$//'` 處理 `.env` 與 `.prisma` 檔案。
+### 現象
+訪問 `book.gowork.run` 時，瀏覽器顯示 `ERR_TOO_MANY_REDIRECTS`（重新導向次數過多）。
 
-目前狀態：**兩站已完全分離，運作穩定。**
-- `book.gowork.run` -> Port 3001 (國醫版)
-- `royal.gowork.run` -> Port 3002 (大內御指)
+### 根因
+VPS 從 Nginx 遷移至 **Caddy + Cloudflare** 架構後，產生了重新導向迴圈：
+1. Cloudflare DNS 設定為 **Proxy 模式**（橘色雲朵），所有 HTTPS 請求會經由 Cloudflare 以 HTTP 轉發至 VPS。
+2. 原本 `docker-compose.prod.yml` 中仍使用舊的 `ports: "3001:3000"` 和 Nginx 直連方式，缺少 Caddy labels 及 `web-proxy` 網路。
+3. Gateway 端 Caddy 已配置 `book.gowork.run:80` 代理至 `booking-app-1:3000`，但 booking 容器未加入 `web-proxy` 網路，Caddy 無法 resolve 容器名稱。
+
+### 修復
+- 更新 `e111-booking/docker-compose.prod.yml`：
+  - 容器名稱統一為 `book-gowork-app` / `book-gowork-db`
+  - 加入 Caddy labels：`caddy: http://book.gowork.run` + `caddy.reverse_proxy`
+  - 加入 `web-proxy` external network，讓 Caddy 能正確代理
+  - Volume / Network 名稱加上 `book-gowork` 前綴避免衝突
+  - 保留 `ports: "9088:3000"` 作為備用直連
+
+---
+
+## 🛠️ 維護指南：如何安全部署新站點？
+
+1. **Caddy 代理**：新站點必須在 `docker-compose.prod.yml` 中加入 Caddy labels 並加入 `web-proxy` 網路，不再手動設定 Nginx。
+2. **Cloudflare 配合**：若使用 Cloudflare Proxy 模式，Caddy label 應使用 `http://domain`（明確 HTTP scheme），避免與 Cloudflare 的 HTTPS 強制導向形成迴圈。
+3. **Compose 隔離**：每個新專案的 `docker-compose.prod.yml` 必須改名其 `volumes` 與 `networks`（例如加前綴），避免 Docker 誤認。
+4. **格式清理**：若從 Windows 上傳，請務必執行 `sed -i 's/\r$//'` 處理 `.env` 與 `.prisma` 檔案。
+
+目前狀態：**兩站已完全分離，運作穩定。已遷移至 Caddy Gateway 架構。**
+- `book.gowork.run` -> Caddy 代理 (國醫版)
+- `royal.gowork.run` -> Caddy 代理 (大內御指)
