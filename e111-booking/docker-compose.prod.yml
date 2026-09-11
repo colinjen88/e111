@@ -24,8 +24,9 @@ services:
     ports:
       - "9088:3000"
     labels:
-      caddy: http://book.gowork.run
+      caddy: book.gowork.run:80
       caddy.reverse_proxy: "{{upstreams 3000}}"
+      caddy.reverse_proxy.header_up: "X-Forwarded-Proto https"
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-changeme_in_production}@db:5432/${POSTGRES_DB:-e111_booking}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
