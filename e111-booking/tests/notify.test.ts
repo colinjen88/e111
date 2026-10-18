@@ -1,29 +1,11 @@
 import { describe, it, expect } from 'vitest'
-
-// Import the formatting function — we inline-define it here to avoid Nuxt runtime deps
-const formatBookingMessage = (booking: any): string => {
-    const date = booking.bookingDate instanceof Date
-        ? booking.bookingDate.toISOString().split('T')[0]
-        : String(booking.bookingDate)
-
-    const time = booking.startTime instanceof Date
-        ? booking.startTime.toISOString().split('T')[1].substring(0, 5)
-        : String(booking.startTime)
-
-    return [
-        '📋 [新預約通知]',
-        `客戶: ${booking.customer?.name || '—'} (${booking.customer?.phone || '—'})`,
-        `時間: ${date} ${time}`,
-        `項目: ${booking.items?.[0]?.service?.name || '未指定'}`,
-        `技師: ${booking.staff?.name || '不指定'}`,
-    ].join('\n')
-}
+import { formatBookingMessage } from '../server/utils/booking-format'
 
 describe('formatBookingMessage', () => {
     it('should format a complete booking message', () => {
         const booking = {
             bookingDate: new Date('2026-02-15'),
-            startTime: new Date('2026-02-15T14:00:00Z'),
+            startTime: new Date('2026-02-15T06:00:00Z'),
             customer: { name: '張三', phone: '0912345678' },
             staff: { name: '王師傅' },
             items: [{ service: { name: '足底按摩' } }]
@@ -42,7 +24,7 @@ describe('formatBookingMessage', () => {
     it('should handle no staff (不指定)', () => {
         const booking = {
             bookingDate: new Date('2026-02-15'),
-            startTime: new Date('2026-02-15T10:00:00Z'),
+            startTime: new Date('2026-02-15T02:00:00Z'),
             customer: { name: '李四', phone: '0987654321' },
             staff: null,
             items: [{ service: { name: '經絡推拿' } }]

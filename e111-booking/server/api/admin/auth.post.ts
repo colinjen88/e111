@@ -1,3 +1,4 @@
+import { createHash, timingSafeEqual } from 'crypto'
 import { loginSchema } from '../../utils/schemas'
 
 export default defineEventHandler(async (event) => {
@@ -18,7 +19,9 @@ export default defineEventHandler(async (event) => {
 
    const receivedPassword = (body.password || '').toString().trim()
 
-   if (receivedPassword !== expectedPassword) {
+   // Constant-time comparison (hash both sides so lengths always match)
+   const digest = (v: string) => createHash('sha256').update(v).digest()
+   if (!timingSafeEqual(digest(receivedPassword), digest(expectedPassword))) {
       throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
    }
 

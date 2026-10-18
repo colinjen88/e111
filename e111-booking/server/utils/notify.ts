@@ -7,6 +7,7 @@
 
 import { isLineConfigured, pushLineMessage } from './line'
 import { Resend } from 'resend'
+import { formatBookingMessage } from './booking-format'
 
 let _resend: Resend | null = null
 
@@ -135,25 +136,4 @@ export const sendEmail = async (to: string, subject: string, htmlBody: string): 
     console.error('[Notify] Email sending failed:', error)
     return false
   }
-}
-
-/**
- * Format a booking into a human-readable notification message.
- */
-export const formatBookingMessage = (booking: any): string => {
-  const date = booking.bookingDate instanceof Date
-    ? booking.bookingDate.toISOString().split('T')[0]
-    : String(booking.bookingDate)
-
-  const time = booking.startTime instanceof Date
-    ? booking.startTime.toISOString().split('T')[1].substring(0, 5)
-    : String(booking.startTime)
-
-  return [
-    '📋 [新預約通知]',
-    `客戶: ${booking.customer?.name || '—'} (${booking.customer?.phone || '—'})`,
-    `時間: ${date} ${time}`,
-    `項目: ${booking.items?.[0]?.service?.name || '未指定'}`,
-    `技師: ${booking.staff?.name || '不指定'}`,
-  ].join('\n')
 }
